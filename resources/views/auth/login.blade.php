@@ -54,5 +54,5 @@
                 </span>
             </div>
         </div>
-    </div>
+    </div> --}}
 </x-authentication-layout>
