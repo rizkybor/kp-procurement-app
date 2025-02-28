@@ -15,11 +15,9 @@ class UserSeeder extends Seeder
     {
         $users = [
             ['name' => 'Maker User', 'email' => 'maker@example.com', 'role' => 'maker'],
-            ['name' => 'Kadiv User', 'email' => 'kadiv@example.com', 'role' => 'kadiv'],
-            ['name' => 'Bendahara User', 'email' => 'bendahara@example.com', 'role' => 'bendahara'],
-            ['name' => 'Manager Anggaran', 'email' => 'manager_anggaran@example.com', 'role' => 'manager_anggaran'],
-            ['name' => 'Direktur Keuangan', 'email' => 'direktur@example.com', 'role' => 'direktur_keuangan'],
-            ['name' => 'Pajak User', 'email' => 'pajak@example.com', 'role' => 'pajak'],
+            ['name' => 'Fungsi Pengadaan User', 'email' => 'fungsi_pengadaan@example.com', 'role' => 'fungsi_pengadaan'],
+            ['name' => 'Direktur Keuangan User', 'email' => 'direktur_keuangan@example.com', 'role' => 'direktur_keuangan'],
+            ['name' => 'Direktur Utama User', 'email' => 'direktur_utama@example.com', 'role' => 'direktur_utama'],
         ];
 
         foreach ($users as $user) {
