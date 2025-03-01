@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/docs-pengadaan', [DashboardController::class, 'docs_pengadaan'])->name('docs-pengadaan');
+    Route::get('/docs-pengadaan/create', [DashboardController::class, 'docs_pengadaan_create'])->name('docs-pengadaan.create');
 
 
 

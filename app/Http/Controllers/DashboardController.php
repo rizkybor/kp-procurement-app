@@ -20,4 +20,9 @@ class DashboardController extends Controller
     {
         return view('pages/documents/index');
     }
+
+    public function  docs_pengadaan_create()
+    {
+        return view('pages/documents/create');
+    }
 }

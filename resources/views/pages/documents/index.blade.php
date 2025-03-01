@@ -9,7 +9,8 @@
 
             <!-- Right: Buttons -->
             <div class="flex gap-2 mt-4 sm:mt-0">
-                <x-button.button-action color="violet" type="button" onclick="window.location=''">
+                <x-button.button-action color="violet" type="button"
+                    onclick="window.location=' {{ route('docs-pengadaan.create') }}'">
                     + Data Baru
                 </x-button.button-action>
             </div>
