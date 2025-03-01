@@ -18,6 +18,6 @@ class DashboardController extends Controller
 
     public function  docs_pengadaan()
     {
-        return view('pages/dashboard/dashboard');
+        return view('pages/documents/index');
     }
 }
