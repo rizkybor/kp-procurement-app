@@ -18,7 +18,7 @@
     <div class="grid grid-cols-12 gap-6 mt-4">
 
         <!-- Card (Customers) -->
-        <x-documents.table-create />
+        <x-documents.table-rab />
 
     </div>
 @endsection
