@@ -40,4 +40,9 @@ class DashboardController extends Controller
     {
         return view('pages/documents/document-details/rab/index');
     }
+
+    public function  docs_pengadaan_edit_spesification()
+    {
+        return view('pages/documents/document-details/spesification/index');
+    }
 }

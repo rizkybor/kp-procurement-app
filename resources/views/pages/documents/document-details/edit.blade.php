@@ -17,9 +17,9 @@
                             {{ request()->routeIs('docs-pengadaan_rab.index') ? 'font-bold border-b-2 border-violet-600' : 'hover:text-violet-600 hover:border-b-2 hover:border-violet-600' }}">
                             Form RAB
                         </a>
-                        <a href=""
+                        <a href="{{ route('docs-pengadaan_spesification.index') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('') ? 'font-bold border-b-2 border-violet-600' : 'hover:text-violet-600 hover:border-b-2 hover:border-violet-600' }}">
+                            {{ request()->routeIs('docs-pengadaan_spesification.index') ? 'font-bold border-b-2 border-violet-600' : 'hover:text-violet-600 hover:border-b-2 hover:border-violet-600' }}">
                             Form Spesification
                         </a>
                     </div>
