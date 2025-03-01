@@ -11,7 +11,7 @@
                             class="text-xl text-gray-800 dark:text-gray-100 font-bold hover:text-violet-600 border-b-2 border-transparent hover:border-violet-600 pb-2">
                             Form Request
                         </a>
-                        <a href=""
+                        <a href="{{ route('docs-pengadaan_rab.index') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 hover:text-violet-600 border-b-2 border-transparent hover:border-violet-600 pb-2">
                             Form RAB
                         </a>

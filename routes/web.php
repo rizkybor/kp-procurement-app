@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/docs-pengadaan/create', [DashboardController::class, 'docs_pengadaan_create'])->name('docs-pengadaan.create');
     Route::get('/docs-pengadaan/1/edit', [DashboardController::class, 'docs_pengadaan_edit'])->name('docs-pengadaan.edit');
     Route::get('/docs-pengadaan/1/edit/request', [DashboardController::class, 'docs_pengadaan_edit_request'])->name('docs-pengadaan_request.index');
-
+    Route::get('/docs-pengadaan/1/edit/rab', [DashboardController::class, 'docs_pengadaan_edit_rab'])->name('docs-pengadaan_rab.index');
     Route::fallback(function () {
         return view('pages/utility/404');
     });

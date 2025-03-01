@@ -36,4 +36,8 @@ class DashboardController extends Controller
     {
         return view('pages/documents/document-details/request/index');
     }
+    public function  docs_pengadaan_edit_rab()
+    {
+        return view('pages/documents/document-details/rab/index');
+    }
 }
