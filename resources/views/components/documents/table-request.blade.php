@@ -37,16 +37,16 @@
                             <div class="text-center">1</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
-                            <div class="text-left">Nasi Padang</div>
+                            <div class="text-left">-</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">2</div>
+                            <div class="text-center">-</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">Rp. 15,000</div>
+                            <div class="text-center">-</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">Rendang, Kikil, dan Es Teh Manis</div>
+                            <div class="text-center">-</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
                             <div class="text-center flex items-center justify-center gap-2">
