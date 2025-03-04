@@ -37,3 +37,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('pages/utility/404');
     });
 });
+
+// test
