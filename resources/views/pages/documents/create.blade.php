@@ -15,7 +15,7 @@
                     Batal
                 </x-button.button-action>
 
-                <x-button.button-action color="violet" type="button"
+                <x-button.button-action color="teal" type="button"
                     onclick="window.location='{{ route('docs-pengadaan_request.index') }}'" class="float-right">
                     Simpan
                 </x-button.button-action>

@@ -1,4 +1,4 @@
-@extends('pages\documents\document-details\edit')
+@extends('pages.documents.document-details.edit')
 @section('content')
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-8">
         <!-- Left: Title -->
@@ -8,7 +8,7 @@
 
         <!-- Right: Buttons -->
         <div class="flex gap-2 mt-4 sm:mt-0">
-            <x-button.button-action color="violet" type="button"
+            <x-button.button-action color="teal" type="button"
                 onclick="window.location=' {{ route('docs-pengadaan.create') }}'">
                 + Items
             </x-button.button-action>

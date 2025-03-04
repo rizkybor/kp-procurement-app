@@ -1,4 +1,4 @@
-@extends('pages\documents\document-details\edit')
+@extends('pages.documents.document-details.edit')
 @section('content')
     {{-- Information Dokumen --}}
     <div class="mt-5 md:mt-0 md:col-span-2">
@@ -66,7 +66,7 @@
         </h1>
         <!-- Right: Buttons -->
         <div class="flex gap-2 mt-4 sm:mt-0">
-            <x-button.button-action color="violet" type="button"
+            <x-button.button-action color="teal" type="button"
                 onclick="window.location=' {{ route('docs-pengadaan.create') }}'">
                 + Items
             </x-button.button-action>

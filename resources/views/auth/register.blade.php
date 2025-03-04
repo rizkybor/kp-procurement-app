@@ -174,7 +174,7 @@
     <div class="pt-5 mt-6 border-t border-gray-100 dark:border-gray-700/60">
         <div class="text-sm">
             {{ __('Have an account?') }} <a
-                class="font-medium text-violet-500 hover:text-violet-600 dark:hover:text-violet-400"
+                class="font-medium text-teal-500 hover:text-teal-600 dark:hover:text-teal-400"
                 href="{{ route('login') }}">{{ __('Sign In') }}</a>
         </div>
     </div>
