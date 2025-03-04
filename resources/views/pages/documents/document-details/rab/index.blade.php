@@ -1,4 +1,4 @@
-@extends('pages\documents\document-details\edit')
+@extends('pages.documents.document-details.edit')
 @section('content')
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-8">
         <!-- Left: Title -->
