@@ -34,7 +34,7 @@
 
     <main
         class="relative flex flex-col md:flex-row items-center justify-center min-h-screen px-6 bg-cover bg-center md:bg-none"
-        style="background-image: url('https://images.unsplash.com/photo-1531662439848-a7ed93c51468?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+        style="background-image: url('https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
 
         <!-- Mobile Backdrop Blur -->
         <div class="absolute inset-0 bg-black/50 backdrop-blur-md md:hidden"></div>

@@ -21,7 +21,7 @@
             </button>
             <!-- Logo -->
             <a class="block" href="{{ route('dashboard') }}">
-                <svg class="fill-violet-500" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                <svg class="fill-teal-500" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
                     <path
                         d="M31.956 14.8C31.372 6.92 25.08.628 17.2.044V5.76a9.04 9.04 0 0 0 9.04 9.04h5.716ZM14.8 26.24v5.716C6.92 31.372.63 25.08.044 17.2H5.76a9.04 9.04 0 0 1 9.04 9.04Zm11.44-9.04h5.716c-.584 7.88-6.876 14.172-14.756 14.756V26.24a9.04 9.04 0 0 1 9.04-9.04ZM.044 14.8C.63 6.92 6.92.628 14.8.044V5.76a9.04 9.04 0 0 1-9.04 9.04H.044Z" />
                 </svg>
@@ -40,12 +40,12 @@
                 <ul class="mt-3">
                     <!-- Dashboar Ki -->
                     <li
-                        class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] @if (in_array(Request::segment(1), ['dashboard'])) {{ 'from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]' }} @endif">
+                        class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] @if (in_array(Request::segment(1), ['dashboard'])) {{ 'from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04]' }} @endif">
                         <a class="block text-gray-800 dark:text-gray-100 truncate transition @if (!in_array(Request::segment(1), ['dashboard'])) {{ 'hover:text-gray-900 dark:hover:text-white' }} @endif"
                             href="{{ route('dashboard') }}">
                             <div class="flex items-center justify-between">
                                 <div class="grow flex items-center">
-                                    <svg class="shrink-0 fill-current @if (in_array(Request::segment(1), ['dashboard'])) {{ 'text-violet-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }} @endif"
+                                    <svg class="shrink-0 fill-current @if (in_array(Request::segment(1), ['dashboard'])) {{ 'text-teal-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }} @endif"
                                         xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         viewBox="0 0 16 16">
                                         <path
@@ -58,7 +58,7 @@
                                 {{-- <!-- Badge -->
                                 <div class="flex flex-shrink-0 ml-2">
                                     <span
-                                        class="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-violet-400 px-2 rounded">4</span>
+                                        class="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-teal-400 px-2 rounded">4</span>
                                 </div> --}}
                             </div>
                         </a>
@@ -66,12 +66,12 @@
 
 
                     <li
-                        class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] @if (in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]' }} @endif">
+                        class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] @if (in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04]' }} @endif">
                         <a class="block text-gray-800 dark:text-gray-100 truncate transition @if (!in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'hover:text-gray-900 dark:hover:text-white' }} @endif"
                             href="{{ route('docs-pengadaan') }}">
                             <div class="flex items-center justify-between">
                                 <div class="grow flex items-center">
-                                    <svg class="shrink-0 fill-current @if (in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'text-violet-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }} @endif"
+                                    <svg class="shrink-0 fill-current @if (in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'text-teal-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }} @endif"
                                         xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         viewBox="0 0 16 16">
                                         <path
@@ -89,7 +89,7 @@
                     <!-- Settings -->
                     <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 
                      bg-[linear-gradient(135deg,var(--tw-gradient-stops))] 
-                     @if (Request::is('user*') || Request::is('contracts*')) from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04] @endif"
+                     @if (Request::is('user*') || Request::is('contracts*')) from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04] @endif"
                         x-data="{ open: {{ Request::is('user*') || Request::is('contracts*') ? 1 : 0 }} }">
 
                         <a class="block text-gray-800 dark:text-gray-100 truncate transition 
@@ -99,7 +99,7 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
                                     <svg class="shrink-0 fill-current 
-                                     @if (Request::is('user*') || Request::is('contracts*')) text-violet-500 
+                                     @if (Request::is('user*') || Request::is('contracts*')) text-teal-500 
                                      @else text-gray-400 dark:text-gray-500 @endif"
                                         xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         viewBox="0 0 16 16">
@@ -132,7 +132,7 @@
                                 @role('super_admin')
                                     <li class="mb-1 last:mb-0">
                                         <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate 
-                                     @if (Request::is('contracts*')) !text-violet-500 @endif"
+                                     @if (Request::is('contracts*')) !text-teal-500 @endif"
                                             href="{{ route('contracts.index') }}">
                                             <span
                                                 class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -144,7 +144,7 @@
 
                                 <li class="mb-1 last:mb-0">
                                     <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate 
-                                     @if (Request::is('user*')) !text-violet-500 @endif"
+                                     @if (Request::is('user*')) !text-teal-500 @endif"
                                         href="{{ route('profile.show') }}">
                                         <span
                                             class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

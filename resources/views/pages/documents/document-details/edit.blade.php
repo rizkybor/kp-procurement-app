@@ -9,17 +9,17 @@
                     <div class="flex space-x-8">
                         <a href="{{ route('docs-pengadaan_request.index') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('docs-pengadaan_request.index') ? 'font-bold border-b-2 border-violet-600' : 'hover:text-violet-600 hover:border-b-2 hover:border-violet-600' }}">
+                            {{ request()->routeIs('docs-pengadaan_request.index') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form Request
                         </a>
                         <a href="{{ route('docs-pengadaan_rab.index') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('docs-pengadaan_rab.index') ? 'font-bold border-b-2 border-violet-600' : 'hover:text-violet-600 hover:border-b-2 hover:border-violet-600' }}">
+                            {{ request()->routeIs('docs-pengadaan_rab.index') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form RAB
                         </a>
                         <a href="{{ route('docs-pengadaan_spesification.index') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('docs-pengadaan_spesification.index') ? 'font-bold border-b-2 border-violet-600' : 'hover:text-violet-600 hover:border-b-2 hover:border-violet-600' }}">
+                            {{ request()->routeIs('docs-pengadaan_spesification.index') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form Spesification
                         </a>
                     </div>
@@ -31,7 +31,7 @@
                             Kembali
                         </x-button.button-action>
 
-                        <x-button.button-action color="violet" type="button"
+                        <x-button.button-action color="teal" type="button"
                             onclick="window.location='{{ route('docs-pengadaan.edit') }}'">
                             Proccess
                         </x-button.button-action>

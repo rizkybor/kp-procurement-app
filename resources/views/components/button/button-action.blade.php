@@ -18,8 +18,8 @@
             'bg-gray-500 hover:bg-gray-600 focus:ring-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800 dark:focus:ring-gray-900',
         'purple' =>
             'bg-purple-500 hover:bg-purple-600 focus:ring-purple-300 dark:bg-purple-700 dark:hover:bg-purple-800 dark:focus:ring-purple-900',
-        'violet' =>
-            'bg-violet-500 hover:bg-violet-600 focus:ring-violet-300 dark:bg-violet-700 dark:hover:bg-violet-800 dark:focus:ring-violet-900',
+        'teal' =>
+            'bg-teal-500 hover:bg-teal-600 focus:ring-teal-300 dark:bg-teal-700 dark:hover:bg-teal-800 dark:focus:ring-teal-900',
     ];
 
     $colorClass = $colors[$color] ?? $colors['gray'];
