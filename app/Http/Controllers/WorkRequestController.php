@@ -20,7 +20,21 @@ class WorkRequestController extends Controller
      */
     public function create()
     {
-        //
+        $monthRoman = $this->convertToRoman(date('n'));
+        $year = date('Y');
+
+        // Ambil nomor terakhir
+        $lastNumber = WorkRequest::max('request_number');
+        preg_match('/^(\d{4})/', $lastNumber, $matches);
+        $lastNumeric = $matches[1] ?? '0010';
+        $nextNumber = $lastNumber ? (intval($lastNumeric) + 10) : 10;
+
+        // Format nomor dokumen
+        $numberFormat = sprintf("%04d.FP-KPU-%s-%s", $nextNumber, $monthRoman, $year);
+
+        $today = now()->toDateString();
+
+        return view('pages.work-request.create', compact('numberFormat', 'today'));
     }
 
     /**
@@ -61,5 +75,11 @@ class WorkRequestController extends Controller
     public function destroy(WorkRequest $workRequest)
     {
         //
+    }
+
+    private function convertToRoman($month)
+    {
+        $romans = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+        return $romans[$month - 1];
     }
 }
