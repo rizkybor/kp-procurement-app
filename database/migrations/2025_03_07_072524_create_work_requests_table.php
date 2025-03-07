@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('deadline');
             $table->string('pic', 100);
             $table->string('aanwijzing', 10);
-            $table->string('time_period', 5);
+            $table->string('time_period', 5)->nullable();
             $table->timestamps();
         });
     }
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('work_request');
+        Schema::dropIfExists('work_requests');
     }
 };
