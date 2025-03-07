@@ -42,8 +42,41 @@ class WorkRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'work_name_request' => 'required',
+            'department' => 'required',
+            'project_title' => 'required',
+            'project_owner' => 'required',
+            'procurement_type' => 'required',
+            'contract_number' => 'required',
+            'request_date' => 'required|date',
+            'deadline' => 'required|date|after_or_equal:request_date',
+            'pic' => 'required',
+            'aanwijzing' => 'required',
+            'time_period' => 'nullable',
+        ]);
+
+        $monthRoman = $this->convertToRoman(date('n'));
+        $year = date('Y');
+
+        // Ambil nomor terakhir
+        $lastNumber = WorkRequest::max('request_number');
+        preg_match('/^(\d{4})/', $lastNumber, $matches);
+        $lastNumeric = $matches[1] ?? '0010';
+        $nextNumber = $lastNumber ? (intval($lastNumeric) + 10) : 10;
+
+        // Format nomor dokumen
+        $numberFormat = sprintf("%04d.FP-KPU-%s-%s", $nextNumber, $monthRoman, $year);
+
+        $input = $request->all();
+        $input['created_by'] = auth()->id();
+        $input['request_number'] = $numberFormat;
+
+        $workRequest = WorkRequest::create($input);
+
+        return redirect()->route('work_request.index',  $workRequest)->with('success', 'Data berhasil disimpan!');
     }
+
 
     /**
      * Display the specified resource.
