@@ -68,7 +68,7 @@
                     <li
                         class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] @if (in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04]' }} @endif">
                         <a class="block text-gray-800 dark:text-gray-100 truncate transition @if (!in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'hover:text-gray-900 dark:hover:text-white' }} @endif"
-                            href="{{ route('docs-pengadaan') }}">
+                            href="{{ route('work_request.index') }}">
                             <div class="flex items-center justify-between">
                                 <div class="grow flex items-center">
                                     <svg class="shrink-0 fill-current @if (in_array(Request::segment(1), ['docs-pengadaan'])) {{ 'text-teal-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }} @endif"

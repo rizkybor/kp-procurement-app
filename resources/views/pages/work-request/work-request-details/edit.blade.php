@@ -7,19 +7,19 @@
                 <div class="flex justify-between items-center">
                     <!-- Tabs -->
                     <div class="flex space-x-8">
-                        <a href="{{ route('docs-pengadaan_request.index') }}"
+                        <a href="{{ route('') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('docs-pengadaan_request.index') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
+                            {{ request()->routeIs('') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form Request
                         </a>
-                        <a href="{{ route('docs-pengadaan_rab.index') }}"
+                        <a href="{{ route('') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('docs-pengadaan_rab.index') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
+                            {{ request()->routeIs('') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form RAB
                         </a>
-                        <a href="{{ route('docs-pengadaan_spesification.index') }}"
+                        <a href="{{ route('') }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('docs-pengadaan_spesification.index') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
+                            {{ request()->routeIs('') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form Spesification
                         </a>
                     </div>

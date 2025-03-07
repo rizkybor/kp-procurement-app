@@ -11,12 +11,12 @@
             <!-- Right: Actions -->
             <div class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 <x-button.button-action color="red" type="button"
-                    onclick="window.location='{{ route('docs-pengadaan') }}'" class="float-right">
+                    onclick="window.location='{{ route('work_request.index') }}'" class="float-right">
                     Batal
                 </x-button.button-action>
 
                 <x-button.button-action color="teal" type="button"
-                    onclick="window.location='{{ route('docs-pengadaan_request.index') }}'" class="float-right">
+                    onclick="window.location='{{ route('work_request.index.store') }}'" class="float-right">
                     Simpan
                 </x-button.button-action>
             </div>

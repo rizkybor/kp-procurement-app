@@ -71,7 +71,7 @@
                         <td class="p-2 whitespace-nowrap">
                             <div class="text-center flex items-center justify-center gap-2">
                                 <x-button.button-action color="yellow" icon="pencil"
-                                    onclick="window.location.href='{{ route('docs-pengadaan_request.index') }}'">Edit
+                                    onclick="window.location.href=''">Edit
                                 </x-button.button-action>
                                 <form action="" method="POST"
                                     onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">

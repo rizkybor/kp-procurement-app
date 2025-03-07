@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\WorkRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
@@ -25,13 +26,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/json-data-feed', [DataFeedController::class, 'getDataFeed'])->name('json_data_feed');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/docs-pengadaan', [DashboardController::class, 'docs_pengadaan'])->name('docs-pengadaan');
-    Route::get('/docs-pengadaan/create', [DashboardController::class, 'docs_pengadaan_create'])->name('docs-pengadaan.create');
 
-    Route::get('/docs-pengadaan/1/edit', [DashboardController::class, 'docs_pengadaan_edit'])->name('docs-pengadaan.edit');
-    Route::get('/docs-pengadaan/1/edit/request', [DashboardController::class, 'docs_pengadaan_edit_request'])->name('docs-pengadaan_request.index');
-    Route::get('/docs-pengadaan/1/edit/rab', [DashboardController::class, 'docs_pengadaan_edit_rab'])->name('docs-pengadaan_rab.index');
-    Route::get('/docs-pengadaan/1/edit/spesification', [DashboardController::class, 'docs_pengadaan_edit_spesification'])->name('docs-pengadaan_spesification.index');
+    // Route::get('/docs-pengadaan', [DashboardController::class, 'docs_pengadaan'])->name('docs-pengadaan');
+    // Route::get('/docs-pengadaan/create', [DashboardController::class, 'docs_pengadaan_create'])->name('docs-pengadaan.create');
+
+    // Route::get('/docs-pengadaan/1/edit', [DashboardController::class, 'docs_pengadaan_edit'])->name('docs-pengadaan.edit');
+    // Route::get('/docs-pengadaan/1/edit/request', [DashboardController::class, 'docs_pengadaan_edit_request'])->name('docs-pengadaan_request.index');
+    // Route::get('/docs-pengadaan/1/edit/rab', [DashboardController::class, 'docs_pengadaan_edit_rab'])->name('docs-pengadaan_rab.index');
+    // Route::get('/docs-pengadaan/1/edit/spesification', [DashboardController::class, 'docs_pengadaan_edit_spesification'])->name('docs-pengadaan_spesification.index');
+
+    // Work Request - work_request.index
+    Route::resource('work_request', WorkRequestController::class);
+
 
     Route::fallback(function () {
         return view('pages/utility/404');
