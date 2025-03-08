@@ -1,4 +1,5 @@
-@extends('pages.documents.document-details.edit')
+@extends('pages.work-request.work-request-details.edit')
+
 @section('content')
     {{-- Information Dokumen --}}
     <div class="mt-5 md:mt-0 md:col-span-2">
