@@ -2,8 +2,21 @@
 
 @section('content')
     {{-- Information Dokumen --}}
-    <div class="mt-5 md:mt-0 md:col-span-2">
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+        <!-- Left: Title -->
+        <h1 class="text-lg md:text-xl text-gray-800 dark:text-gray-100 font-bold">
+            Informasi Dokumen
+        </h1>
+        <!-- Right: Buttons -->
+        <div class="flex gap-2 mt-4 sm:mt-0">
+            <x-modal.request-item.modal-create-item />
+
+        </div>
+    </div>
+    <div class="mt-4 md:mt-4 md:col-span-2">
         <div class="px-4 py-5 sm:p-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+
             <div class="grid grid-cols-2 grid-rows-5 gap-4">
                 <div>
                     <div>
