@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('deadline');
             $table->string('pic', 100);
             $table->string('aanwijzing', 255);
-            $table->string('time_period', 5)->nullable();
+            $table->string('time_period', 255)->nullable();
             $table->timestamps();
         });
     }
