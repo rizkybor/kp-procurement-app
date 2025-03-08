@@ -43,39 +43,27 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::prefix('work_request')->name('work_request.')->group(function () {
 
-        Route::resource('/', WorkRequestController::class)->except(['show', 'edit'])->parameters(['' => 'id'])->names([
+        Route::resource('work_requests', WorkRequestController::class)->except(['show', 'edit'])->names([
             'index' => 'index',
             'create' => 'create',
             'store' => 'store',
             'update' => 'update',
             'destroy' => 'destroy',
-
         ]);
 
         // Details
         Route::get('/{id}/show', [WorkRequestController::class, 'show'])->name('show');
 
-        // Edit
-        // Route::get('/{id}/edit', [WorkRequestController::class, 'edit'])->name('edit');
-
-        // Work Request
+        // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {
-            // work_request.work_request_items.edit
             Route::get('/', [WorkRequestItemController::class, 'edit'])->name('edit');
-
-            // work_request.work_request_items.show
             Route::get('/{work_request_item_id}', [WorkRequestItemController::class, 'show'])->name('show');
-
-            // work_request.work_request_items.store
             Route::post('/store', [WorkRequestItemController::class, 'store'])->name('store');
-
-            // work_request.work_request_items.update
             Route::put('/{work_request_item_id}/update', [WorkRequestItemController::class, 'update'])->name('update');
-
-            // work_request.work_request_items.destroy
             Route::delete('/{work_request_item_id}', [WorkRequestItemController::class, 'destroy'])->name('destroy');
         });
     });
+
 
 
     Route::fallback(function () {

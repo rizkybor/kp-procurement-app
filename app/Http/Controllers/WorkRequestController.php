@@ -76,7 +76,8 @@ class WorkRequestController extends Controller
 
         $workRequest = WorkRequest::create($input);
 
-        return redirect()->route('work_request.index',  $workRequest)->with('success', 'Data berhasil disimpan!');
+        return redirect()->route('work_request.work_request_items.edit', ['id' => $workRequest->id])
+            ->with('success', 'Permintaan kerja berhasil diperbarui.');
     }
 
 
@@ -99,10 +100,35 @@ class WorkRequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, WorkRequest $workRequest)
+    public function update(Request $request, $id)
     {
-        //
+        $workRequest = WorkRequest::find($id);
+
+        if (!$workRequest) {
+            return back()->with('error', 'Work request tidak ditemukan.');
+        }
+
+        $validatedData = $request->validate([
+            'work_name_request' => 'nullable',
+            'department' => 'required',
+            'project_title' => 'required',
+            'project_owner' => 'required',
+            'procurement_type' => 'required',
+            'contract_number' => 'required',
+            'request_date' => 'required|date',
+            'deadline' => 'required|date|after_or_equal:request_date',
+            'pic' => 'required',
+            'aanwijzing' => 'required',
+            'time_period' => 'nullable',
+        ]);
+
+        $workRequest->update($validatedData);
+
+        return redirect()->route('work_request.work_request_items.edit', ['id' => $workRequest->id])
+            ->with('success', 'Work request berhasil diperbarui.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

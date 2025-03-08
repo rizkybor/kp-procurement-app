@@ -10,7 +10,7 @@
         </h1>
         <!-- Right: Buttons -->
         <div class="flex gap-2 mt-4 sm:mt-0">
-            <x-modal.request-item.modal-create-item />
+            <x-modal.request-item.modal-create-item :workRequest="$workRequest" />
 
         </div>
     </div>
