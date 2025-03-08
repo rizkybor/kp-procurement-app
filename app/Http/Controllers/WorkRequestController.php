@@ -107,9 +107,12 @@ class WorkRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(WorkRequest $workRequest)
+    public function destroy($id)
     {
-        //
+        $workRequest = WorkRequest::find($id);
+        $workRequest->delete();
+
+        return redirect()->route('work_request.index')->with('success', 'Data berhasil dihapus!');
     }
 
     private function convertToRoman($month)

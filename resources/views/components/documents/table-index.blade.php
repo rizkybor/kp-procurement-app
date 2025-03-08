@@ -76,7 +76,7 @@
                                         <x-button.button-action color="yellow" icon="pencil"
                                             onclick="window.location.href=''">Edit
                                         </x-button.button-action>
-                                        <form action="" method="POST"
+                                        <form action="{{ route('work_request.destroy', $request->id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
                                             @csrf
                                             @method('DELETE')
