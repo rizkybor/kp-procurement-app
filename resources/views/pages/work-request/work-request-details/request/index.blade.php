@@ -7,52 +7,52 @@
             <div class="grid grid-cols-2 grid-rows-5 gap-4">
                 <div>
                     <div>
-                        <div><strong>Bagian / Divisi:</strong></div>
+                        <strong>Bagian / Divisi:</strong> {{ $workRequest->department }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>Nomor:</strong>
+                        <strong>Nomor:</strong> {{ $workRequest->request_number }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>Judul Proyek:</strong>
+                        <strong>Judul Proyek:</strong> {{ $workRequest->project_title }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>Tanggal:</strong>
+                        <strong>Tanggal:</strong> {{ $workRequest->request_date }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>Pemilik Proyek:</strong>
+                        <strong>Pemilik Proyek:</strong> {{ $workRequest->project_owner }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>Tenggat:</strong>
+                        <strong>Tenggat:</strong> {{ $workRequest->deadline }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>No Kontrak:</strong>
+                        <strong>No Kontrak:</strong> {{ $workRequest->contract_number }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>PIC:</strong>
+                        <strong>PIC:</strong> {{ $workRequest->pic }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>Jenis Pengadaan:</strong>
+                        <strong>Jenis Pengadaan:</strong> {{ $workRequest->procurement_type }}
                     </div>
                 </div>
                 <div>
                     <div>
-                        <strong>Aanwijzing:</strong>
+                        <strong>Aanwijzing:</strong> {{ $workRequest->aanwijzing }}
                     </div>
                 </div>
             </div>
