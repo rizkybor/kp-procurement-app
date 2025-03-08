@@ -43,49 +43,59 @@
                 </thead>
                 <!-- Table body -->
                 <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
-                    <tr>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">1</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-left">Developer</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-left">Judul Proyek</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">Handoko Siswandi</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">2 Bulan</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">0010.FP-KPU-07-2025</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">001-07-225</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">Aldy Remansyah</div>
-                        </td>
-                        <td class="p-2 whitespace-nowrap">
-                            <div class="text-center flex items-center justify-center gap-2">
-                                <x-button.button-action color="yellow" icon="pencil"
-                                    onclick="window.location.href=''">Edit
-                                </x-button.button-action>
-                                <form action="" method="POST"
-                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-button.button-action color="red" icon="trash" type="submit">Hapus
-                                    </x-button.button-action>
-                                </form>
-
-
-                            </div>
-                        </td>
-                    </tr>
+                    @php $i = 1; @endphp
+                    @if (!empty($workRequest) && $workRequest->count())
+                        @foreach ($workRequest as $request)
+                            <tr>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center">{{ $i++ }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-left">{{ $request->project_title }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-left">{{ $request->work_name_request }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center">{{ $request->project_owner }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center">{{ $request->contract_number }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center">{{ $request->request_number }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center">{{ $request->request_date }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center">{{ $request->pic }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center flex items-center justify-center gap-2">
+                                        <x-button.button-action color="yellow" icon="pencil"
+                                            onclick="window.location.href=''">Edit
+                                        </x-button.button-action>
+                                        <form action="" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-button.button-action color="red" icon="trash" type="submit">Hapus
+                                            </x-button.button-action>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td class="p-2 whitespace-nowrap" colspan="9">
+                                <div class="text-center">Tidak ada data yang tersedia.</div>
+                            </td>
+                        </tr>
+                    @endif
                 </tbody>
+
             </table>
 
         </div>

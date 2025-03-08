@@ -12,7 +12,9 @@ class WorkRequestController extends Controller
      */
     public function index()
     {
-        return view('pages.work-request.index');
+        $workRequest = WorkRequest::all();
+
+        return view('pages.work-request.index', compact('workRequest'));
     }
 
     /**

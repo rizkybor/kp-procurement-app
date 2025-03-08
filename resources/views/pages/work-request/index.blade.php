@@ -20,7 +20,7 @@
         <div class="grid grid-cols-12 gap-6">
 
             <!-- Card (Customers) -->
-            <x-documents.table-index />
+            <x-documents.table-index :workRequest="$workRequest" />
 
         </div>
 
