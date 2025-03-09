@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::prefix('work_request')->name('work_request.')->group(function () {
 
-        Route::resource('work_requests', WorkRequestController::class)->except(['show', 'edit'])->names([
+        Route::resource('/', WorkRequestController::class)->except(['show', 'edit'])->parameters(['' => 'id'])->names([
             'index' => 'index',
             'create' => 'create',
             'store' => 'store',
