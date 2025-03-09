@@ -6,7 +6,7 @@
 
             <!-- Left: Title -->
             <div class="mb-4 sm:mb-0">
-                <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Dashboard</h1>
+                <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Beranda</h1>
             </div>
 
             <!-- Right: Actions -->
@@ -20,10 +20,10 @@
         <div class="grid grid-cols-12 gap-6">
 
             <!-- Line chart (Acme Plus) -->
-            <x-dashboard.dashboard-card-01 />
+            {{-- <x-dashboard.dashboard-card-01 /> --}}
 
             <!-- Line chart (Acme Advanced) -->
-            <x-dashboard.dashboard-card-02 />
+            {{-- <x-dashboard.dashboard-card-02 /> --}}
 
             {{-- <!-- Line chart (Acme Professional) -->
             <x-dashboard.dashboard-card-03 :dataFeed="$dataFeed" />
