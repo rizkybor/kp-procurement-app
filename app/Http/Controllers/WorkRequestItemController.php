@@ -27,9 +27,25 @@ class WorkRequestItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $request->validate([
+            'item_name_request' => 'required',
+            'notes' => 'required',
+            'quantity' => 'required',
+            'unit' => 'required',
+        ]);
+
+        // Simpan ke database
+        WorkRequestItem::create([
+            'work_request_id' => $id,
+            'item_name_request' => $request->item_name_request,
+            'notes' => $request->notes,
+            'quantity' => $request->quantity,
+            'unit' => $request->unit,
+        ]);
+
+        return redirect()->route('work_request.work_request_items.edit', ['id' => $id])->with('success', 'Data berhasil disimpan!');
     }
 
     /**

@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('work_request_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('work_request_id')->constrained('work_request')->onDelete('cascade');
-            $table->text('description')->nullable(false);
+            $table->string('item_name_request', 50);
             $table->integer('quantity')->nullable(false);
             $table->string('unit', 50)->nullable();
             $table->text('notes')->nullable()->length(255);
-            $table->string('price', 12)->nullable();
-            $table->string('total_price', 12)->nullable();
             $table->timestamps();
         });
     }
