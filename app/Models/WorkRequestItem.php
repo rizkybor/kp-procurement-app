@@ -13,7 +13,7 @@ class WorkRequestItem extends Model
 
     protected $fillable = [
         'work_request_id',
-        'item_name_request',
+        'item_desc_request',
         'quantity',
         'unit',
         'notes',

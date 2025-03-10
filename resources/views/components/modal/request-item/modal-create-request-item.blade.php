@@ -15,13 +15,13 @@
                 @csrf
                 {{-- @method('PUT') --}}
                 <div class="grid grid-cols-2 gap-4">
-                    {{-- item_name_request --}}
+                    {{-- item_desc_request --}}
                     <div>
-                        <x-label for="item_name_request" value="{{ __('Nama Item') }}" />
-                        <x-input id="item_name_request" type="text" name="item_name_request"
-                            class="mt-1 block w-full min-h-[40px]" required autocomplete="item_name_request"
-                            placeholder="Masukkan nama item" value="" />
-                        <x-input-error for="item_name_request" class="mt-2" />
+                        <x-label for="item_desc_request" value="{{ __('Deskripsi') }}" />
+                        <x-input id="item_desc_request" type="text" name="item_desc_request"
+                            class="mt-1 block w-full min-h-[40px]" required autocomplete="item_desc_request"
+                            placeholder="Masukkan deskripsi" value="" />
+                        <x-input-error for="item_desc_request" class="mt-2" />
                     </div>
 
                     {{-- notes --}}

@@ -30,7 +30,7 @@ class WorkRequestItemController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            'item_name_request' => 'required',
+            'item_desc_request' => 'required',
             'notes' => 'required',
             'quantity' => 'required',
             'unit' => 'required',
@@ -39,7 +39,7 @@ class WorkRequestItemController extends Controller
         // Simpan ke database
         WorkRequestItem::create([
             'work_request_id' => $id,
-            'item_name_request' => $request->item_name_request,
+            'item_desc_request' => $request->item_desc_request,
             'notes' => $request->notes,
             'quantity' => $request->quantity,
             'unit' => $request->unit,
@@ -63,9 +63,10 @@ class WorkRequestItemController extends Controller
     {
         // Ambil data WorkRequest berdasarkan ID
         $workRequest = WorkRequest::findOrFail($id);
+        $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
 
         // Kirim data ke view
-        return view('pages.work-request.work-request-details.request.index', compact('workRequest'));
+        return view('pages.work-request.work-request-details.request.index', compact('workRequest', 'itemRequest'));
     }
 
     /**

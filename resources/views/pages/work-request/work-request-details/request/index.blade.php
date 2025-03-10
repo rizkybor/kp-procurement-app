@@ -86,7 +86,7 @@
     <div class="grid grid-cols-12 gap-6 mt-4">
 
         <!-- Card (Customers) -->
-        <x-documents.table-request />
+        <x-documents.table-request :itemRequest="$itemRequest" />
 
     </div>
 @endsection
