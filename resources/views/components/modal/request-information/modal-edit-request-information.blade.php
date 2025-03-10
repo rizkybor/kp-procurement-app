@@ -9,7 +9,9 @@
     <div class="fixed inset-0 bg-gray-900 bg-opacity-30 z-50 flex items-center justify-center" x-show="modalOpen" x-cloak>
         <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg max-w-lg w-full"
             @click.outside="modalOpen = false">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Edit Informasi Dokumen</h3>
+            <div class="flex justify-center items-center">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Edit Informasi Dokumen</h3>
+            </div>
             <form action="{{ route('work_request.update', $workRequest->id) }}" method="POST">
                 @csrf
                 @method('PUT')
