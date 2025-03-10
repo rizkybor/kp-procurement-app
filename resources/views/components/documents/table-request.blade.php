@@ -57,9 +57,8 @@
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center flex items-center justify-center gap-2">
-                                        <x-button.button-action color="yellow" icon="pencil"
-                                            onclick="window.location.href=''">Edit
-                                        </x-button.button-action>
+                                        <x-modal.request-item.modal-edit-request-item :itemRequest="$item"
+                                            :workRequest="$workRequest" />
                                         <form
                                             action="{{ route('work_request.work_request_items.destroy', ['id' => $workRequest->id, 'work_request_item_id' => $item->id]) }}"
                                             method="POST"

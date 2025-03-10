@@ -72,9 +72,30 @@ class WorkRequestItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, WorkRequestItem $workRequestItem)
+    public function update(Request $request, $work_request_id, $work_request_item_id)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'item_desc_request' => 'required',
+            'notes' => 'required',
+            'quantity' => 'required|numeric',
+            'unit' => 'required',
+        ]);
+
+        $docdetail = WorkRequestItem::where('work_request_id', $work_request_id)
+            ->where('id', $work_request_item_id)
+            ->firstOrFail();
+
+        $docdetail->update([
+            'item_desc_request' => $request->item_desc_request,
+            'notes' => $request->notes,
+            'quantity' => $request->quantity,
+            'unit' => $request->unit,
+        ]);
+
+        // Redirect ke halaman edit dengan work_request_id
+        return redirect()->route('work_request.work_request_items.edit', ['id' => $work_request_id])
+            ->with('success', 'Data berhasil diedit!');
     }
 
     /**
