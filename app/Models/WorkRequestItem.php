@@ -23,4 +23,9 @@ class WorkRequestItem extends Model
     {
         return $this->belongsTo(WorkRequest::class, 'work_request_id');
     }
+
+    public function workRequestRab()
+    {
+        return $this->hasMany(WorkRequestRab::class, 'work_request_item_id');
+    }
 }
