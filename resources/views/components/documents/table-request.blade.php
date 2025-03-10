@@ -75,7 +75,7 @@
                     @else
                         <tr>
                             <td class="p-2 whitespace-nowrap" colspan="9">
-                                <div class="text-center">Tidak ada data yang tersedia.</div>
+                                <div class="text-center">Tidak ada permintaan barang yang tersedia.</div>
                             </td>
                         </tr>
                     @endif
