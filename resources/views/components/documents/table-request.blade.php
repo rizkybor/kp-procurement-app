@@ -1,4 +1,4 @@
-@props(['itemRequest'])
+@props(['itemRequest', 'workRequest'])
 
 <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
@@ -60,7 +60,9 @@
                                         <x-button.button-action color="yellow" icon="pencil"
                                             onclick="window.location.href=''">Edit
                                         </x-button.button-action>
-                                        <form action="" method="POST"
+                                        <form
+                                            action="{{ route('work_request.work_request_items.destroy', ['id' => $workRequest->id, 'work_request_item_id' => $item->id]) }}"
+                                            method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
                                             @csrf
                                             @method('DELETE')

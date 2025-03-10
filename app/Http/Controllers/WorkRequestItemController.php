@@ -80,8 +80,15 @@ class WorkRequestItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(WorkRequestItem $workRequestItem)
+    public function destroy($id, $work_request_item_id)
     {
-        //
+
+        $itemRequest = WorkRequestItem::where('work_request_id', $id)
+            ->where('id', $work_request_item_id)
+            ->firstOrFail();
+
+        $itemRequest->delete();
+
+        return redirect()->route('work_request.work_request_items.edit', ['id' => $id])->with('success', 'Data berhasil dihapus!');
     }
 }
