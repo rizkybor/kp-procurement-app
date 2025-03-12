@@ -50,7 +50,6 @@ class WorkRequestRabController extends Controller
         $workRequest = WorkRequest::findOrFail($id);
         $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
 
-        // Kirim data ke view
         return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest'));
     }
 
