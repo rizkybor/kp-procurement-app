@@ -43,7 +43,7 @@
                                     <div class="text-center">{{ $i++ }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left">{{ $item->item_desc_request }}</div>
+                                    <div class="text-left">{{ $item->item_name }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center">{{ $item->quantity }}</div>
@@ -52,7 +52,7 @@
                                     <div class="text-center">{{ $item->unit }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-center">{{ $item->notes }}</div>
+                                    <div class="text-center">{{ $item->description }}</div>
                                 </td>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">

@@ -37,6 +37,11 @@ class WorkRequest extends Model
         return $this->hasMany(WorkRequestItem::class, 'work_request_id');
     }
 
+    public function workRequestRab()
+    {
+        return $this->hasMany(WorkRequestRab::class, 'work_request_id');
+    }
+
     public function workRequestSignatures()
     {
         return $this->hasMany(WorkRequestSignature::class, 'work_request_id');

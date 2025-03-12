@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('work_request_rab', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('work_request_id')->constrained('work_request')->onDelete('cascade');
             $table->foreignId('work_request_item_id')->constrained('work_request_items')->onDelete('cascade');
-            $table->integer('quantity');
             $table->decimal('harga', 15, 2);
             $table->decimal('total_harga', 15, 2);
             $table->timestamps();

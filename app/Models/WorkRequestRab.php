@@ -12,8 +12,8 @@ class WorkRequestRab extends Model
     protected $table = 'work_request_rab';
 
     protected $fillable = [
+        'work_request_id',
         'work_request_item_id',
-        'quantity',
         'harga',
         'total_harga',
     ];
@@ -21,5 +21,10 @@ class WorkRequestRab extends Model
     public function workRequestItem()
     {
         return $this->belongsTo(WorkRequestItem::class, 'work_request_item_id');
+    }
+
+    public function workRequest()
+    {
+        return $this->belongsTo(WorkRequest::class, 'work_request_id');
     }
 }

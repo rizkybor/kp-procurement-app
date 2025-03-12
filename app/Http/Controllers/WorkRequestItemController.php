@@ -30,8 +30,8 @@ class WorkRequestItemController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            'item_desc_request' => 'required',
-            'notes' => 'required',
+            'item_name' => 'required',
+            'description' => 'required',
             'quantity' => 'required',
             'unit' => 'required',
         ]);
@@ -39,8 +39,8 @@ class WorkRequestItemController extends Controller
         // Simpan ke database
         WorkRequestItem::create([
             'work_request_id' => $id,
-            'item_desc_request' => $request->item_desc_request,
-            'notes' => $request->notes,
+            'item_name' => $request->item_name,
+            'description' => $request->description,
             'quantity' => $request->quantity,
             'unit' => $request->unit,
         ]);
@@ -76,8 +76,8 @@ class WorkRequestItemController extends Controller
     {
         // Validasi input
         $request->validate([
-            'item_desc_request' => 'required',
-            'notes' => 'required',
+            'item_name' => 'required',
+            'description' => 'required',
             'quantity' => 'required|numeric',
             'unit' => 'required',
         ]);
@@ -87,8 +87,8 @@ class WorkRequestItemController extends Controller
             ->firstOrFail();
 
         $docdetail->update([
-            'item_desc_request' => $request->item_desc_request,
-            'notes' => $request->notes,
+            'item_name' => $request->item_name,
+            'description' => $request->description,
             'quantity' => $request->quantity,
             'unit' => $request->unit,
         ]);
