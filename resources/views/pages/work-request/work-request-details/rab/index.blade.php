@@ -1,4 +1,4 @@
-@extends('pages.work-request.work-request.details.edit')
+@extends('pages.work-request.work-request-details.edit')
 @section('content')
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-8">
         <!-- Left: Title -->

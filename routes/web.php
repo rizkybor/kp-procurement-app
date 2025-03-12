@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\WorkRequestRabController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
@@ -61,6 +62,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('/store', [WorkRequestItemController::class, 'store'])->name('store');
             Route::put('/{work_request_item_id}/update', [WorkRequestItemController::class, 'update'])->name('update');
             Route::delete('/{work_request_item_id}', [WorkRequestItemController::class, 'destroy'])->name('destroy');
+        });
+
+        // Work Rabs Items
+        Route::prefix('{id}/edit/work_rabs')->name('work_rabs.')->group(function () {
+            Route::get('/', [WorkRequestRabController::class, 'edit'])->name('edit');
+            Route::get('/{work_rab_id}', [WorkRequestRabController::class, 'show'])->name('show');
+            Route::post('/store', [WorkRequestRabController::class, 'store'])->name('store');
+            Route::put('/{work_rab_id}/update', [WorkRequestRabController::class, 'update'])->name('update');
+            Route::delete('/{work_rab_id}', [WorkRequestRabController::class, 'destroy'])->name('destroy');
         });
     });
 

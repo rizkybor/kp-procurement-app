@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WorkRequest;
+use App\Models\WorkRequestItem;
 use App\Models\WorkRequestRab;
 use Illuminate\Http\Request;
 
@@ -42,9 +44,14 @@ class WorkRequestRabController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(WorkRequestRab $workRequestRab)
+    public function edit($id)
     {
-        //
+        // Ambil data WorkRequest berdasarkan ID
+        $workRequest = WorkRequest::findOrFail($id);
+        $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
+
+        // Kirim data ke view
+        return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest'));
     }
 
     /**
