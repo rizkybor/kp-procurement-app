@@ -15,7 +15,7 @@
     <div class="grid grid-cols-12 gap-6 mt-4">
 
         <!-- Card (Customers) -->
-        <x-documents.table-rab />
+        <x-documents.table-rab :rabRequest="$rabRequest" />
 
     </div>
 @endsection

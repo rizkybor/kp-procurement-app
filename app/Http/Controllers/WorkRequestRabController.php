@@ -43,7 +43,7 @@ class WorkRequestRabController extends Controller
         WorkRequestRab::create([
             'work_request_id' => $workRequestItem->work_request_id,
             'work_request_item_id' => $request->work_request_item_id,
-            'harga' => $request->harga,
+            'harga' => $harga,
             'total_harga' => $totalHarga,
         ]);
 
@@ -67,7 +67,11 @@ class WorkRequestRabController extends Controller
         $workRequest = WorkRequest::findOrFail($id);
         $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
 
-        return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest'));
+        $rabRequest = WorkRequestRab::with('workRequestItem')
+            ->where('work_request_id', $id)
+            ->get();
+
+        return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest', 'rabRequest'));
     }
 
     /**
