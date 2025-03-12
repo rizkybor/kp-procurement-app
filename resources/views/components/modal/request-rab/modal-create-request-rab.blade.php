@@ -12,16 +12,16 @@
             <div class="flex justify-center items-center">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Tambah Permintaan Barang</h3>
             </div>
-            <form action="" method="POST">
+            <form action="{{ route('work_request.work_rabs.store', ['id' => $workRequest->id]) }}" method="POST">
                 @csrf
                 {{-- @method('PUT') --}}
                 <div class="grid grid-cols-2 gap-4">
                     {{-- item_name --}}
                     <div>
-                        <x-label for="item_name" value="{{ __('Pilih Item') }}" />
-                        <select id="item_name" name="item_name"
+                        <x-label for="work_request_item_id" value="{{ __('Pilih Item') }}" />
+                        <select id="work_request_item_id" name="work_request_item_id"
                             class="block mt-1 w-full border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-200 font-medium px-3 py-2 rounded-lg shadow-sm focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all">
-                            <option value="" disabled selected>Pilih item</option>
+                            <option disabled selected>Pilih item</option>
                             @foreach ($itemRequest as $item)
                                 <option value="{{ $item->id }}">{{ $item->item_name }}</option>
                             @endforeach

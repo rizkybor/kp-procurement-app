@@ -28,10 +28,28 @@ class WorkRequestRabController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $request->validate([
+            'work_request_item_id' => 'required',
+            'harga' => 'required',
+        ]);
+
+        $harga = floatval(str_replace(['.', ','], '', $request->harga));
+
+        $workRequestItem = WorkRequestItem::findOrFail($request->work_request_item_id);
+        $totalHarga = bcmul($harga, $workRequestItem->quantity, 2);
+
+        WorkRequestRab::create([
+            'work_request_id' => $workRequestItem->work_request_id,
+            'work_request_item_id' => $request->work_request_item_id,
+            'harga' => $request->harga,
+            'total_harga' => $totalHarga,
+        ]);
+
+        return back()->with('success', 'Data berhasil disimpan!');
     }
+
 
     /**
      * Display the specified resource.
@@ -46,7 +64,6 @@ class WorkRequestRabController extends Controller
      */
     public function edit($id)
     {
-        // Ambil data WorkRequest berdasarkan ID
         $workRequest = WorkRequest::findOrFail($id);
         $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
 
