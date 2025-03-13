@@ -1,4 +1,4 @@
-@props(['rabRequest', 'workRequest', 'itemRequest'])
+@props(['rabRequest', 'workRequest', 'itemRequest', 'totalRab'])
 
 <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
@@ -87,6 +87,38 @@
                         </tr>
                     @endif
                 </tbody>
+
+                {{-- tabel total keseluruhan harga rab --}}
+                @if (!empty($rabRequest) && $rabRequest->count())
+                    <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
+                        <tr>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-center"></div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-left"></div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-center"></div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-center"></div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-center"><strong>Keseluruhan Harga RAB :</strong></div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-center"> Rp. {{ number_format($totalRab, 0, ',', '.') }}</div>
+                            </td>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-center"></div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                @endif
+
             </table>
 
         </div>

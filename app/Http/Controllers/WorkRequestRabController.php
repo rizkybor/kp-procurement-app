@@ -71,7 +71,10 @@ class WorkRequestRabController extends Controller
             ->where('work_request_id', $id)
             ->get();
 
-        return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest', 'rabRequest'));
+        $totalRab = $rabRequest->sum('total_harga');
+
+
+        return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest', 'rabRequest', 'totalRab'));
     }
 
     public function update(Request $request, $id, $work_rab_id)
