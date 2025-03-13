@@ -85,8 +85,14 @@ class WorkRequestRabController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(WorkRequestRab $workRequestRab)
+    public function destroy($id, $work_rab_id)
     {
-        //
+        $itemRequest = WorkRequestRab::where('work_request_id', $id)
+            ->where('id', $work_rab_id)
+            ->firstOrFail();
+
+        $itemRequest->delete();
+
+        return redirect()->route('work_request.work_rabs.edit', ['id' => $id])->with('success', 'Data berhasil dihapus!');
     }
 }
