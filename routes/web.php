@@ -1,14 +1,15 @@
 <?php
 
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\WorkRequestRabController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
 
 use App\Http\Controllers\WorkRequestController;
 use App\Http\Controllers\WorkRequestItemController;
-
+use App\Http\Controllers\WorkRequestRabController;
+use App\Http\Controllers\WorkRequestSpesificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,6 +72,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('/store', [WorkRequestRabController::class, 'store'])->name('store');
             Route::put('/{work_rab_id}/update', [WorkRequestRabController::class, 'update'])->name('update');
             Route::delete('/{work_rab_id}', [WorkRequestRabController::class, 'destroy'])->name('destroy');
+        });
+
+        // Work spesification
+        Route::prefix('{id}/edit/work_spesifications')->name('work_spesifications.')->group(function () {
+            Route::get('/', [WorkRequestSpesificationController::class, 'edit'])->name('edit');
+            Route::get('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'show'])->name('show');
+            Route::post('/store', [WorkRequestSpesificationController::class, 'store'])->name('store');
+            Route::put('/{work_spesification_id}/update', [WorkRequestSpesificationController::class, 'update'])->name('update');
+            Route::delete('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'destroy'])->name('destroy');
         });
     });
 
