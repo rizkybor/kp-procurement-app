@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WorkRequest;
 use App\Models\WorkRequestSpesification;
 use Illuminate\Http\Request;
 
@@ -42,9 +43,10 @@ class WorkRequestSpesificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(WorkRequestSpesification $workRequestSpesification)
+    public function edit($id)
     {
-        //
+        $workRequest = WorkRequest::findOrFail($id);
+        return view('pages.work-request.work-request-details.spesification.index', compact('workRequest'));
     }
 
     /**

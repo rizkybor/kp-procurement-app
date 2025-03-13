@@ -18,9 +18,9 @@
                             {{ request()->routeIs('work_request.work_rabs.edit') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form RAB
                         </a>
-                        <a href=""
+                        <a href="{{ route('work_request.work_spesifications.edit', ['id' => $workRequest->id]) }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
+                            {{ request()->routeIs('work_request.work_spesifications.edit') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form Spesification
                         </a>
                     </div>
