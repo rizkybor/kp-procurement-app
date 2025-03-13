@@ -74,12 +74,30 @@ class WorkRequestRabController extends Controller
         return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest', 'rabRequest'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, WorkRequestRab $workRequestRab)
+    public function update(Request $request, $id, $work_rab_id)
     {
-        //
+        $request->validate([
+            'work_request_item_id' => 'required|exists:work_request_items,id',
+            'harga' => 'required|numeric',
+        ]);
+
+        $rab = WorkRequestRab::findOrFail($work_rab_id);
+
+
+        $harga = floatval(str_replace(['.', ','], '', $request->harga));
+
+        $workRequestItem = WorkRequestItem::findOrFail($request->work_request_item_id);
+        $totalHarga = bcmul($harga, $workRequestItem->quantity, 2);
+
+        $rab->update([
+            'work_request_id' => $workRequestItem->work_request_id,
+            'work_request_item_id' => $request->work_request_item_id,
+            'harga' => $harga,
+            'total_harga' => $totalHarga,
+        ]);
+
+        return redirect()->route('work_request.work_rabs.edit', ['id' => $id])
+            ->with('success', 'Data RAB berhasil diperbarui.');
     }
 
     /**

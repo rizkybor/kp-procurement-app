@@ -1,4 +1,4 @@
-@props(['rabRequest', 'workRequest'])
+@props(['rabRequest', 'workRequest', 'itemRequest'])
 
 <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
@@ -64,8 +64,8 @@
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center flex items-center justify-center gap-2">
-                                        {{-- <x-modal.request-item.modal-edit-request-item :rabRequest="$rab"
-                                            :workRequest="$workRequest" /> --}}
+                                        <x-modal.request-rab.modal-edit-request-rab :rabRequest="$rab" :workRequest="$workRequest"
+                                            :itemRequest="$itemRequest" />
                                         <form
                                             action="{{ route('work_request.work_rabs.destroy', ['id' => $workRequest->id, 'work_rab_id' => $rab->id]) }}"
                                             method="POST"
