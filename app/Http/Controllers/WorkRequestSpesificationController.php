@@ -65,7 +65,9 @@ class WorkRequestSpesificationController extends Controller
     public function edit($id)
     {
         $workRequest = WorkRequest::findOrFail($id);
-        return view('pages.work-request.work-request-details.spesification.index', compact('workRequest'));
+        $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
+
+        return view('pages.work-request.work-request-details.spesification.index', compact('workRequest', 'specRequest'));
     }
 
     /**

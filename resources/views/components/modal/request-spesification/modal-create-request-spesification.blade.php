@@ -55,7 +55,7 @@
                     {{-- provider_requirements --}}
                     <div>
                         <x-label for="provider_requirements" value="{{ __('Kebutuhan Penyedia') }}" />
-                        <x-input id="provider_requirements" type="number" name="provider_requirements"
+                        <x-input id="provider_requirements" type="text" name="provider_requirements"
                             class="mt-1 block w-full min-h-[40px]" required autocomplete="provider_requirements"
                             placeholder="Masukkan kebutuhan penyedia" value="" />
                         <x-input-error for="provider_requirements" class="mt-2" />

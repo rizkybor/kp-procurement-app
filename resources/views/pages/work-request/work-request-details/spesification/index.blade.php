@@ -17,7 +17,7 @@
     <div class="grid grid-cols-12 gap-6 mt-4">
 
         <!-- Card (Customers) -->
-        <x-documents.table-spesification />
+        <x-documents.table-spesification :specRequest="$specRequest" />
 
     </div>
 @endsection
