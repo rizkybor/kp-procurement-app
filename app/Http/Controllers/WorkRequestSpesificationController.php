@@ -27,9 +27,28 @@ class WorkRequestSpesificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $request->validate([
+            'scope_of_work' => 'required',
+            'contract_type' => 'required',
+            'safety_aspect' => 'required',
+            'reporting' => 'required',
+            'provider_requirements' => 'required',
+            'payment_procedures' => 'required',
+        ]);
+
+        WorkRequestSpesification::create([
+            'work_request_id' => $id,
+            'scope_of_work' => $request->scope_of_work,
+            'contract_type' => $request->contract_type,
+            'safety_aspect' => $request->safety_aspect,
+            'reporting' => $request->reporting,
+            'provider_requirements' => $request->provider_requirements,
+            'payment_procedures' => $request->payment_procedures,
+        ]);
+
+        return redirect()->route('work_request.work_spesifications.edit', ['id' => $id])->with('success', 'Data berhasil disimpan!');
     }
 
     /**
