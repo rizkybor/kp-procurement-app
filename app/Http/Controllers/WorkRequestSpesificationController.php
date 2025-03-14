@@ -73,9 +73,31 @@ class WorkRequestSpesificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, WorkRequestSpesification $workRequestSpesification)
+    public function update(Request $request, $work_request_id, $work_spesification_id)
     {
-        //
+        $request->validate([
+            'scope_of_work' => 'required',
+            'contract_type' => 'required',
+            'safety_aspect' => 'required',
+            'reporting' => 'required',
+            'provider_requirements' => 'required',
+            'payment_procedures' => 'required',
+        ]);
+
+        $specRequest = WorkRequestSpesification::where('work_request_id', $work_request_id)
+            ->where('id', $work_spesification_id)
+            ->firstOrFail();
+
+        $specRequest->update([
+            'scope_of_work' => $request->scope_of_work,
+            'contract_type' => $request->contract_type,
+            'safety_aspect' => $request->safety_aspect,
+            'reporting' => $request->reporting,
+            'provider_requirements' => $request->provider_requirements,
+            'payment_procedures' => $request->payment_procedures,
+        ]);
+
+        return redirect()->route('work_request.work_spesifications.edit', ['id' => $work_request_id])->with('success', 'Data berhasil dihapus!');
     }
 
     /**

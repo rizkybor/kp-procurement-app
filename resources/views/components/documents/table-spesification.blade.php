@@ -70,7 +70,8 @@
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center flex items-center justify-center gap-2">
-                                        {{-- <x-modal.request-item.modal-edit-request-item :workRequest="$workRequest" /> --}}
+                                        <x-modal.request-spesification.modal-edit-request-spesification
+                                            :workRequest="$workRequest" :specRequest="$spec" />
                                         <form
                                             action="{{ route('work_request.work_spesifications.destroy', ['id' => $workRequest->id, 'work_spesification_id' => $spec->id]) }}"
                                             method="POST"
