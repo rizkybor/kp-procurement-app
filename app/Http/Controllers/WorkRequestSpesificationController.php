@@ -81,8 +81,12 @@ class WorkRequestSpesificationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(WorkRequestSpesification $workRequestSpesification)
+    public function destroy($id, $work_spesification_id)
     {
-        //
+        $specRequest = WorkRequestSpesification::findOrFail($work_spesification_id);
+
+        $specRequest->delete();
+
+        return redirect()->route('work_request.work_spesifications.edit', ['id' => $id])->with('success', 'Data berhasil dihapus!');
     }
 }

@@ -1,4 +1,4 @@
-@props(['specRequest'])
+@props(['specRequest', 'workRequest'])
 
 <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
@@ -71,15 +71,15 @@
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center flex items-center justify-center gap-2">
                                         {{-- <x-modal.request-item.modal-edit-request-item :workRequest="$workRequest" /> --}}
-                                        {{-- <form
-                                            action="{{ route('work_request.work_request_items.destroy', ['id' => $workRequest->id, 'work_request_item_id' => $spec->id]) }}"
+                                        <form
+                                            action="{{ route('work_request.work_spesifications.destroy', ['id' => $workRequest->id, 'work_spesification_id' => $spec->id]) }}"
                                             method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
                                             @csrf
                                             @method('DELETE')
                                             <x-button.button-action color="red" icon="trash" type="submit">Hapus
                                             </x-button.button-action>
-                                        </form> --}}
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
