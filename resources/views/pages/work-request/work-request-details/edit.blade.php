@@ -32,8 +32,9 @@
                             Kembali
                         </x-button.button-action>
 
-                        <x-button.button-action color="teal" type="button" onclick="window.location=''">
-                            Proccess
+                        <x-button.button-action color="blue" type="button"
+                            onclick="window.location='{{ route('work_request.work_request_items.show', $workRequest->id) }}'">
+                            Process Docs
                         </x-button.button-action>
                     </div>
                 </div>

@@ -32,7 +32,7 @@
                         </x-button.button-action>
 
                         <x-button.button-action color="teal" type="button" onclick="window.location=''">
-                            Proccess
+                            Process
                         </x-button.button-action>
                     </div>
                 </div>
