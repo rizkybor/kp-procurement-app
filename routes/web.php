@@ -61,6 +61,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         //     Route::get('/work_spesifications/{work_spesification_id}', [WorkRequestSpesificationController::class, 'show'])->name('spesifications.show');
         // });
         Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');
+        Route::get('{id}/show/work_rabs', [WorkRequestRabController::class, 'show'])->name('work_rabs.show');
 
 
         // Work Request Items

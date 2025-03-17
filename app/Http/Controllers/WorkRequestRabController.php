@@ -54,9 +54,20 @@ class WorkRequestRabController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(WorkRequestRab $workRequestRab)
+    public function show($id)
     {
-        //
+        $workRequest = WorkRequest::findOrFail($id);
+
+        $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
+
+        $rabRequest = WorkRequestRab::with('workRequestItem')
+            ->where('work_request_id', $id)
+            ->get();
+
+        $totalRab = $rabRequest->sum('total_harga');
+
+        // Kirim data ke view
+        return view('pages.work-request.work-request-details.rab.show', compact('workRequest', 'itemRequest', 'rabRequest', 'totalRab'));
     }
 
     /**

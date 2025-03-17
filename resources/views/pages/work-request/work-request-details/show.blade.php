@@ -13,9 +13,9 @@
                             Form Request
                         </a>
 
-                        <a href=""
+                        <a href="{{ route('work_request.work_rabs.show', $workRequest->id) }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('work_request.work_rabs.edit') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
+                            {{ request()->routeIs('work_request.work_rabs.show') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form RAB
                         </a>
                         <a href=""
