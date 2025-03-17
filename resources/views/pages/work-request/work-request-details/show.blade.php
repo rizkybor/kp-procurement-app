@@ -1,6 +1,5 @@
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto ">
-        <h1>show template</h1>
         <!-- Navbar-style tabs -->
         <div class="border-b mb-8">
             <div class="mb-4">
@@ -18,9 +17,9 @@
                             {{ request()->routeIs('work_request.work_rabs.show') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form RAB
                         </a>
-                        <a href=""
+                        <a href="{{ route('work_request.work_spesifications.show', $workRequest->id) }}"
                             class="text-xl text-gray-800 dark:text-gray-100 pb-2 
-                            {{ request()->routeIs('work_request.work_spesifications.edit') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
+                            {{ request()->routeIs('work_request.work_spesifications.show') ? 'font-bold border-b-2 border-teal-600' : 'hover:text-teal-600 hover:border-b-2 hover:border-teal-600' }}">
                             Form Spesification
                         </a>
                     </div>

@@ -54,9 +54,12 @@ class WorkRequestSpesificationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(WorkRequestSpesification $workRequestSpesification)
+    public function show($id)
     {
-        //
+        $workRequest = WorkRequest::findOrFail($id);
+        $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
+
+        return view('pages.work-request.work-request-details.spesification.show', compact('workRequest', 'specRequest'));
     }
 
     /**
