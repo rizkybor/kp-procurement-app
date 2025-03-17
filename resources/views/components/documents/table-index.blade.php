@@ -36,6 +36,9 @@
                             <div class="font-semibold text-center">PIC</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
+                            <div class="font-semibold text-center">Total RAB</div>
+                        </th>
+                        <th class="p-2 whitespace-nowrap">
                             <div class="font-semibold text-center">Action</div>
                         </th>
 
@@ -70,6 +73,11 @@
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center">{{ $request->pic }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-center">
+                                        Rp. {{ number_format($request->total_rab, 0, ',', '.') }}
+                                    </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center flex items-center justify-center gap-2">

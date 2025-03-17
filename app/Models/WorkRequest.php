@@ -42,6 +42,11 @@ class WorkRequest extends Model
         return $this->hasMany(WorkRequestRab::class, 'work_request_id');
     }
 
+    public function getTotalRabAttribute()
+    {
+        return $this->workRequestRab()->sum('total_harga');
+    }
+
     public function workRequestSignatures()
     {
         return $this->hasMany(WorkRequestSignature::class, 'work_request_id');
