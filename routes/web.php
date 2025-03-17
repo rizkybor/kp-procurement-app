@@ -60,13 +60,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         //     Route::get('/work_rabs/{work_rab_id}', [WorkRequestRabController::class, 'show'])->name('rabs.show');
         //     Route::get('/work_spesifications/{work_spesification_id}', [WorkRequestSpesificationController::class, 'show'])->name('spesifications.show');
         // });
-        Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request.show');
+        Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');
 
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {
             Route::get('/', [WorkRequestItemController::class, 'edit'])->name('edit');
-            Route::get('/{work_request_item_id}', [WorkRequestItemController::class, 'show'])->name('show');
+            // Route::get('/{work_request_item_id}', [WorkRequestItemController::class, 'show'])->name('show');
             Route::post('/store', [WorkRequestItemController::class, 'store'])->name('store');
             Route::put('/{work_request_item_id}/update', [WorkRequestItemController::class, 'update'])->name('update');
             Route::delete('/{work_request_item_id}', [WorkRequestItemController::class, 'destroy'])->name('destroy');
@@ -75,7 +75,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // Work Rabs Items
         Route::prefix('{id}/edit/work_rabs')->name('work_rabs.')->group(function () {
             Route::get('/', [WorkRequestRabController::class, 'edit'])->name('edit');
-            Route::get('/{work_rab_id}', [WorkRequestRabController::class, 'show'])->name('show');
+            // Route::get('/{work_rab_id}', [WorkRequestRabController::class, 'show'])->name('show');
             Route::post('/store', [WorkRequestRabController::class, 'store'])->name('store');
             Route::put('/{work_rab_id}/update', [WorkRequestRabController::class, 'update'])->name('update');
             Route::delete('/{work_rab_id}', [WorkRequestRabController::class, 'destroy'])->name('destroy');
@@ -84,7 +84,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // Work spesification
         Route::prefix('{id}/edit/work_spesifications')->name('work_spesifications.')->group(function () {
             Route::get('/', [WorkRequestSpesificationController::class, 'edit'])->name('edit');
-            Route::get('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'show'])->name('show');
+            // Route::get('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'show'])->name('show');
             Route::post('/store', [WorkRequestSpesificationController::class, 'store'])->name('store');
             Route::put('/{work_spesification_id}/update', [WorkRequestSpesificationController::class, 'update'])->name('update');
             Route::delete('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'destroy'])->name('destroy');
