@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\WorkRequest;
+use App\Models\WorkRequestItem;
 use Illuminate\Http\Request;
 
 class WorkRequestController extends Controller
@@ -86,9 +87,14 @@ class WorkRequestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(WorkRequest $workRequest)
+    public function show($id)
     {
-        //
+        // Ambil data WorkRequest berdasarkan ID
+        $workRequest = WorkRequest::findOrFail($id);
+        $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
+
+        // Kirim data ke view
+        return view('pages.work-request.work-request-details.request.show', compact('workRequest', 'itemRequest'));
     }
 
     /**

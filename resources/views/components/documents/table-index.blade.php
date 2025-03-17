@@ -81,15 +81,16 @@
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center flex items-center justify-center gap-2">
+                                        <x-button.button-action color="teal" icon="eye"
+                                            onclick="window.location.href='{{ route('work_request.work_request.show', $request->id) }}'"></x-button.button-action>
                                         <x-button.button-action color="yellow" icon="pencil"
-                                            onclick="window.location.href='{{ route('work_request.work_request_items.edit', $request->id) }}'">Edit
-                                        </x-button.button-action>
+                                            onclick="window.location.href='{{ route('work_request.work_request_items.edit', $request->id) }}'"></x-button.button-action>
                                         <form action="{{ route('work_request.destroy', $request->id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
                                             @csrf
                                             @method('DELETE')
-                                            <x-button.button-action color="red" icon="trash" type="submit">Hapus
-                                            </x-button.button-action>
+                                            <x-button.button-action color="red" icon="trash"
+                                                type="submit"></x-button.button-action>
                                         </form>
                                     </div>
                                 </td>
