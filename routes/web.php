@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\TestController;
 
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Route::resource('work_request', WorkRequestController::class);
     // Route::resource('work_request_items', WorkRequestItemController::class);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Work Request Routes
+    |--------------------------------------------------------------------------
+    */
+
     Route::prefix('work_request')->name('work_request.')->group(function () {
 
         Route::resource('/', WorkRequestController::class)->except(['show', 'edit'])->parameters(['' => 'id'])->names([
@@ -53,13 +60,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             'destroy' => 'destroy',
         ]);
 
-        // Details
-        // Route::get('/{id}/show', [WorkRequestController::class, 'show'])->name('show');
-        // Route::prefix('{id}/show')->name('work_request.')->group(function () {
-        //     Route::get('/work_request_items/{work_request_item_id}', [WorkRequestItemController::class, 'show'])->name('items.show');
-        //     Route::get('/work_rabs/{work_rab_id}', [WorkRequestRabController::class, 'show'])->name('rabs.show');
-        //     Route::get('/work_spesifications/{work_spesification_id}', [WorkRequestSpesificationController::class, 'show'])->name('spesifications.show');
-        // });
+        // Route Print PDF Form Request dan RAB
+        Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');;
+        Route::get('/{id}/print-rab', [PDFController::class, 'generateRab'])->name('print-rab');;
+
+        // Route Show
         Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');
         Route::get('{id}/show/work_rabs', [WorkRequestRabController::class, 'show'])->name('work_rabs.show');
         Route::get('{id}/show/work_spesifications', [WorkRequestSpesificationController::class, 'show'])->name('work_spesifications.show');
