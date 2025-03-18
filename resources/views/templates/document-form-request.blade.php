@@ -24,7 +24,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 25px;
         }
 
         th,
@@ -53,45 +53,51 @@
 
 <body>
     <div class="container">
-        <table width="100%">
+        <table width="100%" border="0" style="border-collapse: collapse;">
             <tr>
-                <td><img src="{{ asset('logo.png') }}" alt="Logo" width="100"></td>
-                <td class="header">
-                    <h2>FORMULIR PERMINTAAN PEKERJAAN</h2>
+                <td style="border: none;">
+                    <img src="file://{{ public_path('images/logo-kpu-ls.png') }}"
+                        alt="Logo KPU"style="height: 50px; width: auto;">
+                </td>
+            </tr>
+            <tr>
+                <td class="header" style="border: none;">
+                    <h2>FORMULIR PERMINTAAN</h2>
+                    <h2>PEKERJAAN ...............</h2>
                 </td>
             </tr>
         </table>
 
-        <table width="100%">
+        <table width="100%" border="0" style="border-collapse: collapse;">
             <tr>
-                <td>Bagian/Divisi</td>
-                <td>: {{ $bagian ?? '...' }}</td>
-                <td>Nomor</td>
-                <td>: {{ $nomor ?? '...' }}</td>
+                <td style="border: none;">Bagian/Divisi</td>
+                <td style="border: none;">: {{ $bagian ?? '...' }}</td>
+                <td style="border: none;">Nomor</td>
+                <td style="border: none;">: {{ $nomor ?? '...' }}</td>
             </tr>
             <tr>
-                <td>Judul Proyek</td>
-                <td>: {{ $judul_proyek ?? '...' }}</td>
-                <td>Tanggal</td>
-                <td>: {{ $tanggal ?? '...' }}</td>
+                <td style="border: none;">Judul Proyek</td>
+                <td style="border: none;">: {{ $judul_proyek ?? '...' }}</td>
+                <td style="border: none;">Tanggal</td>
+                <td style="border: none;">: {{ $tanggal ?? '...' }}</td>
             </tr>
             <tr>
-                <td>Pemilik Proyek</td>
-                <td>: {{ $pemilik_proyek ?? '...' }}</td>
-                <td>Tenggat</td>
-                <td>: {{ $tenggat ?? '...' }}</td>
+                <td style="border: none;">Pemilik Proyek</td>
+                <td style="border: none;">: {{ $pemilik_proyek ?? '...' }}</td>
+                <td style="border: none;">Tenggat</td>
+                <td style="border: none;">: {{ $tenggat ?? '...' }}</td>
             </tr>
             <tr>
-                <td>No. Kontrak</td>
-                <td>: {{ $no_kontrak ?? '...' }}</td>
-                <td>PIC</td>
-                <td>: {{ $pic ?? '...' }}</td>
+                <td style="border: none;">No. Kontrak</td>
+                <td style="border: none;">: {{ $no_kontrak ?? '...' }}</td>
+                <td style="border: none;">PIC</td>
+                <td style="border: none;">: {{ $pic ?? '...' }}</td>
             </tr>
             <tr>
-                <td>Jenis Pengadaan</td>
-                <td>: Barang/Jasa*</td>
-                <td>Aanwijzing</td>
-                <td>: Ya/Tidak*</td>
+                <td style="border: none;">Jenis Pengadaan</td>
+                <td style="border: none;">: Barang/Jasa*</td>
+                <td style="border: none;">Aanwijzing</td>
+                <td style="border: none;">: Ya/Tidak*</td>
             </tr>
         </table>
 
@@ -124,12 +130,12 @@
             </tbody>
         </table>
 
-        <p><b>Lampiran:</b></p>
+        <p><em>Lampiran:</em></p>
         <ol>
-            <li>Rencana Anggaran Biaya (RAB)</li>
-            <li>Bukti Ketersediaan Anggaran (RKAP/Project Charter)</li>
-            <li>KAK / Spesifikasi Teknis</li>
-            <li>Bill of Quantity (BQ)</li>
+            <li><em>Rencana Anggaran Biaya (RAB)</em></li>
+            <li><em>Bukti Ketersediaan Anggaran (RKAP/Project Charter)</em></li>
+            <li><em>KAK / Spesifikasi Teknis</em></li>
+            <li><em>Bill of Quantity (BQ)</em></li>
         </ol>
 
         <div class="signature">
