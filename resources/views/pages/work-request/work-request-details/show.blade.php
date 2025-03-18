@@ -1,3 +1,16 @@
+@php
+    $printOptions = [
+        [
+            'label' => 'Surat Permintaan',
+            'route' => route('work_request.print-form-request', $workRequest->id),
+        ],
+        [
+            'label' => 'Surat Rab',
+            'route' => route('work_request.print-rab', $workRequest->id),
+        ],
+    ];
+@endphp
+
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
         <!-- Navbar-style tabs -->
@@ -56,6 +69,7 @@
 
                     <!-- Actions -->
                     <div class="flex gap-2">
+
                         <x-button.button-action color="red" type="button"
                             onclick="window.location='{{ route('work_request.index') }}'">
                             Kembali
@@ -64,15 +78,36 @@
                         <x-button.button-action color="teal" type="button" onclick="window.location=''">
                             Process
                         </x-button.button-action>
+
+                        {{-- Cetak Dokumen --}}
+                        <div x-data="{ open: false }" class="relative">
+                            <x-button.button-action @click="open = !open" color="blue" icon="print">
+                                Cetak Dokumen
+                            </x-button.button-action>
+
+                            <div x-show="open" @click.away="open = false"
+                                class="absolute z-10 mt-2 bg-white border rounded-lg shadow-lg w-56">
+                                <ul class="py-2 text-gray-700">
+                                    @foreach ($printOptions as $option)
+                                        <li>
+                                            <a href="{{ $option['route'] }}"
+                                                class="block px-4 py-2 hover:bg-blue-500 hover:text-white">
+                                                {{ $option['label'] }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- Content based on selected tab --}}
-        <div>
-            @yield('content')
-        </div>
+            {{-- Content based on selected tab --}}
+            <div>
+                @yield('content')
+            </div>
 
-    </div>
+        </div>
 </x-app-layout>
