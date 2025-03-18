@@ -4,17 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAB Pekerjaan</title>
+    <title>RENCANA ANGGARAN BIAYA (RAB)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            font-size: 12px;
         }
 
         .container {
-            width: 100%;
-            max-width: 800px;
+            width: 90%;
             margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            font-weight: bold;
         }
 
         table {
@@ -26,7 +30,7 @@
         th,
         td {
             border: 1px solid black;
-            padding: 8px;
+            padding: 5px;
             text-align: left;
         }
 
@@ -35,14 +39,8 @@
             text-align: center;
         }
 
-        .title {
-            text-align: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
         .signature {
-            margin-top: 30px;
+            margin-top: 100px;
             text-align: center;
         }
 
@@ -55,77 +53,97 @@
 
 <body>
     <div class="container">
-        <div class="title">RENCANA ANGGARAN BIAYA (RAB)</div>
-        <div class="title">PEKERJAAN ...............................................</div>
-        <table>
+        <table width="100%" border="0" style="border-collapse: collapse;">
             <tr>
-                <td>Bagian/Divisi</td>
-                <td>:</td>
-                <td></td>
-                <td>Nomor Permintaan</td>
-                <td>:</td>
-                <td></td>
+                <td style="border: none;">
+                    <img src="file://{{ public_path('images/logo-kpu-ls.png') }}"
+                        alt="Logo KPU"style="height: 50px; width: auto;">
+                </td>
             </tr>
             <tr>
-                <td>Judul Proyek</td>
-                <td>:</td>
-                <td></td>
-                <td>Tanggal</td>
-                <td>:</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Pemilik Proyek</td>
-                <td>:</td>
-                <td></td>
-                <td>Jenis Pengadaan</td>
-                <td>:</td>
-                <td>Barang/Jasa*</td>
+                <td class="header" style="border: none;">
+                    <h2>RENCANA ANGGARAN BIAYA (RAB)</h2>
+                    <h2>PEKERJAAN ...............</h2>
+                </td>
             </tr>
         </table>
-        <table>
+
+        <table width="100%" border="0" style="border-collapse: collapse; margin: auto;">
             <tr>
-                <th>No.</th>
-                <th>Deskripsi</th>
-                <th>Jumlah</th>
-                <th>Satuan</th>
-                <th>Harga</th>
-                <th>Total Harga</th>
+                <td style="width: 30%; border: none;">Bagian/Divisi</td>
+                <td style="width: 70%; border: none;">: {{ $bagian ?? '...' }}</td>
             </tr>
             <tr>
-                <td>1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="width: 30%; border: none;">Judul Proyek</td>
+                <td style="width: 70%; border: none;">: {{ $judul_proyek ?? '...' }}</td>
             </tr>
             <tr>
-                <td>2</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="width: 30%; border: none;">Pemilik Proyek</td>
+                <td style="width: 70%; border: none;">: {{ $pemilik_proyek ?? '...' }}</td>
             </tr>
             <tr>
-                <td>3</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="width: 30%; border: none;">No. Kontrak</td>
+                <td style="width: 70%; border: none;">: {{ $no_kontrak ?? '...' }}</td>
             </tr>
             <tr>
-                <td colspan="5"><strong>Sub Total</strong></td>
-                <td></td>
+                <td style="width: 30%; border: none;">Jenis Pengadaan</td>
+                <td style="width: 70%; border: none;">: Barang/Jasa*</td>
             </tr>
             <tr>
-                <td colspan="5"><strong>Total</strong></td>
-                <td></td>
+                <td style="width: 30%; border: none;">Nomor Permintaan</td>
+                <td style="width: 70%; border: none;">: {{ $nomor ?? '...' }}</td>
+            </tr>
+            <tr>
+                <td style="width: 30%; border: none;">Tanggal</td>
+                <td style="width: 70%; border: none;">: {{ $tanggal ?? '...' }}</td>
             </tr>
         </table>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Deskripsi</th>
+                    <th>Jumlah</th>
+                    <th>Satuan</th>
+                    <th>Harga</th>
+                    <th>Total Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!empty($items) && count($items) > 0)
+                    @foreach ($items as $index => $item)
+                        <tr>
+                            <td style="text-align: center;">{{ $index + 1 }}</td>
+                            <td>{{ $item['deskripsi'] }}</td>
+                            <td style="text-align: center;">{{ $item['jumlah'] }}</td>
+                            <td style="text-align: center;">{{ $item['satuan'] }}</td>
+                            <td style="text-align: center;">{{ $item['harga'] }}</td>
+                            <td style="text-align: center;">{{ $item['total_harga'] }}</td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="6" style="text-align: center;">Tidak ada data tersedia.</td>
+                    </tr>
+                @endif
+            </tbody>
+            <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
+                <tr>
+                    <td class="p-2 whitespace-nowrap"></td>
+                    <td class="p-2 whitespace-nowrap"></td>
+                    <td class="p-2 whitespace-nowrap"></td>
+                    <td class="p-2 whitespace-nowrap text-center"><strong>Sub Total :</strong></td>
+                    <td class="p-2 whitespace-nowrap"></td>
+                    <td class="p-2 whitespace-nowrap text-center">Rp. </td>
+                </tr>
+            </tbody>
+        </table>
+
+
         <p><em>Keterangan: Telah sesuai dengan RKAP/Project Charter dan penyesuaiannya</em></p>
+
+
         <div class="signature">
             <div>
                 <p>Pengguna Barang / Jasa,</p>
