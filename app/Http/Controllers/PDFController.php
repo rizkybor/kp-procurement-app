@@ -23,7 +23,8 @@ class PDFController extends Controller
     $pdf = Pdf::loadView('templates.document-form-request', $data);
 
     // Download file PDF dengan nama document-letter.pdf
-    return $pdf->download('document-form-request.pdf');
+    // return $pdf->download('document-form-request.pdf');
+    return $pdf->stream('document-form-request.pdf');
   }
 
   public function generateRab()
@@ -37,6 +38,7 @@ class PDFController extends Controller
     $pdf = Pdf::loadView('templates.document-rab', $data);
 
     // Download file PDF dengan nama document-letter.pdf
-    return $pdf->download('document-rab.pdf');
+    // return $pdf->download('document-rab.pdf');
+    return $pdf->stream('document-rab.pdf');
   }
 }
