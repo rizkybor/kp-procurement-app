@@ -40,13 +40,19 @@
         }
 
         .signature {
-            margin-top: 30px;
+            margin-top: 100px;
             text-align: center;
         }
 
         .signature div {
             display: inline-block;
             width: 45%;
+        }
+
+        ol {
+            padding-left: 0;
+            margin-left: 20px;
+            /* Sesuaikan sesuai kebutuhan */
         }
     </style>
 </head>
@@ -130,12 +136,14 @@
             </tbody>
         </table>
 
-        <p><em>Lampiran:</em></p>
+        <p><em> Lampiran:</em></p>
         <ol>
-            <li><em>Rencana Anggaran Biaya (RAB)</em></li>
-            <li><em>Bukti Ketersediaan Anggaran (RKAP/Project Charter)</em></li>
-            <li><em>KAK / Spesifikasi Teknis</em></li>
-            <li><em>Bill of Quantity (BQ)</em></li>
+            <em>
+                <li>Rencana Anggaran Biaya (RAB)</li>
+                <li>Bukti Ketersediaan Anggaran (RKAP/Project Charter)</li>
+                <li>KAK / Spesifikasi Teknis</li>
+                <li>Bill of Quantity (BQ)</li>
+            </em>
         </ol>
 
         <div class="signature">
