@@ -130,13 +130,13 @@
             </tbody>
             <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
                 <tr>
-                    <td class="p-2 whitespace-nowrap"></td>
-                    <td class="p-2 whitespace-nowrap"></td>
-                    <td class="p-2 whitespace-nowrap"></td>
-                    <td class="p-2 whitespace-nowrap text-center"><strong>Sub Total :</strong></td>
-                    <td class="p-2 whitespace-nowrap"></td>
-                    <td class="p-2 whitespace-nowrap text-center">Rp. </td>
+                    <td class="p-2 whitespace-nowrap border-none" colspan="4" style="text-align: right;"><strong>Sub
+                            Total :</strong>
+                    </td>
+                    <td class="p-2 whitespace-nowrap text-center" colspan="2"><strong>Rp. </strong></td>
                 </tr>
+
+
             </tbody>
         </table>
 
