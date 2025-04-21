@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 
+@php
+    \Carbon\Carbon::setLocale('id');
+@endphp
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,7 +73,7 @@
             <tr>
                 <td class="header" style="border: none;">
                     <h2>FORMULIR PERMINTAAN</h2>
-                    <h2>PEKERJAAN ...............</h2>
+                    <h2>PEKERJAAN {{ strtoupper($workRequest->work_name_request) }}</h2>
                 </td>
             </tr>
         </table>
@@ -77,35 +81,40 @@
         <table width="100%" border="0" style="border-collapse: collapse;">
             <tr>
                 <td style="border: none;">Bagian/Divisi</td>
-                <td style="border: none;">: {{ $bagian ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->department ?? '...' }}</td>
                 <td style="border: none;">Nomor</td>
-                <td style="border: none;">: {{ $nomor ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->request_number ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="border: none;">Judul Proyek</td>
-                <td style="border: none;">: {{ $judul_proyek ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->project_title ?? '...' }}</td>
                 <td style="border: none;">Tanggal</td>
-                <td style="border: none;">: {{ $tanggal ?? '...' }}</td>
+                <td style="border: none;">
+                    : {{ \Carbon\Carbon::parse($workRequest->request_date)->translatedFormat('l, d F Y') ?? '...' }}
+                </td>
+
             </tr>
             <tr>
                 <td style="border: none;">Pemilik Proyek</td>
-                <td style="border: none;">: {{ $pemilik_proyek ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->project_owner ?? '...' }}</td>
                 <td style="border: none;">Tenggat</td>
-                <td style="border: none;">: {{ $tenggat ?? '...' }}</td>
+                <td style="border: none;">:
+                    {{ \Carbon\Carbon::parse($workRequest->deadline)->translatedFormat('l, d F Y') ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="border: none;">No. Kontrak</td>
-                <td style="border: none;">: {{ $no_kontrak ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->contract_number ?? '...' }}</td>
                 <td style="border: none;">PIC</td>
-                <td style="border: none;">: {{ $pic ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->pic ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="border: none;">Jenis Pengadaan</td>
-                <td style="border: none;">: Barang/Jasa*</td>
+                <td style="border: none;">: {{ $workRequest->procurement_type ?? '...' }}</td>
                 <td style="border: none;">Aanwijzing</td>
-                <td style="border: none;">: Ya/Tidak*</td>
+                <td style="border: none;">: {{ $workRequest->aanwijzing ?? '...' }}</td>
             </tr>
         </table>
+
 
         <table>
             <thead>
@@ -118,23 +127,22 @@
                 </tr>
             </thead>
             <tbody>
-                @if (!empty($items) && count($items) > 0)
-                    @foreach ($items as $index => $item)
-                        <tr>
-                            <td style="text-align: center;">{{ $index + 1 }}</td>
-                            <td>{{ $item['deskripsi'] }}</td>
-                            <td style="text-align: center;">{{ $item['jumlah'] }}</td>
-                            <td style="text-align: center;">{{ $item['satuan'] }}</td>
-                            <td>{{ $item['keterangan'] }}</td>
-                        </tr>
-                    @endforeach
-                @else
+                @forelse ($workRequest->workRequestItems as $index => $item)
+                    <tr>
+                        <td style="text-align: center;">{{ $index + 1 }}</td>
+                        <td>{{ $item->item_name }}</td>
+                        <td style="text-align: center;">{{ $item->quantity }}</td>
+                        <td style="text-align: center;">{{ $item->unit }}</td>
+                        <td>{{ $item->description }}</td>
+                    </tr>
+                @empty
                     <tr>
                         <td colspan="5" style="text-align: center;">Tidak ada data tersedia.</td>
                     </tr>
-                @endif
+                @endforelse
             </tbody>
         </table>
+
 
         <p><em> Lampiran:</em></p>
         <ol>

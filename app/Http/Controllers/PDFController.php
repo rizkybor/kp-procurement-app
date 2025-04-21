@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WorkRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,18 @@ class PDFController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function generateRequest()
+  public function generateRequest($id)
   {
+    $workRequest = WorkRequest::with([
+      'User',
+      'workRequestItems',
+      'workRequestRab',
+      'workRequestSignatures',
+      'workRequestSpesifications'
+    ])->findOrFail($id);
+
     $data = [
-      'title' => 'Contoh PDF',
-      'content' => 'Ini adalah contoh PDF dalam Laravel 10.'
+      'workRequest' => $workRequest
     ];
 
     // Load Blade view dari folder templates
@@ -27,11 +35,16 @@ class PDFController extends Controller
     return $pdf->stream('document-form-request.pdf');
   }
 
-  public function generateRab()
+  public function generateRab($id)
   {
+    $workRequest = WorkRequest::with([
+      'User',
+      'workRequestItems',
+      'workRequestRab'
+    ])->findOrFail($id);
+
     $data = [
-      'title' => 'Contoh PDF',
-      'content' => 'Ini adalah contoh PDF dalam Laravel 10.'
+      'workRequest' => $workRequest
     ];
 
     // Load Blade view dari folder templates
