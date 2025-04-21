@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
+
+use App\Exports\WorkRequestExport;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestItem;
 use Illuminate\Http\Request;
@@ -153,5 +156,16 @@ class WorkRequestController extends Controller
     {
         $romans = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
         return $romans[$month - 1];
+    }
+
+    public function export(Request $request)
+    {
+        $ids = $request->query('ids');
+
+        if (!$ids) {
+            return back()->with('error', 'Tidak ada data yang dipilih untuk diexport.');
+        }
+
+        return Excel::download(new WorkRequestExport($ids), 'work_request_documents.xlsx');
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
 
 use App\Http\Controllers\WorkRequestController;
+use App\Http\Controllers\WorkRequestDataTableController;
 use App\Http\Controllers\WorkRequestItemController;
 use App\Http\Controllers\WorkRequestRabController;
 use App\Http\Controllers\WorkRequestSpesificationController;
@@ -51,6 +52,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     */
 
     Route::prefix('work_request')->name('work_request.')->group(function () {
+
+        Route::get('/datatable', [WorkRequestDataTableController::class, 'index'])->name('datatable');
+
+        Route::get('/export/data', [WorkRequestController::class, 'export'])->name('export');
 
         Route::resource('/', WorkRequestController::class)->except(['show', 'edit'])->parameters(['' => 'id'])->names([
             'index' => 'index',
