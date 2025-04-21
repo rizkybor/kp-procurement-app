@@ -28,9 +28,9 @@ class WorkRequestDataTableController extends Controller
     // ✅ Query utama
     $query = WorkRequest::query()
       ->with(['workRequestItems', 'workRequestRab', 'workRequestSignatures', 'User'])
-      ->where('created_by', $user->id)
-      ->select('work_request.*')
-      ->orderBy('request_date', 'desc');
+      ->where('created_by', $user->id);
+    // ->select('work_request.*')
+    // ->orderBy('request_date', 'desc');
 
     // ✅ Gunakan DataTables untuk proses data
     $data = DataTables::eloquent($query)
@@ -55,13 +55,6 @@ class WorkRequestDataTableController extends Controller
       ->addColumn('total_rab', function ($row) {
         return 'Rp ' . number_format($row->total_rab, 2, ',', '.');
       })
-
-      // ->addColumn('status', function ($row) {
-      //   // Assuming you have a status field or can determine status from signatures
-      //   // You might need to adjust this based on your actual status logic
-      //   $status = 'draft'; // Default status
-      //   return view('components.label-status-table', ['status' => $status])->render();
-      // })
 
       // 🔍 FILTERING
       ->filterColumn('request_number', function ($query, $keyword) {
@@ -88,7 +81,7 @@ class WorkRequestDataTableController extends Controller
         $query->whereRaw('LOWER(pic) LIKE ?', ["%" . strtolower($keyword) . "%"]);
       })
 
-      ->rawColumns(['status'])
+
       ->make(true);
 
     // 🚀 Simpan hasil query ke Redis selama 1 jam (hanya jika tidak ada pencarian)
