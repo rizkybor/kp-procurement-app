@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 
+@php
+    \Carbon\Carbon::setLocale('id');
+@endphp
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,7 +67,7 @@
             <tr>
                 <td class="header" style="border: none;">
                     <h2>RENCANA ANGGARAN BIAYA (RAB)</h2>
-                    <h2>PEKERJAAN ...............</h2>
+                    <h2>PEKERJAAN {{ strtoupper($workRequest->work_name_request) }}</h2>
                 </td>
             </tr>
         </table>
@@ -71,74 +75,113 @@
         <table width="100%" border="0" style="border-collapse: collapse; margin: auto;">
             <tr>
                 <td style="width: 30%; border: none;">Bagian/Divisi</td>
-                <td style="width: 70%; border: none;">: {{ $bagian ?? '...' }}</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->department ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">Judul Proyek</td>
-                <td style="width: 70%; border: none;">: {{ $judul_proyek ?? '...' }}</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->project_title ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">Pemilik Proyek</td>
-                <td style="width: 70%; border: none;">: {{ $pemilik_proyek ?? '...' }}</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->project_owner ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">No. Kontrak</td>
-                <td style="width: 70%; border: none;">: {{ $no_kontrak ?? '...' }}</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->contract_number ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">Jenis Pengadaan</td>
-                <td style="width: 70%; border: none;">: Barang/Jasa*</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->procurement_type ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">Nomor Permintaan</td>
-                <td style="width: 70%; border: none;">: {{ $nomor ?? '...' }}</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->request_number ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">Tanggal</td>
-                <td style="width: 70%; border: none;">: {{ $tanggal ?? '...' }}</td>
+                <td style="width: 70%; border: none;">:
+                    {{ \Carbon\Carbon::parse($workRequest->request_date)->translatedFormat('l, d F Y') ?? '...' }}</td>
             </tr>
         </table>
 
-        <table>
-            <thead>
+        @php
+            $subTotal = $workRequest->workRequestRab->sum('total_harga');
+        @endphp
+
+        <table class="table-auto w-full">
+            <!-- Table header -->
+            <thead
+                class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50">
                 <tr>
-                    <th>No.</th>
-                    <th>Deskripsi</th>
-                    <th>Jumlah</th>
-                    <th>Satuan</th>
-                    <th>Harga</th>
-                    <th>Total Harga</th>
+                    <th class="p-2 whitespace-nowrap">
+                        <div class="font-semibold text-center">No</div>
+                    </th>
+                    <th class="p-2 whitespace-nowrap">
+                        <div class="font-semibold text-left">Deskripsi</div>
+                    </th>
+                    <th class="p-2 whitespace-nowrap">
+                        <div class="font-semibold text-center">Jumlah</div>
+                    </th>
+                    <th class="p-2 whitespace-nowrap">
+                        <div class="font-semibold text-center">Satuan</div>
+                    </th>
+                    <th class="p-2 whitespace-nowrap">
+                        <div class="font-semibold text-center">Harga</div>
+                    </th>
+                    <th class="p-2 whitespace-nowrap">
+                        <div class="font-semibold text-center">Total Harga</div>
+                    </th>
                 </tr>
             </thead>
-            <tbody>
-                @if (!empty($items) && count($items) > 0)
-                    @foreach ($items as $index => $item)
-                        <tr>
-                            <td style="text-align: center;">{{ $index + 1 }}</td>
-                            <td>{{ $item['deskripsi'] }}</td>
-                            <td style="text-align: center;">{{ $item['jumlah'] }}</td>
-                            <td style="text-align: center;">{{ $item['satuan'] }}</td>
-                            <td style="text-align: center;">{{ $item['harga'] }}</td>
-                            <td style="text-align: center;">{{ $item['total_harga'] }}</td>
-                        </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="6" style="text-align: center;">Tidak ada data tersedia.</td>
-                    </tr>
-                @endif
-            </tbody>
+
+            <!-- Table body -->
             <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
-                <tr>
-                    <td class="p-2 whitespace-nowrap border-none" colspan="4" style="text-align: right;"><strong>Sub
-                            Total :</strong>
-                    </td>
-                    <td class="p-2 whitespace-nowrap text-center" colspan="2"><strong>Rp. </strong></td>
-                </tr>
-
-
+                @forelse ($workRequest->workRequestRab as $index => $item)
+                    <tr>
+                        <td class="p-2 whitespace-nowrap">
+                            <div class="text-center">{{ $index + 1 }}</div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                            <div class="text-left">{{ $item->workRequestItem->description }}</div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                            <div class="text-center">{{ $item->workRequestItem->quantity }}</div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                            <div class="text-center">{{ $item->workRequestItem->unit }}</div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                            <div class="text-center">Rp. {{ number_format($item->harga, 0, ',', '.') }}</div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                            <div class="text-center">Rp. {{ number_format($item->total_harga, 0, ',', '.') }}</div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="p-2 text-center">Tidak ada data tersedia.</td>
+                    </tr>
+                @endforelse
             </tbody>
+
+            <!-- Subtotal -->
+            @if ($workRequest->workRequestRab->count())
+                <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
+                    <tr>
+                        <td colspan="4" class="p-2 whitespace-nowrap text-right">
+
+                        </td>
+                        <td colspan="1" class="p-2 whitespace-nowrap">
+                            <div class="text-center"><strong>Sub Total :</strong></div>
+                        </td>
+                        <td colspan="1" class="p-2 whitespace-nowrap text-center">
+                            <strong>Rp. {{ number_format($subTotal, 0, ',', '.') }}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            @endif
         </table>
+
 
 
         <p><em>Keterangan: Telah sesuai dengan RKAP/Project Charter dan penyesuaiannya</em></p>
