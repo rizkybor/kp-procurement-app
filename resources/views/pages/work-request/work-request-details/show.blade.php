@@ -75,6 +75,11 @@
                             Kembali
                         </x-button.button-action>
 
+                        <x-button.button-action color="yellow" type="button"
+                            onclick="window.location='{{ route('work_request.work_request_items.edit', $workRequest->id) }}'">
+                            Edit
+                        </x-button.button-action>
+
                         <x-button.button-action color="teal" type="button" onclick="window.location=''">
                             Process
                         </x-button.button-action>
