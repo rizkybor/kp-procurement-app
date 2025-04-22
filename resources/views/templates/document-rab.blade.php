@@ -159,7 +159,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="p-2 text-center">Tidak ada data tersedia.</td>
+                        <td colspan="6" class="p-2" style="text-align: center;">Tidak ada data tersedia.</td>
                     </tr>
                 @endforelse
             </tbody>
