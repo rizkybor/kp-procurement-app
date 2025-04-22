@@ -23,9 +23,9 @@ class WorkRequestExport implements FromCollection, WithHeadings
       ->map(function ($workRequest) {
         return [
           'ID' => $workRequest->id,
-          'Nomor Permintaan' => $workRequest->request_number ?? '-',
+          'Nomor' => $workRequest->request_number ?? '-',
           'Nama Pekerjaan' => $workRequest->work_name_request ?? '-',
-          'Departemen' => $workRequest->department ?? '-',
+          'Bagian/Divisi' => $workRequest->department ?? '-',
           'Judul Proyek' => $workRequest->project_title ?? '-',
           'Pemilik Proyek' => $workRequest->project_owner ?? '-',
           'Jenis Pengadaan' => $workRequest->procurement_type ?? '-',
@@ -34,11 +34,10 @@ class WorkRequestExport implements FromCollection, WithHeadings
           'Tanggal Permintaan' => $workRequest->request_date
             ? \Carbon\Carbon::parse($workRequest->request_date)->format('d-m-Y')
             : '-',
-          'Batas Waktu' => $workRequest->deadline
+          'Tenggat' => $workRequest->deadline
             ? \Carbon\Carbon::parse($workRequest->deadline)->format('d-m-Y')
             : '-',
           'PIC' => $workRequest->pic ?? '-',
-          'Dibuat Pada' => $workRequest->created_at->format('d-m-Y H:i'),
         ];
       });
   }
