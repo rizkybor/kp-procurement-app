@@ -28,9 +28,10 @@ class WorkRequestDataTableController extends Controller
     // ✅ Query utama
     $query = WorkRequest::query()
       ->with(['workRequestItems', 'workRequestRab', 'workRequestSignatures', 'User'])
-      ->where('created_by', $user->id);
-    // ->select('work_request.*')
-    // ->orderBy('request_date', 'desc');
+      ->where('created_by', $user->id)
+      ->select('work_request.*')
+      ->orderBy('deadline', 'asc');
+
 
     // ✅ Gunakan DataTables untuk proses data
     $data = DataTables::eloquent($query)
