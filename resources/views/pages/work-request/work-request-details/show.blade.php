@@ -108,11 +108,9 @@
                     </div>
                 </div>
             </div>
-
-            {{-- Content based on selected tab --}}
-            <div>
-                @yield('content')
-            </div>
-
+        </div>
+        {{-- Content based on selected tab --}}
+        <div>
+            @yield('content')
         </div>
 </x-app-layout>
