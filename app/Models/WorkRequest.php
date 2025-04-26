@@ -56,4 +56,19 @@ class WorkRequest extends Model
     {
         return $this->hasMany(WorkRequestSpesification::class, 'work_request_id');
     }
+
+    public function approvals()
+    {
+        return $this->morphMany(DocumentApproval::class, 'document');
+    }
+
+    public function latestApproval()
+    {
+        return $this->morphOne(DocumentApproval::class, 'document')->latestOfMany();
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(DocHistories::class, 'document_id');
+    }
 }

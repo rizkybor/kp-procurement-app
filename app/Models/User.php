@@ -68,4 +68,28 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Relasi ke approval sebagai approver.
+     */
+    public function approvals()
+    {
+        return $this->hasMany(DocumentApproval::class, 'approver_id');
+    }
+
+    /**
+     * Relasi ke approval sebagai submitter (pengaju approval).
+     */
+    public function submittedApprovals()
+    {
+        return $this->hasMany(DocumentApproval::class, 'submitter_id');
+    }
+
+    /**
+     * Relasi ke notifikasi sebagai pengirim.
+     */
+    public function sentNotifications()
+    {
+        return $this->hasMany(Notification::class, 'sender_id');
+    }
 }

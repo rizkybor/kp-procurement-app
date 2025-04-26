@@ -81,6 +81,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             'destroy' => 'destroy',
         ]);
 
+        Route::put('/process/{id}', [WorkRequestController::class, 'processApproval'])->name('processApproval');
+        Route::put('/revision/{id}', [WorkRequestController::class, 'processRevision'])->name('processRevision');
+
         // Route Print PDF Form Request dan RAB
         Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');;
         Route::get('/{id}/print-rab', [PDFController::class, 'generateRab'])->name('print-rab');;
