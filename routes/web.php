@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\TestController;
 
@@ -44,6 +45,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Work Request - work_request.index
     // Route::resource('work_request', WorkRequestController::class);
     // Route::resource('work_request_items', WorkRequestItemController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/json', [NotificationController::class, 'getNotificationsJson'])->name('notifications.getNotificationsJson');
+    Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])
+        ->name('notifications.markAsRead');
+    Route::get('/notifications/unread-count', [NotificationController::class, 'getUnreadNotificationsCount']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::post('/notifications/clear-all', [NotificationController::class, 'clearAll'])->name('notifications.clearAll');
 
     /*
     |--------------------------------------------------------------------------
