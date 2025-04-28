@@ -203,9 +203,9 @@ class WorkRequestController extends Controller
             }
 
             // Validasi role
-            if ($currentRole !== 'maker' && $userRole !== $currentRole) {
-                return back()->with('error', "Anda tidak memiliki izin untuk menyetujui dokumen ini.");
-            }
+            // if ($currentRole !== 'maker' && $userRole !== $currentRole) {
+            //     return back()->with('error', "Anda tidak memiliki izin untuk menyetujui dokumen ini.");
+            // }
 
             // Tentukan next role
             $nextRole = $this->getNextApprovalRole($currentRole, $user->department, false, $document->total_rab);
@@ -281,8 +281,8 @@ class WorkRequestController extends Controller
         ];
 
         $normalFlow = [
-            'manager' => 'keuangan_administrasi',
-            'keuangan_administrasi' => 'fungsi_pengadaan',
+            'manager' => 'direktur_keuangan',
+            'direktur_keuangan' => 'fungsi_pengadaan',
             'fungsi_pengadaan' => null // Final step
         ];
 
@@ -300,7 +300,7 @@ class WorkRequestController extends Controller
         return [
             '0'   => 'draft',               // Draft status
             '1'   => 'manager',             // Manager approval
-            '2'   => 'keuangan_administrasi', // Finance approval
+            '2'   => 'direktur_keuangan', // Finance approval
             '3'   => 'direktur_utama',      // Director approval (only for RAB > 500jt)
             '4'   => 'fungsi_pengadaan',    // Procurement final approval
             '5'   => 'done',                // Completed status
