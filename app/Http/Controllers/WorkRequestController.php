@@ -93,6 +93,7 @@ class WorkRequestController extends Controller
         $input = $request->all();
         $input['created_by'] = auth()->id();
         $input['request_number'] = $numberFormat;
+        $input['status'] = $request->status ?? 0;
 
         $workRequest = WorkRequest::create($input);
 

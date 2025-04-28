@@ -52,6 +52,7 @@ class WorkRequestSeeder extends Seeder
                 'time_period' => ($i + 1) . ' Bulan',
                 'created_at' => Carbon::now()->addDays($i),
                 'updated_at' => Carbon::now()->addDays($i),
+                'status'         => 0,
             ];
 
             $nextNumber += 10; // Increment by 10 for the next record

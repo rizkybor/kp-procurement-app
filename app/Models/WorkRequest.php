@@ -25,6 +25,7 @@ class WorkRequest extends Model
         'aanwijzing',
         'time_period',
         'created_by',
+        'status',
     ];
 
     public function User()
