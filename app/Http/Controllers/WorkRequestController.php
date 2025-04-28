@@ -263,23 +263,33 @@ class WorkRequestController extends Controller
      */
     private function getNextApprovalRole($currentRole, $department = null, $isRevised = false, $totalRab = 0)
     {
+        // Jika dokumen direvisi, kembalikan ke role sebelumnya
         if ($isRevised) {
             return $currentRole;
         }
 
-        // Alur dasar untuk semua dokumen
+        // Alur untuk maker (selalu ke manager)
         if ($currentRole === 'maker') {
             return 'manager';
         }
 
-        // Alur setelah manager
-        $flow = [
-            'manager' => 'keuangan_administrasi',
-            'keuangan_administrasi' => ($totalRab > 500000000) ? 'direktur_utama' : 'fungsi_pengadaan',
-            'direktur_utama' => 'fungsi_pengadaan'
+        // Definisikan dua alur berbeda berdasarkan totalRab
+        $highValueFlow = [
+            'manager' => 'direktur_utama',
+            'direktur_utama' => 'fungsi_pengadaan',
+            'fungsi_pengadaan' => null // Final step
         ];
 
-        return $flow[$currentRole] ?? null;
+        $normalFlow = [
+            'manager' => 'keuangan_administrasi',
+            'keuangan_administrasi' => 'fungsi_pengadaan',
+            'fungsi_pengadaan' => null // Final step
+        ];
+
+        // Pilih alur berdasarkan totalRab
+        $selectedFlow = ($totalRab > 500000000) ? $highValueFlow : $normalFlow;
+
+        return $selectedFlow[$currentRole] ?? null;
     }
 
     /**
