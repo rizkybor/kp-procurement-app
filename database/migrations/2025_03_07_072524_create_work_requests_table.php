@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('aanwijzing', 255);
             $table->string('time_period', 255)->nullable();
             $table->string('status', 255);
+            $table->string('last_reviewers', 255)->nullable();
             $table->timestamps();
         });
     }

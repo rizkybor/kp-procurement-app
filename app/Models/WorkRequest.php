@@ -26,6 +26,7 @@ class WorkRequest extends Model
         'time_period',
         'created_by',
         'status',
+        'last_reviewers',
     ];
 
     public function User()

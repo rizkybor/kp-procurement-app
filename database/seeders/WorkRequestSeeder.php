@@ -53,6 +53,7 @@ class WorkRequestSeeder extends Seeder
                 'created_at' => Carbon::now()->addDays($i),
                 'updated_at' => Carbon::now()->addDays($i),
                 'status'         => 0,
+                'last_reviewers' => null,
             ];
 
             $nextNumber += 10; // Increment by 10 for the next record
