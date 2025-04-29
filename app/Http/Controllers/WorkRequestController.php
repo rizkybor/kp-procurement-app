@@ -202,11 +202,6 @@ class WorkRequestController extends Controller
                 return back()->with('info', "Dokumen ini sudah final.");
             }
 
-            // Validasi role
-            // if ($currentRole !== 'maker' && $userRole !== $currentRole) {
-            //     return back()->with('error', "Anda tidak memiliki izin untuk menyetujui dokumen ini.");
-            // }
-
             // Tentukan next role
             $nextRole = $this->getNextApprovalRole($currentRole, $user->department, false, $document->total_rab);
 
@@ -219,6 +214,18 @@ class WorkRequestController extends Controller
             if ($statusCode === false) {
                 $statusCode = '1'; // Default ke manager approval
             }
+
+            // Jika status sama, cari status berikutnya
+            if ($previousStatus == $statusCode) {
+                $nextRole = $this->getNextApprovalRole($nextRole, $user->department, false, $document->total_rab);
+                if ($nextRole) {
+                    $statusCode = array_search($nextRole, $this->approvalStatusMap());
+                }
+            }
+
+            // Mendapatkan name
+            $approvalMap = $this->approvalStatusMap();
+            $nextRoleName = $approvalMap[$statusCode] ?? 'unknown';
 
             // Simpan approval
             DocumentApproval::create([
@@ -234,7 +241,7 @@ class WorkRequestController extends Controller
 
             // Update dokumen
             $document->update([
-                'last_reviewers' => $nextRole,
+                'last_reviewers' => $nextRoleName,
                 'status' => $statusCode,
             ]);
 
@@ -250,7 +257,7 @@ class WorkRequestController extends Controller
             ]);
 
             DB::commit();
-            return back()->with('success', "Dokumen berhasil diapprove dan dikirim ke {$nextRole}");
+            return back()->with('success', "Dokumen berhasil diapprove dan dikirim ke {$nextRoleName}");
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("Approval error: " . $e->getMessage());
@@ -273,7 +280,7 @@ class WorkRequestController extends Controller
             return 'manager';
         }
 
-        // Definisikan dua alur berbeda berdasarkan totalRab
+        // Definisikan alur approval
         $highValueFlow = [
             'manager' => 'direktur_utama',
             'direktur_utama' => 'fungsi_pengadaan',
@@ -289,7 +296,12 @@ class WorkRequestController extends Controller
         // Pilih alur berdasarkan totalRab
         $selectedFlow = ($totalRab > 500000000) ? $highValueFlow : $normalFlow;
 
-        return $selectedFlow[$currentRole] ?? null;
+        // Pastikan current role ada dalam alur yang dipilih
+        if (!array_key_exists($currentRole, $selectedFlow)) {
+            return null;
+        }
+
+        return $selectedFlow[$currentRole];
     }
 
     /**
