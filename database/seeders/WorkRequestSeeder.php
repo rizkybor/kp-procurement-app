@@ -15,32 +15,39 @@ class WorkRequestSeeder extends Seeder
      */
     public function run()
     {
-        $users = [1, 2]; // Assuming users with ID 1 and 2 exist
+        // Penyesuaian: user_id 1 untuk SDM & HR, user_id 2 untuk Finance & lainnya
+        $userSdm = 1;
+        $userFinance = 2;
+
         $departments = [
-            'IT Department',
-            'Marketing Department',
-            'Finance Department',
-            'HR Department',
-            'Sales Department',
-            'Inventory Department',
-            'Logistics Department',
+            'HR Department',          // SDM → user 1
+            'Finance Department',     // Finance → user 2
+            'IT Department',          // Finance → user 2
+            'Marketing Department',   // Finance → user 2
+            'Sales Department',       // Finance → user 2
+            'Inventory Department',   // Finance → user 2
+            'Logistics Department',   // Finance → user 2
         ];
 
         $workRequests = [];
-        $nextNumber = 10; // Start with the first number
+        $nextNumber = 10;
 
         for ($i = 0; $i < 15; $i++) {
             $monthRoman = $this->convertToRoman(Carbon::now()->month);
             $year = Carbon::now()->year;
 
-            // Format nomor dokumen
+            $department = $departments[$i % count($departments)];
+
+            // Tetapkan user berdasarkan departemen
+            $createdBy = str_contains(strtolower($department), 'hr') ? $userSdm : $userFinance;
+
             $numberFormat = sprintf("%04d.FP-KPU-%s-%s", $nextNumber, $monthRoman, $year);
 
             $workRequests[] = [
-                'created_by' => $users[$i % count($users)],
+                'created_by' => $createdBy,
                 'work_name_request' => 'Pekerjaan ' . ($i + 1),
                 'request_number' => $numberFormat,
-                'department' => $departments[$i % count($departments)],
+                'department' => $department,
                 'project_title' => 'Proyek ' . ($i + 1),
                 'project_owner' => 'Owner ' . ($i + 1),
                 'contract_number' => 'CN-2025-' . str_pad($i + 1, 3, '0', STR_PAD_LEFT),
@@ -56,7 +63,7 @@ class WorkRequestSeeder extends Seeder
                 'last_reviewers' => null,
             ];
 
-            $nextNumber += 10; // Increment by 10 for the next record
+            $nextNumber += 10;
         }
 
         DB::table('work_request')->insert($workRequests);
