@@ -29,9 +29,15 @@ class WorkRequest extends Model
         'last_reviewers',
     ];
 
+    // public function User()
+    // {
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
+
     public function User()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        // Assuming created_by is the foreign key to users table
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function workRequestItems()

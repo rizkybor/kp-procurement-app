@@ -27,13 +27,28 @@ class WorkRequestDataTableController extends Controller
 
     // ✅ Query utama
     $query = WorkRequest::query()
-      ->with(['workRequestItems', 'workRequestRab', 'workRequestSignatures', 'User'])
-      ->where(function ($query) use ($user) {
-        $query->where('created_by', $user->id)
-          ->orWhere('last_reviewers', 'LIKE', '%' . $user->role . '%'); // Cek manual LIKE
+      ->with(['workRequestItems', 'workRequestRab', 'workRequestSignatures', 'user'])
+      ->where(function ($q) use ($user) {
+        // Dokumen yang dibuat oleh user tersebut
+        $q->where('created_by', $user->id);
+
+        // Untuk role maker dan manager, filter berdasarkan department yang sama
+        if (in_array($user->role, ['maker', 'manager'])) {
+          $q->orWhere(function ($q2) use ($user) {
+            $q2->where('last_reviewers', 'LIKE', '%' . $user->role . '%')
+              ->whereHas('user', function ($q3) use ($user) {
+                $q3->where('department', $user->department);
+              });
+          });
+        }
+        // Untuk role direktur_keuangan, direktur_utama, dan fungsi_pengadaan, tampilkan semua dokumen
+        else {
+          $q->orWhere('last_reviewers', 'LIKE', '%' . $user->role . '%');
+        }
       })
-      ->select('work_request.*')
       ->orderBy('deadline', 'asc');
+
+
 
     // ✅ Gunakan DataTables untuk proses data
     $data = DataTables::eloquent($query)
