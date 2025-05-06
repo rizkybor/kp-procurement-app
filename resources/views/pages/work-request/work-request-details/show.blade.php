@@ -1,24 +1,42 @@
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
-        <!-- Button Kembali -->
+        <!-- Status Dokumen & Button Back -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
             <!-- Kiri -->
-            <div class="mb-4 sm:mb-0 space-y-2">
-                <h1 class="text-l md:text-l text-gray-800 dark:text-gray-100 flex items-center gap-2">
-                    Status Dokumen :
-                    <x-label-status :status="$workRequest->status" />
-                </h1>
-                <h1 class="text-m md:text-m text-gray-800 dark:text-gray-100">
-                    Total Rab : Rp. {{ number_format($totalRab, 0, ',', '.') }}
-                </h1>
-                <h1 class="text-m md:text-m text-gray-800 dark:text-gray-100">
-                    Dibuat Oleh : {{ $workRequest->user->name }} ({{ $workRequest->user->department }})
-                </h1>
+            <div class="w-full sm:w-1/2 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5">
+                <div class="grid grid-cols-2 gap-4">
+                    {{-- Dibuat Oleh --}}
+                    <div>
+                        <x-label for="transaction_status" value="{{ __('Dibuat Oleh') }}"
+                            class="text-gray-800 dark:text-gray-100" />
+                        <p class="text-m md:text-m text-gray-800 dark:text-gray-100 font-bold">
+                            {{ $workRequest->user->name }} ({{ $workRequest->user->department }})
+                        </p>
+                    </div>
+
+                    {{-- Status Dokumen --}}
+                    <div>
+                        <x-label for="document_status" value="{{ __('Status Dokumen') }}"
+                            class="text-gray-800 dark:text-gray-100" />
+                        <x-label-status :status="$workRequest->status" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    {{-- Total RAB --}}
+                    <div>
+                        <x-label for="transaction_status" value="{{ __('Total RAB') }}"
+                            class="text-gray-800 dark:text-gray-100" />
+                        <p class="text-m md:text-m text-gray-800 dark:text-gray-100 font-bold">
+                            Rp. {{ number_format($totalRab, 0, ',', '.') }}
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <!-- Kanan (Tombol) -->
-            <div class="flex justify-start sm:justify-end gap-2">
+            <div class="flex justify-start sm:justify-end gap-2 mt-5">
                 <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
                     Kembali
                 </x-button.secondary-button>
@@ -28,7 +46,6 @@
         <!-- Navbar-style tabs -->
         <div class="border-b mb-8">
             <div class="mb-4">
-
                 <div class="flex justify-between items-center">
                     <!-- Tabs (Hidden on mobile) -->
                     <div class="hidden md:flex space-x-8">
