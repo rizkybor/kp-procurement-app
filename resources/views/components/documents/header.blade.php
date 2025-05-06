@@ -1,0 +1,85 @@
+@props(['workRequest', 'printOptions', 'isEditable' => false, 'isShowPage' => false])
+
+@php
+    $printOptions = [
+        [
+            'label' => 'Surat Permintaan',
+            'route' => route('work_request.print-form-request', $workRequest->id),
+        ],
+        [
+            'label' => 'Surat Rab',
+            'route' => route('work_request.print-rab', $workRequest->id),
+        ],
+    ];
+@endphp
+
+<div class="flex gap-2">
+    {{-- <x-button.button-action color="red" type="button" onclick="window.location='{{ route('work_request.index') }}'">
+        Kembali
+    </x-button.button-action> --}}
+
+    <x-button.button-action color="teal" type="button"
+        onclick="window.location='{{ route('work_request.work_request_items.show', $workRequest->id) }}'">
+        Process
+    </x-button.button-action>
+
+    <x-button.button-action color="yellow" type="button"
+        onclick="window.location='{{ route('work_request.work_request_items.edit', $workRequest->id) }}'">
+        Edit
+    </x-button.button-action>
+
+    <x-button.button-action color="green" icon="send"
+        data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Process Document"
+        data-button-text="Process"
+        data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
+        onclick="openModal(this)">
+        Process
+    </x-button.button-action>
+
+    {{-- Cetak Dokumen --}}
+    <div x-data="{ open: false }" class="relative">
+        <x-button.button-action @click="open = !open" color="blue" icon="print">
+            Cetak Dokumen
+        </x-button.button-action>
+
+        <div x-show="open" @click.away="open = false"
+            class="absolute z-10 mt-2 bg-white border rounded-lg shadow-lg w-56">
+            <ul class="py-2 text-gray-700">
+                @foreach ($printOptions as $option)
+                    <li>
+                        <a href="{{ $option['route'] }}" target="_blank"
+                            class="block px-4 py-2 hover:bg-blue-500 hover:text-white">
+                            {{ $option['label'] }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(button) {
+        let actionRoute = button.getAttribute('data-action');
+        let modalTitle = button.getAttribute('data-title');
+        let buttonText = button.getAttribute('data-button-text');
+        let buttonColor = button.getAttribute('data-button-color');
+
+        document.querySelector('#modalForm').setAttribute('action', actionRoute);
+        document.querySelector('#modalTitle').innerText = modalTitle;
+        document.querySelector('#modalSubmitButton').innerText = buttonText;
+        document.querySelector('#modalSubmitButton').setAttribute('data-button-color',
+            buttonColor);
+        document.querySelector('#modalSubmitButton').classList.remove('bg-green-500', 'hover:bg-green-600',
+            'bg-orange-500', 'hover:bg-orange-600', 'dark:bg-orange-500', 'dark:hover:bg-orange-600',
+            'dark:focus:ring-orange-700', 'dark:bg-green-500', 'dark:hover:bg-green-600',
+            'dark:focus:ring-green-700');
+        document.querySelector('#modalSubmitButton').classList.add(...buttonColor.split(' '));
+
+        document.querySelector('#modalOverlay').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.querySelector('#modalOverlay').classList.add('hidden');
+    }
+</script>

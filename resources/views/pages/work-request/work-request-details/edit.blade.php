@@ -1,6 +1,13 @@
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
+        <!-- Button Kembali -->
+        <div class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2 mb-5">
+            <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
+                Kembali
+            </x-button.secondary-button>
+        </div>
+
         <!-- Navbar-style tabs -->
         <div class="border-b mb-8">
             <div class="mb-4">
@@ -56,17 +63,7 @@
                     </div>
 
                     <!-- Actions -->
-                    <div class="flex gap-2">
-                        <x-button.button-action color="red" type="button"
-                            onclick="window.location='{{ route('work_request.index') }}'">
-                            Kembali
-                        </x-button.button-action>
-
-                        <x-button.button-action color="teal" type="button"
-                            onclick="window.location='{{ route('work_request.work_request_items.show', $workRequest->id) }}'">
-                            Process
-                        </x-button.button-action>
-                    </div>
+                    <x-documents.header :workRequest="$workRequest" />
                 </div>
             </div>
         </div>
