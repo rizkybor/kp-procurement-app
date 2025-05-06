@@ -21,7 +21,7 @@ use App\Exports\WorkRequestExport;
 use App\Models\User;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestItem;
-
+use App\Models\WorkRequestRab;
 
 class WorkRequestController extends Controller
 {
@@ -111,8 +111,14 @@ class WorkRequestController extends Controller
         $workRequest = WorkRequest::findOrFail($id);
         $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
 
+        $rabRequest = WorkRequestRab::with('workRequestItem')
+            ->where('work_request_id', $id)
+            ->get();
+
+        $totalRab = $rabRequest->sum('total_harga');
+
         // Kirim data ke view
-        return view('pages.work-request.work-request-details.request.show', compact('workRequest', 'itemRequest'));
+        return view('pages.work-request.work-request-details.request.show', compact('workRequest', 'itemRequest', 'totalRab'));
     }
 
     /**

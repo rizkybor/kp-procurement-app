@@ -2,10 +2,27 @@
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
         <!-- Button Kembali -->
-        <div class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2 mb-5">
-            <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
-                Kembali
-            </x-button.secondary-button>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+            <!-- Kiri -->
+            <div class="mb-4 sm:mb-0 space-y-2">
+                <h1 class="text-l md:text-l text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                    Status Dokumen :
+                    <x-label-status :status="$workRequest->status" />
+                </h1>
+                <h1 class="text-m md:text-m text-gray-800 dark:text-gray-100">
+                    Total Rab : Rp. {{ number_format($totalRab, 0, ',', '.') }}
+                </h1>
+                <h1 class="text-m md:text-m text-gray-800 dark:text-gray-100">
+                    Dibuat Oleh : {{ $workRequest->user->name }} ({{ $workRequest->user->department }})
+                </h1>
+            </div>
+
+            <!-- Kanan (Tombol) -->
+            <div class="flex justify-start sm:justify-end gap-2">
+                <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
+                    Kembali
+                </x-button.secondary-button>
+            </div>
         </div>
 
         <!-- Navbar-style tabs -->
@@ -74,4 +91,5 @@
         <div>
             @yield('content')
         </div>
+    </div>
 </x-app-layout>

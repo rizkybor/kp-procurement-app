@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\WorkRequest;
+use App\Models\WorkRequestRab;
 use App\Models\WorkRequestSpesification;
 use Illuminate\Http\Request;
 
@@ -59,7 +60,13 @@ class WorkRequestSpesificationController extends Controller
         $workRequest = WorkRequest::findOrFail($id);
         $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
 
-        return view('pages.work-request.work-request-details.spesification.show', compact('workRequest', 'specRequest'));
+        $rabRequest = WorkRequestRab::with('workRequestItem')
+            ->where('work_request_id', $id)
+            ->get();
+
+        $totalRab = $rabRequest->sum('total_harga');
+
+        return view('pages.work-request.work-request-details.spesification.show', compact('workRequest', 'specRequest', 'totalRab'));
     }
 
     /**
