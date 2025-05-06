@@ -63,7 +63,7 @@
                     </div>
 
                     <!-- Actions -->
-                    <x-documents.header :workRequest="$workRequest" />
+                    <x-documents.header :workRequest="$workRequest" isEditable="true" />
                 </div>
             </div>
         </div>

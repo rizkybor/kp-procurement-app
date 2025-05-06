@@ -14,48 +14,53 @@
 @endphp
 
 <div class="flex gap-2">
-    {{-- <x-button.button-action color="red" type="button" onclick="window.location='{{ route('work_request.index') }}'">
-        Kembali
-    </x-button.button-action> --}}
-
-    <x-button.button-action color="teal" type="button"
-        onclick="window.location='{{ route('work_request.work_request_items.show', $workRequest->id) }}'">
-        Process
-    </x-button.button-action>
-
-    <x-button.button-action color="yellow" type="button"
-        onclick="window.location='{{ route('work_request.work_request_items.edit', $workRequest->id) }}'">
-        Edit
-    </x-button.button-action>
-
-    <x-button.button-action color="green" icon="send"
-        data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Process Document"
-        data-button-text="Process"
-        data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
-        onclick="openModal(this)">
-        Process
-    </x-button.button-action>
-
-    {{-- Cetak Dokumen --}}
-    <div x-data="{ open: false }" class="relative">
-        <x-button.button-action @click="open = !open" color="blue" icon="print">
-            Cetak Dokumen
+    @if ($isEditable)
+        <x-button.button-action color="teal" type="button" icon="right-arrow"
+            onclick="window.location='{{ route('work_request.work_request_items.show', $workRequest->id) }}'">
+            Process Dokumen
         </x-button.button-action>
+    @endif
 
-        <div x-show="open" @click.away="open = false"
-            class="absolute z-10 mt-2 bg-white border rounded-lg shadow-lg w-56">
-            <ul class="py-2 text-gray-700">
-                @foreach ($printOptions as $option)
-                    <li>
-                        <a href="{{ $option['route'] }}" target="_blank"
-                            class="block px-4 py-2 hover:bg-blue-500 hover:text-white">
-                            {{ $option['label'] }}
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+    @if ($isShowPage)
+        <div x-data="{ open: false }" class="relative">
+            <x-button.button-action @click="open = !open" color="blue" icon="print">
+                Cetak Dokumen
+            </x-button.button-action>
+
+            <div x-show="open" @click.away="open = false"
+                class="absolute z-10 mt-2 bg-white border rounded-lg shadow-lg w-56">
+                <ul class="py-2 text-gray-700">
+                    @foreach ($printOptions as $option)
+                        <li>
+                            <a href="{{ $option['route'] }}" target="_blank"
+                                class="block px-4 py-2 hover:bg-blue-500 hover:text-white">
+                                {{ $option['label'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
-    </div>
+    @endif
+
+    @if ($isShowPage)
+        <x-button.button-action color="yellow" type="button" icon="pencil"
+            onclick="window.location='{{ route('work_request.work_request_items.edit', $workRequest->id) }}'">
+            Edit Dokumen
+        </x-button.button-action>
+    @endif
+
+    @if ($isShowPage)
+        <x-button.button-action color="green" icon="send"
+            data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Process Document"
+            data-button-text="Process"
+            data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
+            onclick="openModal(this)">
+            Process
+        </x-button.button-action>
+    @endif
+
+    <x-modal.global.modal-proccess-global :workRequest="$workRequest" />
 </div>
 
 <script>

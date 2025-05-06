@@ -64,12 +64,12 @@
                     </div>
 
                     <!-- Actions -->
-                    <x-documents.header :workRequest="$workRequest" />
+                    <x-documents.header :workRequest="$workRequest" isShowPage="true" />
                 </div>
             </div>
         </div>
         <!-- Actions -->
-        <x-modal.global.modal-proccess-global :workRequest="$workRequest" />
+
         {{-- Content based on selected tab --}}
         <div>
             @yield('content')
