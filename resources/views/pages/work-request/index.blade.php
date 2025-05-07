@@ -260,43 +260,53 @@
                                 "{{ route('work_request.destroy', ['id' => '__ID__']) }}".replace(
                                     '__ID__', row.id);
 
-                            return `
+                            // Dapatkan role user dari Laravel
+                            let userRole = "{{ auth()->user()->role }}";
+
+                            // Button View selalu ditampilkan
+                            let buttons = `
                             <div class="text-center flex items-center justify-center gap-2">
-    <!-- View Button -->
-    <button class="bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600 transition-all duration-200"
-        onclick="window.location.href='${detailUrl}'">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-    </button>
+                                <!-- View Button -->
+                                <button class="bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600 transition-all duration-200"
+                                    onclick="window.location.href='${detailUrl}'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>`;
 
-    <!-- Edit Button -->
-    <button class="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition-all duration-200"
-        onclick="window.location.href='${editUrl}'">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-        </svg>
-    </button>
+                            // Tambahkan Edit dan Delete hanya untuk maker
+                            if (userRole === 'maker') {
+                                buttons +=
+                                    `
+                                <!-- Edit Button -->
+                                <button class="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition-all duration-200"
+                                    onclick="window.location.href='${editUrl}'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                        class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+                                </button>
 
-    <!-- Delete Button -->
-    <form action="${deleteUrl}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="hidden" name="_method" value="DELETE">
-        <button class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-all duration-200"
-            type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-            </svg>
-        </button>
-    </form>
-</div>
-      `;
+                                <!-- Delete Button -->
+                                <form action="${deleteUrl}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-all duration-200"
+                                        type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                            class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                        </svg>
+                                    </button>
+                                </form>
+                                `;
+                            }
+                            buttons += `</div>`;
+                            return buttons;
                         }
                     }
                 ],
@@ -319,19 +329,19 @@
                     <nav class="flex" role="navigation" aria-label="Navigation">
                         <div class="mr-2">
                             ${currentPage > 1 ? `
-                                                                                                                                                                                                                                                                                        <button onclick="table.page(${currentPage - 2}).draw(false)" 
-                                                                                                                                                                                                                                                                                            class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                                                                                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
-                                                                                                                                                                                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                                                                                                                                                                                                <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
-                                                                                                                                                                                                                                                                                            </svg>
-                                                                                                                                                                                                                                                                                        </button>` : `
-                                                                                                                                                                                                                                                                                        <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                                                                                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
-                                                                                                                                                                                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                                                                                                                                                                                                <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
-                                                                                                                                                                                                                                                                                            </svg>
-                                                                                                                                                                                                                                                                                        </span>`}
+                                                                                                                                                                                                                                                                                                            <button onclick="table.page(${currentPage - 2}).draw(false)" 
+                                                                                                                                                                                                                                                                                                                class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                                                                                                                                                                                                border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
+                                                                                                                                                                                                                                                                                                                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                                                                                                                                                                                                    <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
+                                                                                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                                                                                            </button>` : `
+                                                                                                                                                                                                                                                                                                            <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                                                                                                                                                                                                border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
+                                                                                                                                                                                                                                                                                                                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                                                                                                                                                                                                    <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
+                                                                                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                                                                                            </span>`}
                         </div>
                         <ul class="inline-flex text-sm font-medium -space-x-px rounded-lg shadow-sm">`;
 
@@ -361,19 +371,19 @@
                         </ul>
                         <div class="ml-2">
                             ${currentPage < totalPages ? `
-                                                                                                                                                                                                                                                                                        <button onclick="table.page(${currentPage}).draw(false)" 
-                                                                                                                                                                                                                                                                                            class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                                                                                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
-                                                                                                                                                                                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                                                                                                                                                                                                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
-                                                                                                                                                                                                                                                                                            </svg>
-                                                                                                                                                                                                                                                                                        </button>` : `
-                                                                                                                                                                                                                                                                                        <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                                                                                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
-                                                                                                                                                                                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                                                                                                                                                                                                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
-                                                                                                                                                                                                                                                                                            </svg>
-                                                                                                                                                                                                                                                                                        </span>`}
+                                                                                                                                                                                                                                                                                                            <button onclick="table.page(${currentPage}).draw(false)" 
+                                                                                                                                                                                                                                                                                                                class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                                                                                                                                                                                                border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
+                                                                                                                                                                                                                                                                                                                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                                                                                                                                                                                                    <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+                                                                                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                                                                                            </button>` : `
+                                                                                                                                                                                                                                                                                                            <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                                                                                                                                                                                                border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
+                                                                                                                                                                                                                                                                                                                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                                                                                                                                                                                                    <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+                                                                                                                                                                                                                                                                                                                </svg>
+                                                                                                                                                                                                                                                                                                            </span>`}
                         </div>
                     </nav>
                 </div>`;
