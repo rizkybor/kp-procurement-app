@@ -67,7 +67,13 @@ class WorkRequestSpesificationController extends Controller
 
         $totalRab = $rabRequest->sum('total_harga');
 
-        return view('pages.work-request.work-request-details.spesification.show', compact('workRequest', 'specRequest', 'totalRab'));
+        $latestApprover = DocumentApproval::where('document_id', $id)
+            ->where('status', '!=', '102') // Abaikan status revisi jika perlu
+            ->with('approver')
+            ->latest('approved_at')
+            ->first();
+
+        return view('pages.work-request.work-request-details.spesification.show', compact('workRequest', 'specRequest', 'totalRab', 'latestApprover'));
     }
 
     /**
