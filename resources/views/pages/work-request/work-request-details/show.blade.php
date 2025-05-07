@@ -2,7 +2,7 @@
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
         <!-- Status Dokumen & Button Back -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:justify-between mb-8">
             <!-- Kiri -->
             <div class="w-full sm:w-1/2 bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5">
                 <div class="grid grid-cols-2 gap-4">
@@ -35,13 +35,22 @@
                 </div>
             </div>
 
-            <!-- Kanan (Tombol) -->
-            <div class="flex justify-start sm:justify-end gap-2 mt-5">
-                <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
-                    Kembali
-                </x-button.secondary-button>
+
+            <div class="sm:w-full">
+                <!-- Kanan (Tombol) -->
+                <div class="flex justify-start sm:justify-end gap-2 mt-5">
+                    <!-- Actions -->
+                    <x-documents.header :workRequest="$workRequest" isShowPage="true" :document_status="$workRequest['status']"
+                        :latestApprover=$latestApprover />
+
+                    <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
+                        Kembali
+                    </x-button.secondary-button>
+                </div>
             </div>
+
         </div>
+
 
         <!-- Navbar-style tabs -->
         <div class="border-b mb-8">
@@ -97,9 +106,7 @@
                         </div>
                     </div>
 
-                    <!-- Actions -->
-                    <x-documents.header :workRequest="$workRequest" isShowPage="true" :document_status="$workRequest['status']"
-                        :latestApprover=$latestApprover />
+
                 </div>
             </div>
         </div>
