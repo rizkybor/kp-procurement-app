@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DocumentApproval;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestRab;
 use App\Models\WorkRequestSpesification;
@@ -77,7 +78,13 @@ class WorkRequestSpesificationController extends Controller
         $workRequest = WorkRequest::findOrFail($id);
         $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
 
-        return view('pages.work-request.work-request-details.spesification.index', compact('workRequest', 'specRequest'));
+        $latestApprover = DocumentApproval::where('document_id', $id)
+            ->where('status', '!=', '102') // Abaikan status revisi jika perlu
+            ->with('approver')
+            ->latest('approved_at')
+            ->first();
+
+        return view('pages.work-request.work-request-details.spesification.index', compact('workRequest', 'specRequest', 'latestApprover'));
     }
 
     /**

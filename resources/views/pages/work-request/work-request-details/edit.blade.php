@@ -61,9 +61,8 @@
                             </a>
                         </div>
                     </div>
-
                     <!-- Actions -->
-                    <x-documents.header :workRequest="$workRequest" isEditable="true" />
+                    <x-documents.header :workRequest="$workRequest" isEditable="true" :latestApprover=$latestApprover />
                 </div>
             </div>
         </div>

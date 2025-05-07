@@ -29,10 +29,15 @@ class WorkRequestDataTableController extends Controller
     $query = WorkRequest::query()
       ->with(['workRequestItems', 'workRequestRab', 'workRequestSignatures', 'user'])
       ->where(function ($q) use ($user) {
-        // Dokumen yang dibuat oleh user tersebut
-        $q->where('created_by', $user->id);
+        // Dokumen yang dibuat oleh user
+        $q->where('created_by', $user->id)
 
-        // Untuk role maker dan manager, filter berdasarkan department yang sama
+          // Atau pernah di-approve oleh user
+          ->orWhereHas('approvals', function ($q2) use ($user) {
+            $q2->where('approver_id', $user->id);
+          });
+
+        // Tambahan berdasarkan role
         if (in_array($user->role, ['maker', 'manager'])) {
           $q->orWhere(function ($q2) use ($user) {
             $q2->where('last_reviewers', 'LIKE', '%' . $user->role . '%')
@@ -40,13 +45,17 @@ class WorkRequestDataTableController extends Controller
                 $q3->where('department', $user->department);
               });
           });
-        }
-        // Untuk role direktur_keuangan, direktur_utama, dan fungsi_pengadaan, tampilkan semua dokumen
-        else {
+        } else {
           $q->orWhere('last_reviewers', 'LIKE', '%' . $user->role . '%');
         }
       })
-      ->orderBy('deadline', 'asc');
+      ->select('work_request.*')
+      ->orderByRaw("
+        CASE 
+            WHEN deadline >= NOW() THEN 0 
+            ELSE 1 
+        END, deadline ASC
+    ");
 
 
 

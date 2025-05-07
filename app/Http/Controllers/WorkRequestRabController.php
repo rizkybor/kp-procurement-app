@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DocumentApproval;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestItem;
 use App\Models\WorkRequestRab;
@@ -84,8 +85,14 @@ class WorkRequestRabController extends Controller
 
         $totalRab = $rabRequest->sum('total_harga');
 
+        $latestApprover = DocumentApproval::where('document_id', $id)
+            ->where('status', '!=', '102') // Abaikan status revisi jika perlu
+            ->with('approver')
+            ->latest('approved_at')
+            ->first();
 
-        return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest', 'rabRequest', 'totalRab'));
+
+        return view('pages.work-request.work-request-details.rab.index', compact('workRequest', 'itemRequest', 'rabRequest', 'totalRab', 'latestApprover'));
     }
 
     public function update(Request $request, $id, $work_rab_id)

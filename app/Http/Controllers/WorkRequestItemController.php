@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DocumentApproval;
 use App\Models\WorkRequestItem;
 use App\Models\WorkRequest;
 use Illuminate\Http\Request;
@@ -65,8 +66,14 @@ class WorkRequestItemController extends Controller
         $workRequest = WorkRequest::findOrFail($id);
         $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
 
+        $latestApprover = DocumentApproval::where('document_id', $id)
+            ->where('status', '!=', '102') // Abaikan status revisi jika perlu
+            ->with('approver')
+            ->latest('approved_at')
+            ->first();
+
         // Kirim data ke view
-        return view('pages.work-request.work-request-details.request.index', compact('workRequest', 'itemRequest'));
+        return view('pages.work-request.work-request-details.request.index', compact('workRequest', 'itemRequest', 'latestApprover'));
     }
 
     /**
