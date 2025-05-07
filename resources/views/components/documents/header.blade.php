@@ -71,6 +71,16 @@
     @endif
 
     @if ($isShowPage)
+        <x-button.button-action color="blue" icon="approve"
+            data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Approve Document"
+            data-button-text="Approve"
+            data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
+            onclick="openModal(this)">
+            Approve
+        </x-button.button-action>
+    @endif
+
+    @if ($isShowPage)
         <x-button.button-action color="green" icon="send"
             data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Process Document"
             data-button-text="Process"
