@@ -62,6 +62,11 @@ class WorkRequestDataTableController extends Controller
         return $row->work_name_request ? $row->work_name_request : '-';
       })
 
+      ->addColumn('status', function ($workRequest) {
+        return view('components.label-status', ['status' => $workRequest->status])->render();
+      })
+      ->rawColumns(['status']) // Penting untuk render HTML
+
       ->addColumn('department', function ($row) {
         return $row->department ? $row->department : '-';
       })
