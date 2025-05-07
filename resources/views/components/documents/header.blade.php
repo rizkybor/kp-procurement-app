@@ -20,6 +20,19 @@
     ];
 @endphp
 
+@php
+    // Dapatkan current approval stage
+    $currentStage = optional($latestApprover)->approver_role ?? 'maker';
+
+    // Tentukan next approver role
+    $nextApproverRole = match ($currentStage) {
+        'maker' => 'manager',
+        'manager' => $workRequest->total_rab > 500000000 ? 'direktur_utama' : 'direktur_keuangan',
+        'direktur_utama', 'direktur_keuangan' => 'fungsi_pengadaan',
+        default => null,
+    };
+@endphp
+
 <div class="flex gap-2">
     @if ($isEditable)
         <x-button.button-action color="teal" type="button" icon="right-arrow"
@@ -51,8 +64,7 @@
 
         {{-- User: Selain Maker --}}
         @if (auth()->user()->role !== 'maker')
-            @if (auth()->user()->role === optional($latestApprover)->approver_role &&
-                    !in_array($document_status, [102, 103, 6, 'approved', 'finalized']))
+            @if (auth()->user()->role === $nextApproverRole && !in_array($document_status, [102, 103, 6, 'approved', 'finalized']))
                 <x-button.button-action color="orange" icon="info"
                     data-action="{{ route('work_request.processRevision', $workRequest['id']) }}" data-title="Need Info"
                     data-button-text="Send"

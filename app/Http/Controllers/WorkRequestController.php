@@ -120,7 +120,7 @@ class WorkRequestController extends Controller
         $latestApprover = DocumentApproval::where('document_id', $id)
             ->where('status', '!=', '102') // Abaikan status revisi jika perlu
             ->with('approver')
-            ->latest('approved_at') // Gunakan approved_at bukan updated_at
+            ->latest('approved_at')
             ->first();
 
         // Kirim data ke view
