@@ -1,4 +1,11 @@
-@props(['workRequest', 'printOptions', 'isEditable' => false, 'isShowPage' => false])
+@props([
+    'workRequest',
+    'printOptions',
+    'document_status',
+    'latestApprover',
+    'isEditable' => false,
+    'isShowPage' => false,
+])
 
 @php
     $printOptions = [
@@ -41,53 +48,58 @@
                 </ul>
             </div>
         </div>
-    @endif
 
-    @if ($isShowPage)
-        <x-button.button-action color="yellow" type="button" icon="pencil"
-            onclick="window.location='{{ route('work_request.work_request_items.edit', $workRequest->id) }}'">
-            Edit Dokumen
-        </x-button.button-action>
-    @endif
+        {{-- User: Selain Maker --}}
+        @if (auth()->user()->role !== 'maker')
+            @if (auth()->user()->role === optional($latestApprover)->approver_role &&
+                    !in_array($document_status, [102, 103, 6, 'approved', 'finalized']))
+                <x-button.button-action color="orange" icon="info"
+                    data-action="{{ route('work_request.processRevision', $workRequest['id']) }}" data-title="Need Info"
+                    data-button-text="Send"
+                    data-button-color="bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow-700"
+                    onclick="openModal(this)">
+                    Need Info
+                </x-button.button-action>
 
-    @if ($isShowPage)
-        <x-button.button-action color="orange" icon="reply"
-            data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Reply Info"
-            data-button-text="Reply Info"
-            data-button-color="bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-700'"
-            onclick="openModal(this)">
-            Reply Info
-        </x-button.button-action>
-    @endif
+                <x-button.button-action color="blue" icon="approve"
+                    data-action="{{ route('work_request.processApproval', $workRequest['id']) }}"
+                    data-title="Approve Document" data-button-text="Approve"
+                    data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
+                    onclick="openModal(this)">
+                    Approve
+                </x-button.button-action>
+            @endif
+        @endif
 
-    @if ($isShowPage)
-        <x-button.button-action color="orange" icon="info"
-            data-action="{{ route('work_request.processRevision', $workRequest['id']) }}" data-title="Need Info"
-            data-button-text="Send"
-            data-button-color="bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow-700"
-            onclick="openModal(this)">
-            Need Info
-        </x-button.button-action>
-    @endif
+        {{-- User: Maker --}}
+        @if (auth()->user()->role === 'maker')
+            @if ($document_status == 102)
+                <x-button.button-action color="orange" icon="reply"
+                    data-action="{{ route('work_request.processApproval', $workRequest['id']) }}"
+                    data-title="Reply Info" data-button-text="Reply Info"
+                    data-button-color="bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-700'"
+                    onclick="openModal(this)">
+                    Reply Info
+                </x-button.button-action>
+            @endif
 
-    @if ($isShowPage)
-        <x-button.button-action color="blue" icon="approve"
-            data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Approve Document"
-            data-button-text="Approve"
-            data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
-            onclick="openModal(this)">
-            Approve
-        </x-button.button-action>
-    @endif
+            @if (in_array($document_status, [0, 102]))
+                <x-button.button-action color="yellow" type="button" icon="pencil"
+                    onclick="window.location='{{ route('work_request.work_request_items.edit', $workRequest->id) }}'">
+                    Edit Dokumen
+                </x-button.button-action>
+            @endif
 
-    @if ($isShowPage)
-        <x-button.button-action color="green" icon="send"
-            data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Process Document"
-            data-button-text="Process"
-            data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
-            onclick="openModal(this)">
-            Process
-        </x-button.button-action>
+            @if ($document_status == 0)
+                <x-button.button-action color="green" icon="send"
+                    data-action="{{ route('work_request.processApproval', $workRequest['id']) }}"
+                    data-title="Process Document" data-button-text="Process"
+                    data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
+                    onclick="openModal(this)">
+                    Process
+                </x-button.button-action>
+            @endif
+        @endif
     @endif
 
     <x-modal.global.modal-proccess-global :workRequest="$workRequest" />

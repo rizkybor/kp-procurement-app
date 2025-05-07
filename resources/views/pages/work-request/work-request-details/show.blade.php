@@ -98,7 +98,8 @@
                     </div>
 
                     <!-- Actions -->
-                    <x-documents.header :workRequest="$workRequest" isShowPage="true" />
+                    <x-documents.header :workRequest="$workRequest" isShowPage="true" :document_status="$workRequest['status']"
+                        :latestApprover=$latestApprover />
                 </div>
             </div>
         </div>

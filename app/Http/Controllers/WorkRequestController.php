@@ -117,8 +117,14 @@ class WorkRequestController extends Controller
 
         $totalRab = $rabRequest->sum('total_harga');
 
+        $latestApprover = DocumentApproval::where('document_id', $id)
+            ->where('status', '!=', '102') // Abaikan status revisi jika perlu
+            ->with('approver')
+            ->latest('approved_at') // Gunakan approved_at bukan updated_at
+            ->first();
+
         // Kirim data ke view
-        return view('pages.work-request.work-request-details.request.show', compact('workRequest', 'itemRequest', 'totalRab'));
+        return view('pages.work-request.work-request-details.request.show', compact('workRequest', 'itemRequest', 'totalRab', 'latestApprover'));
     }
 
     /**
