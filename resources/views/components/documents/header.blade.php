@@ -51,6 +51,26 @@
     @endif
 
     @if ($isShowPage)
+        <x-button.button-action color="orange" icon="reply"
+            data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Reply Info"
+            data-button-text="Reply Info"
+            data-button-color="bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-700'"
+            onclick="openModal(this)">
+            Reply Info
+        </x-button.button-action>
+    @endif
+
+    @if ($isShowPage)
+        <x-button.button-action color="orange" icon="info"
+            data-action="{{ route('work_request.processRevision', $workRequest['id']) }}" data-title="Need Info"
+            data-button-text="Send"
+            data-button-color="bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow-700"
+            onclick="openModal(this)">
+            Need Info
+        </x-button.button-action>
+    @endif
+
+    @if ($isShowPage)
         <x-button.button-action color="green" icon="send"
             data-action="{{ route('work_request.processApproval', $workRequest['id']) }}" data-title="Process Document"
             data-button-text="Process"

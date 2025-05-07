@@ -203,6 +203,11 @@ class WorkRequestController extends Controller
             $previousStatus = $document->status;
             $currentRole = optional($document->latestApproval)->approver_role ?? 'maker';
 
+            // Jika dokumen sebelumnya direvisi (status 102), reset alur ke maker/manager
+            if ($previousStatus == '102') {
+                $currentRole = 'maker'; // Atau 'manager' tergantung alur awal
+            }
+
             // Validasi dokumen final
             if ($document->last_reviewers === 'fungsi_pengadaan') {
                 return back()->with('info', "Dokumen ini sudah final.");
@@ -210,10 +215,6 @@ class WorkRequestController extends Controller
 
             // Tentukan next role
             $nextRole = $this->getNextApprovalRole($currentRole, $user->department, false, $document->total_rab);
-
-            if (!$nextRole) {
-                return back()->with('info', "Dokumen ini sudah final.");
-            }
 
             // Dapatkan status code
             $statusCode = array_search($nextRole, $this->approvalStatusMap());
@@ -276,16 +277,15 @@ class WorkRequestController extends Controller
      */
     private function getNextApprovalRole($currentRole, $department = null, $isRevised = false, $totalRab = 0)
     {
-        // Jika dokumen direvisi, kembalikan ke role sebelumnya
-        if ($isRevised) {
-            return $currentRole;
+        // Jika dokumen direvisi, kembalikan ke role awal (maker/manager)
+        if ($isRevised || $currentRole === 'revised') {
+            return 'maker'; // Atau 'manager' tergantung alur awal
         }
 
         // Alur untuk maker (selalu ke manager)
         if ($currentRole === 'maker') {
             return 'manager';
         }
-
         // Definisikan alur approval
         $highValueFlow = [
             'manager' => 'direktur_utama',
@@ -342,10 +342,10 @@ class WorkRequestController extends Controller
             $currentRole = optional($document->latestApproval)->approver_role ?? 'maker';
             $message = $request->input('messages');
 
-            // Validate user has revision rights
-            if ($userRole !== $currentRole) {
-                return back()->with('error', "Anda tidak memiliki izin untuk merevisi dokumen ini.");
-            }
+            // // Validate user has revision rights
+            // if ($userRole !== $currentRole) {
+            //     return back()->with('error', "Anda tidak memiliki izin untuk merevisi dokumen ini.");
+            // }
 
             // Find the previous approver to return the document to
             $previousApproval = DocumentApproval::where('document_id', $document->id)
@@ -364,6 +364,8 @@ class WorkRequestController extends Controller
                 'document_type' => WorkRequest::class,
                 'approver_id' => $user->id,
                 'approver_role' => $userRole,
+                'submitter_id' => $document->created_by,
+                'submitter_role' => 'maker',
                 'status' => '102', // Revised status
                 'approved_at' => now(),
             ]);
