@@ -209,9 +209,9 @@ class WorkRequestController extends Controller
             }
 
             // Validasi dokumen final
-            if ($document->last_reviewers === 'fungsi_pengadaan') {
-                return back()->with('info', "Dokumen ini sudah final.");
-            }
+            // if ($document->last_reviewers === 'fungsi_pengadaan') {
+            //     return back()->with('info', "Dokumen ini sudah final.");
+            // }
 
             // Tentukan next role
             $nextRole = $this->getNextApprovalRole($currentRole, $user->department, false, $document->total_rab);
@@ -260,7 +260,7 @@ class WorkRequestController extends Controller
                 'previous_status' => $previousStatus,
                 'new_status' => $statusCode,
                 'action' => 'Approved',
-                'notes' => $request->messages ?? "Dokumen diapprove oleh maker",
+                'notes' => $request->messages ?? "Dokumen diapprove oleh " . ucfirst(str_replace('_', ' ', $userRole)),
             ]);
 
             DB::commit();
@@ -290,13 +290,13 @@ class WorkRequestController extends Controller
         $highValueFlow = [
             'manager' => 'direktur_utama',
             'direktur_utama' => 'fungsi_pengadaan',
-            'fungsi_pengadaan' => null // Final step
+            'fungsi_pengadaan' => 'done' // Final step
         ];
 
         $normalFlow = [
             'manager' => 'direktur_keuangan',
             'direktur_keuangan' => 'fungsi_pengadaan',
-            'fungsi_pengadaan' => null // Final step
+            'fungsi_pengadaan' => 'done' // Final step
         ];
 
         // Pilih alur berdasarkan totalRab
@@ -355,7 +355,8 @@ class WorkRequestController extends Controller
                 ->first();
 
             // Default to document creator if no previous approval found
-            $targetApproverId = $previousApproval->approver_id ?? $document->created_by;
+            // $targetApproverId = $previousApproval->approver_id ?? $document->created_by;
+            $targetApproverId = $document->created_by;
             $targetApprover = User::findOrFail($targetApproverId);
 
             // Create revision approval record
