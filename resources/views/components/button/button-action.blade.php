@@ -1,4 +1,4 @@
-@props(['color' => 'gray', 'icon' => null])
+@props(['color' => 'gray', 'icon' => null, 'size' => 'md'])
 
 @php
     $colors = [
@@ -18,11 +18,29 @@
             'bg-gray-500 hover:bg-gray-600 focus:ring-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800 dark:focus:ring-gray-900',
         'purple' =>
             'bg-purple-500 hover:bg-purple-600 focus:ring-purple-300 dark:bg-purple-700 dark:hover:bg-purple-800 dark:focus:ring-purple-900',
-        // 'teal' =>
-        //     'bg-teal-500 hover:bg-teal-600 focus:ring-teal-300 dark:bg-teal-700 dark:hover:bg-teal-800 dark:focus:ring-teal-900',
     ];
 
     $colorClass = $colors[$color] ?? $colors['gray'];
+
+    // Size classes
+    $sizes = [
+        'xs' => 'px-2 py-1 text-xs',
+        'sm' => 'px-2.5 py-1.5 text-sm',
+        'md' => 'px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base',
+        'lg' => 'px-4 py-2 text-base sm:px-5 sm:py-3 sm:text-lg',
+        'xl' => 'px-5 py-3 text-lg sm:px-6 sm:py-4 sm:text-xl',
+    ];
+    $sizeClass = $sizes[$size] ?? $sizes['md'];
+
+    // Icon sizes
+    $iconSizes = [
+        'xs' => 'w-3 h-3',
+        'sm' => 'w-3.5 h-3.5',
+        'md' => 'w-4 h-4 sm:w-5 sm:h-5',
+        'lg' => 'w-5 h-5 sm:w-6 sm:h-6',
+        'xl' => 'w-6 h-6 sm:w-7 sm:h-7',
+    ];
+    $iconSizeClass = $iconSizes[$size] ?? $iconSizes['md'];
 
     $icons = [
         'eye' =>
@@ -48,7 +66,9 @@
     ];
 
     $iconSvg = isset($icons[$icon])
-        ? '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' .
+        ? '<svg class="' .
+            $iconSizeClass .
+            '" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' .
             $icons[$icon] .
             '</svg>'
         : '';
@@ -57,8 +77,12 @@
 <button
     {{ $attributes->merge([
         'type' => 'button',
-        'class' => "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg text-white $colorClass focus:outline-none focus:ring-2 whitespace-nowrap",
+        'class' => "flex items-center gap-2 $sizeClass font-medium rounded-lg text-white $colorClass focus:outline-none focus:ring-2 whitespace-nowrap transition-colors duration-200",
     ]) }}>
     {!! $iconSvg !!}
-    {{ $slot }}
+    <span class="hidden sm:inline">{{ $slot }}</span>
+
+    @if ($icon && $slot->isNotEmpty())
+        <span class="sr-only">{{ $slot }}</span>
+    @endif
 </button>

@@ -40,7 +40,7 @@
                 <!-- Kanan (Tombol) -->
                 <div class="flex flex-col gap-2 mt-5">
                     <!-- Row tombol (Riwayat + Kembali) -->
-                    <div class="flex justify-end gap-2">
+                    <div class="flex justify-end gap-2 mb-3">
                         <x-secondary-button onclick="openHistoryModal({{ $workRequest->id }})">
                             Riwayat Dokumen
                         </x-secondary-button>
