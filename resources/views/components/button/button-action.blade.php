@@ -22,23 +22,23 @@
 
     $colorClass = $colors[$color] ?? $colors['gray'];
 
-    // Size classes
+    // Size classes - diperkecil untuk desktop
     $sizes = [
         'xs' => 'px-2 py-1 text-xs',
         'sm' => 'px-2.5 py-1.5 text-sm',
-        'md' => 'px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base',
-        'lg' => 'px-4 py-2 text-base sm:px-5 sm:py-3 sm:text-lg',
-        'xl' => 'px-5 py-3 text-lg sm:px-6 sm:py-4 sm:text-xl',
+        'md' => 'px-3 py-1.5 text-sm', // Diperkecil dari py-2
+        'lg' => 'px-3.5 py-2 text-base', // Diperkecil dari px-4/py-3
+        'xl' => 'px-4 py-2.5 text-lg', // Diperkecil dari px-5/py-4
     ];
     $sizeClass = $sizes[$size] ?? $sizes['md'];
 
-    // Icon sizes
+    // Icon sizes - diperkecil untuk desktop
     $iconSizes = [
         'xs' => 'w-3 h-3',
         'sm' => 'w-3.5 h-3.5',
-        'md' => 'w-4 h-4 sm:w-5 sm:h-5',
-        'lg' => 'w-5 h-5 sm:w-6 sm:h-6',
-        'xl' => 'w-6 h-6 sm:w-7 sm:h-7',
+        'md' => 'w-4 h-4', // Di desktop tidak diperbesar
+        'lg' => 'w-4.5 h-4.5', // Diperkecil dari w-6/h-6
+        'xl' => 'w-5 h-5', // Diperkecil dari w-7/h-7
     ];
     $iconSizeClass = $iconSizes[$size] ?? $iconSizes['md'];
 
