@@ -2,7 +2,7 @@
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
         <!-- Button Kembali -->
-        <div class="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2 mb-5">
+        <div class="flex justify-end sm:justify-end mb-5">
             <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
                 Kembali
             </x-button.secondary-button>
