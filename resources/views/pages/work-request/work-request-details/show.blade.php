@@ -38,16 +38,23 @@
 
             <div class="sm:w-full">
                 <!-- Kanan (Tombol) -->
-                <div class="flex flex-col items-end gap-2 mt-5">
-                    <!-- Tombol Kembali di kanan atas -->
-                    <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
-                        Kembali
-                    </x-button.secondary-button>
+                <div class="flex flex-col gap-2 mt-5">
+                    <!-- Row tombol (Riwayat + Kembali) -->
+                    <div class="flex justify-end gap-2">
+                        <x-secondary-button onclick="openHistoryModal({{ $workRequest->id }})">
+                            Riwayat Dokumen
+                        </x-secondary-button>
 
-                    <!-- Komponen Header di bawah tombol -->
-                    <x-documents.header :workRequest="$workRequest" isShowPage="true" :document_status="$workRequest['status']"
-                        :latestApprover=$latestApprover />
+                        <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
+                            Kembali
+                        </x-button.secondary-button>
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <!-- Row bawah: Komponen Header -->
+                        <x-documents.header :workRequest="$workRequest" isShowPage="true" :document_status="$workRequest['status']" :latestApprover="$latestApprover" />
+                    </div>
                 </div>
+
 
 
             </div>
@@ -121,3 +128,5 @@
         </div>
     </div>
 </x-app-layout>
+
+<x-documents.histories :workRequest="$workRequest" />

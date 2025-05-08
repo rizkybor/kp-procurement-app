@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\TestController;
@@ -119,6 +120,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('/store', [WorkRequestSpesificationController::class, 'store'])->name('store');
             Route::put('/{work_spesification_id}/update', [WorkRequestSpesificationController::class, 'update'])->name('update');
             Route::delete('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('histories')->name('histories.')->group(function () {
+            Route::get('/', [HistoryController::class, 'index'])->name('index');
+            Route::get('/{history_id}', [HistoryController::class, 'show'])->name('show');
+            Route::post('/store', [HistoryController::class, 'store'])->name('store');
+            Route::delete('/{history_id}', [HistoryController::class, 'destroy'])->name('destroy');
         });
     });
 
