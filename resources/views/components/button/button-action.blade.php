@@ -1,4 +1,4 @@
-@props(['color' => 'gray', 'icon' => null, 'size' => 'md'])
+@props(['color' => 'gray', 'icon' => null, 'size' => 'md', 'showTextOnMobile' => false])
 
 @php
     $colors = [
@@ -80,7 +80,11 @@
         'class' => "flex items-center gap-2 $sizeClass font-medium rounded-lg text-white $colorClass focus:outline-none focus:ring-2 whitespace-nowrap transition-colors duration-200",
     ]) }}>
     {!! $iconSvg !!}
-    <span class="hidden sm:inline">{{ $slot }}</span>
+    @if ($showTextOnMobile)
+        {{ $slot }}
+    @else
+        <span class="hidden sm:inline">{{ $slot }}</span>
+    @endif
 
     @if ($icon && $slot->isNotEmpty())
         <span class="sr-only">{{ $slot }}</span>

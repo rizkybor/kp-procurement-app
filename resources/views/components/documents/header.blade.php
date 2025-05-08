@@ -35,7 +35,7 @@
 
 <div class="flex gap-2">
     @if ($isEditable)
-        <x-button.button-action color="teal" type="button" icon="right-arrow"
+        <x-button.button-action color="teal" type="button" icon="right-arrow" showTextOnMobile="true"
             onclick="window.location='{{ route('work_request.work_request_items.show', $workRequest->id) }}'">
             Process Dokumen
         </x-button.button-action>

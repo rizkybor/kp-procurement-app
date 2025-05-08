@@ -3,7 +3,8 @@
 <!-- Modal for Adding Cost Details -->
 <div x-data="{ modalOpen: false }">
     <!-- Button to Open Modal -->
-    <x-button.button-action @click="modalOpen = true" color="yellow" type="button" icon="add-document">
+    <x-button.button-action @click="modalOpen = true" color="yellow" type="button" icon="add-document"
+        showTextOnMobile="true">
         Tambah Permintaan Barang
     </x-button.button-action>
     <div class="fixed inset-0 bg-gray-900 bg-opacity-30 z-50 flex items-center justify-center" x-show="modalOpen" x-cloak>
