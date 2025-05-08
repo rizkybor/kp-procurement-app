@@ -38,15 +38,18 @@
 
             <div class="sm:w-full">
                 <!-- Kanan (Tombol) -->
-                <div class="flex justify-start sm:justify-end gap-2 mt-5">
-                    <!-- Actions -->
-                    <x-documents.header :workRequest="$workRequest" isShowPage="true" :document_status="$workRequest['status']"
-                        :latestApprover=$latestApprover />
-
+                <div class="flex flex-col items-end gap-2 mt-5">
+                    <!-- Tombol Kembali di kanan atas -->
                     <x-button.secondary-button onclick="window.location='{{ route('work_request.index') }}'">
                         Kembali
                     </x-button.secondary-button>
+
+                    <!-- Komponen Header di bawah tombol -->
+                    <x-documents.header :workRequest="$workRequest" isShowPage="true" :document_status="$workRequest['status']"
+                        :latestApprover=$latestApprover />
                 </div>
+
+
             </div>
 
         </div>
