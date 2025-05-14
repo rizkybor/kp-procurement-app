@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DocHistories;
-use App\Models\DocumentApproval;
-use App\Notifications\InvoiceApprovalNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-use App\Models\Notification;
-use App\Models\NotificationRecipient;
+use App\Notifications\InvoiceApprovalNotification;
 use App\Notifications\ApprovalNotification;
-
-use Maatwebsite\Excel\Facades\Excel;
-
-use App\Exports\WorkRequestExport;
 
 use App\Models\User;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestItem;
 use App\Models\WorkRequestRab;
+use App\Models\DocHistories;
+use App\Models\DocumentApproval;
+use App\Models\Notification;
+use App\Models\NotificationRecipient;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\WorkRequestExport;
 
 class WorkRequestController extends Controller
 {
@@ -101,7 +100,6 @@ class WorkRequestController extends Controller
             ->with('success', 'Permintaan kerja berhasil diperbarui.');
     }
 
-
     /**
      * Display the specified resource.
      */
@@ -165,8 +163,6 @@ class WorkRequestController extends Controller
         return redirect()->route('work_request.work_request_items.edit', ['id' => $workRequest->id])
             ->with('success', 'Work request berhasil diperbarui.');
     }
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -423,5 +419,52 @@ class WorkRequestController extends Controller
             Log::error("Revision failed for document {$id}: " . $e->getMessage());
             return back()->with('error', "Gagal memproses revisi: " . $e->getMessage());
         }
+    }
+
+    public function rejected(Request $request, $id)
+    {
+        $request->validate([
+            'reason' => 'required|string|max:255',
+            // 'file' => 'required|file|mimes:pdf|max:10240',
+        ]);
+
+        $document = WorkRequest::findOrFail($id);
+        $user = auth()->user(); // Ambil user yang sedang login
+        $userRole = $user->role;
+        $previousStatus = $document->status;
+
+        // Ambil file dan nama untuk diupload
+        // $file = $request->file('file');
+        // $fileName = 'Pembatalan ' . $document->letter_subject;
+        // $dropboxFolderName = '/rejected/';
+
+        // Upload ke Dropbox
+        // $dropboxController = new DropboxController();
+        // $dropboxPath = $dropboxController->uploadAttachment($file, $fileName, $dropboxFolderName);
+
+        // if (!$dropboxPath) {
+        //     return back()->with('error', 'Gagal mengunggah file penolakan.');
+        // }
+
+        // Update dokumen
+        $document->update([
+            'reason_rejected' => $request->reason,
+            'status'          => 103,
+            // 'path_rejected'   => $dropboxPath,
+        ]);
+
+        // Simpan ke riwayat
+        DocHistories::create([
+            'document_id'     => $document->id,
+            'performed_by'    => $user->id,
+            'role'            => $userRole,
+            'previous_status' => $previousStatus,
+            'new_status'      => '103',
+            'action'          => 'Rejected',
+            'notes'           => "Dokumen dibatalkan oleh {$user->name} dengan alasan: {$request->reason}",
+        ]);
+
+        return redirect()->route('work_request.work_request_items.show', ['id' => $document->id])
+            ->with('success', 'Work request berhasil diperbarui.');
     }
 }

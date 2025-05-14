@@ -1,13 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDFController;
-use App\Http\Controllers\TestController;
-
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TestController;
 
 use App\Http\Controllers\WorkRequestController;
 use App\Http\Controllers\WorkRequestDataTableController;
@@ -82,8 +82,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             'destroy' => 'destroy',
         ]);
 
+        // Approval
         Route::put('/process/{id}', [WorkRequestController::class, 'processApproval'])->name('processApproval');
         Route::put('/revision/{id}', [WorkRequestController::class, 'processRevision'])->name('processRevision');
+        Route::put('/{id}/rejected', [WorkRequestController::class, 'rejected'])->name('rejected');
 
         // Route Print PDF Form Request dan RAB
         Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');;
@@ -93,7 +95,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');
         Route::get('{id}/show/work_rabs', [WorkRequestRabController::class, 'show'])->name('work_rabs.show');
         Route::get('{id}/show/work_spesifications', [WorkRequestSpesificationController::class, 'show'])->name('work_spesifications.show');
-
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {
@@ -122,6 +123,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::delete('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'destroy'])->name('destroy');
         });
 
+        // Histories
         Route::prefix('histories')->name('histories.')->group(function () {
             Route::get('/', [HistoryController::class, 'index'])->name('index');
             Route::get('/{history_id}', [HistoryController::class, 'show'])->name('show');

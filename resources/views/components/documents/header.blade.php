@@ -65,6 +65,11 @@
         {{-- User: Selain Maker --}}
         @if (auth()->user()->role !== 'maker')
             @if (auth()->user()->role === $nextApproverRole && !in_array($document_status, [102, 103, 6, 'approved', 'finalized']))
+                <x-button.button-action color="red" icon="reject"
+                    onclick="openRejectModal('{{ route('work_request.rejected', $workRequest->id) }}')">
+                    Batalkan Dokumen
+                </x-button.button-action>
+
                 <x-button.button-action color="orange" icon="info"
                     data-action="{{ route('work_request.processRevision', $workRequest['id']) }}" data-title="Need Info"
                     data-button-text="Send"
@@ -115,6 +120,8 @@
     @endif
 
     <x-modal.global.modal-proccess-global :workRequest="$workRequest" />
+
+    <x-modal.global.modal-reject-global :document-id="$workRequest->id" />
 </div>
 
 <script>
