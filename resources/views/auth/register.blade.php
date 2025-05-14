@@ -73,12 +73,12 @@
                                 <select id="department" name="department"
                                     class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm" required>
                                     <option value="">Pilih Department</option>
-                                    <option value="SDM">Departmen SDM</option>
-                                    <option value="Pengadaan dan Administrasi Umum">Departmen Pengadaan dan
-                                        Administrasi Umum</option>
-                                    <option value="Operasi">Departmen Operasi</option>
-                                    <option value="Keuangan">Departmen Keuangan</option>
-                                    <option value="Finance">Departmen Finance</option>
+                                    <option value="SDM">SDM</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Pengadaan">Pengadaan</option>
+                                    <option value="Keuangan">Keuangan</option>
+                                    <option value="Operasi">Operasi</option>
+                                    <option value="Direksi">Direksi</option>
                                 </select>
                                 <x-input-error for="department" class="mt-2" />
                             </div>
@@ -111,8 +111,13 @@
                             <div>
                                 <x-label for="employee_status">{{ __('Employee Status') }} <span
                                         class="text-red-500">*</span></x-label>
-                                <x-input id="employee_status" type="text" name="employee_status" :value="old('employee_status')"
-                                    required placeholder="Masukkan employee status" />
+                                <select id="employee_status" name="employee_status"
+                                    class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm" required>
+                                    <option value="">Pilih Status</option>
+                                    <option value="permanent">Permanent</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="probation">Probation</option>
+                                </select>
                             </div>
 
                             <!-- Gender -->

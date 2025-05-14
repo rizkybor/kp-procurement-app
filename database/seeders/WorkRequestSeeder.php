@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\User;
 
 class WorkRequestSeeder extends Seeder
 {
@@ -15,18 +16,16 @@ class WorkRequestSeeder extends Seeder
      */
     public function run()
     {
-        // Penyesuaian: user_id 1 untuk SDM & HR, user_id 2 untuk Finance & lainnya
-        $userSdm = 1;
-        $userFinance = 2;
+        // Get users with maker role
+        $makerUsers = User::where('role', 'maker')->get();
 
         $departments = [
-            'HR Department',          // SDM → user 1
-            'Finance Department',     // Finance → user 2
-            'IT Department',          // Finance → user 2
-            'Marketing Department',   // Finance → user 2
-            'Sales Department',       // Finance → user 2
-            'Inventory Department',   // Finance → user 2
-            'Logistics Department',   // Finance → user 2
+            'SDM',
+            'Finance',
+            'Pengadaan',
+            'Keuangan',
+            'Operasi',
+            'Direksi'
         ];
 
         $workRequests = [];
@@ -38,28 +37,33 @@ class WorkRequestSeeder extends Seeder
 
             $department = $departments[$i % count($departments)];
 
-            // Tetapkan user berdasarkan departemen
-            $createdBy = str_contains(strtolower($department), 'hr') ? $userSdm : $userFinance;
+            // Find a maker user from the same department
+            $createdBy = $makerUsers->firstWhere('department', $department) ?
+                $makerUsers->firstWhere('department', $department)->id :
+                $makerUsers->first()->id;
 
             $numberFormat = sprintf("%04d.FP-KPU-%s-%s", $nextNumber, $monthRoman, $year);
 
+            $statusOptions = ['Draft', 'Submitted', 'Reviewed', 'Approved', 'Rejected', 'Revised'];
+            $status = $statusOptions[array_rand($statusOptions)];
+
             $workRequests[] = [
                 'created_by' => $createdBy,
-                'work_name_request' => 'Pekerjaan ' . ($i + 1),
+                'work_name_request' => 'PROYEK ' . ($i + 1),
                 'request_number' => $numberFormat,
                 'department' => $department,
                 'project_title' => 'Proyek ' . ($i + 1),
                 'project_owner' => 'Owner ' . ($i + 1),
                 'contract_number' => 'CN-2025-' . str_pad($i + 1, 3, '0', STR_PAD_LEFT),
-                'procurement_type' => 'Pengadaan Langsung',
-                'request_date' => Carbon::now()->addDays($i)->toDateString(),
-                'deadline' => Carbon::now()->addDays($i + 90)->toDateString(),
+                'procurement_type' => ['Pengadaan Langsung', 'Tender', 'Penunjukan Langsung'][rand(0, 2)],
+                'request_date' => Carbon::now()->subDays(rand(1, 30))->toDateString(),
+                'deadline' => Carbon::now()->addDays(rand(60, 120))->toDateString(),
                 'pic' => 'PIC ' . ($i + 1),
-                'aanwijzing' => 'Aanwijzing akan dilakukan pada ' . Carbon::now()->addDays($i + 5)->toDateString(),
-                'time_period' => ($i + 1) . ' Bulan',
-                'created_at' => Carbon::now()->addDays($i),
-                'updated_at' => Carbon::now()->addDays($i),
-                'status'         => 0,
+                'aanwijzing' => 'Aanwijzing akan dilakukan pada ' . Carbon::now()->addDays(rand(5, 15))->toDateString(),
+                'time_period' => ($i % 3 + 1) . ' Bulan',
+                'created_at' => Carbon::now()->subDays(rand(1, 30)),
+                'updated_at' => Carbon::now()->subDays(rand(1, 30)),
+                'status' => 0,
                 'last_reviewers' => null,
             ];
 
@@ -71,9 +75,6 @@ class WorkRequestSeeder extends Seeder
 
     /**
      * Convert a number to its Roman numeral representation.
-     *
-     * @param int $num
-     * @return string
      */
     private function convertToRoman($num)
     {
@@ -90,7 +91,7 @@ class WorkRequestSeeder extends Seeder
             'IX' => 9,
             'V' => 5,
             'IV' => 4,
-            'I' => 1,
+            'I' => 1
         ];
         $returnValue = '';
         while ($num > 0) {
