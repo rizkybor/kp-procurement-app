@@ -14,6 +14,10 @@ use App\Http\Controllers\WorkRequestDataTableController;
 use App\Http\Controllers\WorkRequestItemController;
 use App\Http\Controllers\WorkRequestRabController;
 use App\Http\Controllers\WorkRequestSpesificationController;
+
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Actions\Fortify\CreateNewUser;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +30,20 @@ use App\Http\Controllers\WorkRequestSpesificationController;
 */
 
 Route::redirect('/', 'login');
+
+Route::middleware(['auth', 'role:super_admin'])->group(function () {
+    Route::get('/register', function () {
+        return view('auth.register', ['roles' => Role::all()]);
+    })->name('register');
+
+    Route::post('/register', function (Request $request) {
+        $action = new CreateNewUser();
+        $action->create($request->all());
+
+        return redirect()->route('register')->with('status', 'User berhasil dibuat.');
+    });
+});
+
 Route::get('/token', [TestController::class, 'getDataToken'])->name('token');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {

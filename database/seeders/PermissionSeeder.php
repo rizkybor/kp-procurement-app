@@ -17,6 +17,14 @@ class PermissionSeeder extends Seeder
     {
         // Role
 
+
+        $role_super_admin = Role::updateOrCreate(
+            [
+                'name' => 'super_admin',
+            ],
+            ['name' => 'super_admin']
+        );
+
         $role_maker = Role::updateOrCreate(
             [
                 'name' => 'maker',
@@ -64,6 +72,9 @@ class PermissionSeeder extends Seeder
 
 
         // Assign User
+
+        $user_super_admin = User::where('role', 'super_admin')->first();
+        $user_super_admin->assignRole('super_admin');
 
         $userMaker = User::where('role', 'maker')->first();
         $userMaker->assignRole('maker');
