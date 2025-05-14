@@ -73,12 +73,12 @@
                                 <select id="department" name="department"
                                     class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm" required>
                                     <option value="">Pilih Department</option>
-                                    <option value="Departmen SDM">Departmen SDM</option>
-                                    <option value="Departmen Pengadaan dan Administrasi Umum">Departmen Pengadaan dan
+                                    <option value="SDM">Departmen SDM</option>
+                                    <option value="Pengadaan dan Administrasi Umum">Departmen Pengadaan dan
                                         Administrasi Umum</option>
-                                    <option value="Departmen Operasi">Departmen Operasi</option>
-                                    <option value="Departmen Keuangan">Departmen Keuangan</option>
-                                    <option value="Departmen Finance">Departmen Finance</option>
+                                    <option value="Operasi">Departmen Operasi</option>
+                                    <option value="Keuangan">Departmen Keuangan</option>
+                                    <option value="Finance">Departmen Finance</option>
                                 </select>
                                 <x-input-error for="department" class="mt-2" />
                             </div>
