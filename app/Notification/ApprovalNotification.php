@@ -6,7 +6,7 @@ namespace App\Notifications;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\DatabaseMessage;
 
-class InvoiceApprovalNotification extends Notification
+class ApprovalNotification extends Notification
 {
   public $document;
   public $action;
