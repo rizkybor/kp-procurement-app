@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DocHistories;
-use App\Models\DocumentApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-use App\Notifications\InvoiceApprovalNotification;
 use App\Notifications\ApprovalNotification;
 
 use App\Models\User;
+use App\Models\DocHistories;
+use App\Models\DocumentApproval;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestItem;
 use App\Models\WorkRequestRab;
