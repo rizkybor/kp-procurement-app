@@ -31,6 +31,7 @@ class NotificationController extends Controller
    */
   public function show($notification_id)
   {
+    dd($notification_id);
     $userId = Auth::id();
 
     $notificationRecipient = NotificationRecipient::where('user_id', $userId)
