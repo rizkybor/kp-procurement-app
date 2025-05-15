@@ -21,10 +21,11 @@
             </button>
             <!-- Logo -->
             <a class="block" href="{{ route('dashboard') }}">
-                <svg class="fill-teal-500" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                {{-- <svg class="fill-teal-500" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
                     <path
                         d="M31.956 14.8C31.372 6.92 25.08.628 17.2.044V5.76a9.04 9.04 0 0 0 9.04 9.04h5.716ZM14.8 26.24v5.716C6.92 31.372.63 25.08.044 17.2H5.76a9.04 9.04 0 0 1 9.04 9.04Zm11.44-9.04h5.716c-.584 7.88-6.876 14.172-14.756 14.756V26.24a9.04 9.04 0 0 1 9.04-9.04ZM.044 14.8C.63 6.92 6.92.628 14.8.044V5.76a9.04 9.04 0 0 1-9.04 9.04H.044Z" />
-                </svg>
+                </svg> --}}
+                <h2 style="font-weight: bold">Procurement KPU</h2>
             </a>
         </div>
 
@@ -38,6 +39,45 @@
                     <span class="lg:hidden lg:sidebar-expanded:block 2xl:block">Pages</span>
                 </h3>
                 <ul class="mt-3">
+                    @if (auth()->user()->role !== 'super_admin')
+                        <li
+                            class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 
+                    bg-[linear-gradient(135deg,var(--tw-gradient-stops))] 
+                    @if (Request::is('notifications*')) from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04] @endif">
+                            <a class="block text-gray-800 dark:text-gray-100 truncate transition 
+                        @if (!Request::is('notifications*')) hover:text-gray-900 dark:hover:text-white @endif"
+                                href="{{ route('notifications.index') }}">
+                                <div class="flex items-center justify-between">
+                                    <div class="grow flex items-center">
+                                        <svg class="shrink-0 fill-current 
+                                    @if (Request::is('notifications*')) text-violet-500 
+                                    @else text-gray-400 dark:text-gray-500 @endif"
+                                            xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M12 3c3.866 0 7 3.134 7 7v4a3 3 0 0 0 2 2.816v.184a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-.184a3 3 0 0 0 2 -2.816v-4c0 -3.866 3.134 -7 7 -7z" />
+                                            <path d="M10 21h4a2 2 0 0 1 -4 0z" />
+                                        </svg>
+                                        <span
+                                            class="text-sm font-medium ml-3 
+                                    lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                            Notifications
+                                        </span>
+                                    </div>
+                                    <!-- Badge -->
+                                    <div class="flex flex-shrink-0 ml-2">
+                                        <span
+                                            class="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-violet-400 px-2 rounded">
+                                            {{ $unreadNotificationsCount ?? 0 }}</span>
+                                    </div>
+
+                                </div>
+                            </a>
+                        </li>
+                    @endif
+
                     <!-- Dashboar Ki -->
                     <li
                         class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] @if (in_array(Request::segment(1), ['dashboard'])) {{ 'from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04]' }} @endif">
