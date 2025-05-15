@@ -288,17 +288,15 @@ class WorkRequestController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-dd(typeof($nextApprovers));
 
             // 🔹 🔟 Kirim notifikasi ke setiap user dengan role berikutnya
             foreach ($nextApprovers as $nextApprover) {
                 NotificationRecipient::create([
                     'notification_id' => $notification->id,
-                    'user_id' => $$nextApprover->id,
+                    'user_id' => $nextApprover->id,
                     'read_at' => null,
                 ]);
             }
-            dd($notification, $nextApprovers, 'test');
 
             DB::commit();
             return back()->with('success', "Dokumen berhasil diapprove dan dikirim ke {$nextRoleName}");
