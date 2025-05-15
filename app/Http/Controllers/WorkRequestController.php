@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\DocHistories;
 use App\Models\DocumentApproval;
-use App\Notifications\InvoiceApprovalNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -206,8 +205,10 @@ class WorkRequestController extends Controller
             $document = WorkRequest::findOrFail($id);
             $user = Auth::user();
             $userRole = $user->role;
+            $department = $user->department;
             $previousStatus = $document->status;
             $currentRole = optional($document->latestApproval)->approver_role ?? 'maker';
+            $message = $request->input('messages');
 
             // Jika dokumen sebelumnya direvisi (status 102), reset alur ke maker/manager
             if ($previousStatus == '102') {
@@ -240,6 +241,12 @@ class WorkRequestController extends Controller
             $approvalMap = $this->approvalStatusMap();
             $nextRoleName = $approvalMap[$statusCode] ?? 'unknown';
 
+            $nextApprovers = User::where('role', $nextRole)
+                ->when($nextRole === 'manager', function ($query) use ($department) {
+                    return $query->whereRaw("LOWER(department) = ?", [strtolower($department)]);
+                })
+                ->get();
+
             // Simpan approval
             DocumentApproval::create([
                 'document_id' => $document->id,
@@ -268,6 +275,28 @@ class WorkRequestController extends Controller
                 'action' => 'Approved',
                 'notes' => $request->messages ?? "Dokumen diapprove oleh " . ucfirst(str_replace('_', ' ', $userRole)),
             ]);
+
+            // 🔹 🔟 Kirim Notifikasi
+            $notification = Notification::create([
+                'type' => ApprovalNotification::class,
+                'notifiable_type' => WorkRequest::class,
+                'notifiable_id' => $document->id,
+                'messages' => $message ?: "Dokumen memerlukan revisi dari Anda",
+                'sender_id' => $user->id,
+                'sender_role' => $userRole,
+                'read_at' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // 🔹 🔟 Kirim notifikasi ke setiap user dengan role berikutnya
+            foreach ($nextApprovers as $nextApprover) {
+                NotificationRecipient::create([
+                    'notification_id' => $notification->id,
+                    'user_id' => $nextApprover->id,
+                    'read_at' => null,
+                ]);
+            }
 
             DB::commit();
             return back()->with('success', "Dokumen berhasil diapprove dan dikirim ke {$nextRoleName}");
