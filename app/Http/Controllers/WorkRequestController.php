@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DocHistories;
-use App\Models\DocumentApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-use App\Notifications\InvoiceApprovalNotification;
 use App\Notifications\ApprovalNotification;
 
 use App\Models\User;
+use App\Models\DocHistories;
+use App\Models\DocumentApproval;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestItem;
 use App\Models\WorkRequestRab;
@@ -278,7 +277,9 @@ class WorkRequestController extends Controller
                 'type' => ApprovalNotification::class,
                 'notifiable_type' => WorkRequest::class,
                 'notifiable_id' => $document->id,
-                'messages' => $message ?: "Dokumen memerlukan revisi dari Anda",
+                'messages' => $message
+                    ? "{$message}. Lihat detail: " . route('work_request.show', $document->id)
+                    : "Dokumen telah disetujui oleh {$user->name}. Lihat detail: " . route('work_request.show', $document->id),
                 'sender_id' => $user->id,
                 'sender_role' => $userRole,
                 'read_at' => null,
@@ -425,21 +426,22 @@ class WorkRequestController extends Controller
                 'type' => ApprovalNotification::class,
                 'notifiable_type' => WorkRequest::class,
                 'notifiable_id' => $document->id,
-                'messages' => $message ?: "Dokumen memerlukan revisi dari Anda",
+                'messages' => $message
+                    ? "{$message}. Lihat detail: " . route('non-management-fee.show', $document->id)
+                    : "Dokumen diproses oleh {$user->name}.",
                 'sender_id' => $user->id,
                 'sender_role' => $userRole,
-                'data' => [
-                    'document_id' => $document->id,
-                    'action' => 'revision',
-                    'return_to' => $targetApprover->name
-                ],
                 'read_at' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             NotificationRecipient::create([
                 'notification_id' => $notification->id,
                 'user_id' => $targetApprover->id,
                 'read_at' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             DB::commit();
