@@ -278,8 +278,8 @@ class WorkRequestController extends Controller
                 'notifiable_type' => WorkRequest::class,
                 'notifiable_id' => $document->id,
                 'messages' => $message
-                    ? "{$message}. Lihat detail: " . route('work_request.show', $document->id)
-                    : "Dokumen telah disetujui oleh {$user->name}. Lihat detail: " . route('work_request.show', $document->id),
+                    ? "{$message}. Lihat detail: " . route('work_request.work_request_items.show', $document->id)
+                    : "Dokumen telah disetujui oleh {$user->name}. Lihat detail: " . route('work_request.work_request_items.show', $document->id),
                 'sender_id' => $user->id,
                 'sender_role' => $userRole,
                 'read_at' => null,
@@ -427,7 +427,7 @@ class WorkRequestController extends Controller
                 'notifiable_type' => WorkRequest::class,
                 'notifiable_id' => $document->id,
                 'messages' => $message
-                    ? "{$message}. Lihat detail: " . route('work_request.show', $document->id)
+                    ? "{$message}. Lihat detail: " . route('work_request.work_request_items.show', $document->id)
                     : "Dokumen diproses oleh {$user->name}.",
                 'sender_id' => $user->id,
                 'sender_role' => $userRole,
