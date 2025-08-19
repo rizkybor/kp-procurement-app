@@ -60,6 +60,31 @@
                             required value="{{ $workRequest->request_date }}" readonly />
                     </div>
 
+                    {{-- Internal / Keproyekan --}}
+                    <div>
+                        <x-label for="project_type" value="{{ __('Internal / Keproyekan') }}" />
+                        <select id="project_type" name="project_type"
+                            class="mt-1 block w-full min-h-[40px] border-gray-300 rounded-md shadow-sm
+               focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                            required>
+                            <option value="">-- Pilih --</option>
+                            @foreach ($keproyekanList as $item)
+                                <option value="{{ $item->name }}"
+                                    {{ $workRequest->project_type === $item->name ? 'selected' : '' }}>
+                                    {{ $item->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <x-input-error for="project_type" class="mt-2" />
+                    </div>
+
+                    {{-- Tenggat --}}
+                    <div>
+                        <x-label for="deadline" value="{{ __('Tenggat') }}" />
+                        <x-input id="deadline" type="date" name="deadline" class="mt-1 block w-full min-h-[40px]"
+                            required min="{{ $workRequest->request_date }}" value="{{ $workRequest->deadline }}" />
+                        <x-input-error for="deadline" class="mt-2" />
+                    </div>
 
                     {{-- Jenis Pengadaan --}}
                     <div>
@@ -77,32 +102,6 @@
                             @endforeach
                         </select>
                         <x-input-error for="procurement_type" class="mt-2" />
-                    </div>
-
-                    {{-- Tenggat --}}
-                    <div>
-                        <x-label for="deadline" value="{{ __('Tenggat') }}" />
-                        <x-input id="deadline" type="date" name="deadline" class="mt-1 block w-full min-h-[40px]"
-                            required min="{{ $workRequest->request_date }}" value="{{ $workRequest->deadline }}" />
-                        <x-input-error for="deadline" class="mt-2" />
-                    </div>
-
-                    {{-- Internal / Keproyekan --}}
-                    <div>
-                        <x-label for="project_type" value="{{ __('Internal / Keproyekan') }}" />
-                        <select id="project_type" name="project_type"
-                            class="mt-1 block w-full min-h-[40px] border-gray-300 rounded-md shadow-sm
-               focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                            required>
-                            <option value="">-- Pilih --</option>
-                            @foreach ($keproyekanList as $item)
-                                <option value="{{ $item->name }}"
-                                    {{ $workRequest->project_type === $item->name ? 'selected' : '' }}>
-                                    {{ $item->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <x-input-error for="project_type" class="mt-2" />
                     </div>
 
                     {{-- PIC --}}
