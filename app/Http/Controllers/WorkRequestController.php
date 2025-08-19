@@ -308,6 +308,44 @@ class WorkRequestController extends Controller
     /**
      * Fungsi untuk mendapatkan role berikutnya dalam flowchart.
      */
+    // private function getNextApprovalRole($currentRole, $department = null, $isRevised = false, $totalRab = 0)
+    // {
+    //     // Jika dokumen direvisi, kembalikan ke role awal (maker/manager)
+    //     if ($isRevised || $currentRole === 'revised') {
+    //         return 'maker'; // Atau 'manager' tergantung alur awal
+    //     }
+
+    //     // Alur untuk maker (selalu ke manager)
+    //     if ($currentRole === 'maker') {
+    //         return 'manager';
+    //     }
+    //     // Definisikan alur approval
+    //     $highValueFlow = [
+    //         'manager' => 'direktur_utama',
+    //         'direktur_utama' => 'fungsi_pengadaan',
+    //         'fungsi_pengadaan' => 'done' // Final step
+    //     ];
+
+    //     $normalFlow = [
+    //         'manager' => 'direktur_keuangan',
+    //         'direktur_keuangan' => 'fungsi_pengadaan',
+    //         'fungsi_pengadaan' => 'done' // Final step
+    //     ];
+
+    //     // Pilih alur berdasarkan totalRab
+    //     $selectedFlow = ($totalRab > 500000000) ? $highValueFlow : $normalFlow;
+
+    //     // Pastikan current role ada dalam alur yang dipilih
+    //     if (!array_key_exists($currentRole, $selectedFlow)) {
+    //         return null;
+    //     }
+
+    //     return $selectedFlow[$currentRole];
+    // }
+
+    /**
+     * Fungsi untuk mendapatkan role berikutnya single flow.
+     */
     private function getNextApprovalRole($currentRole, $department = null, $isRevised = false, $totalRab = 0)
     {
         // Jika dokumen direvisi, kembalikan ke role awal (maker/manager)
@@ -319,21 +357,16 @@ class WorkRequestController extends Controller
         if ($currentRole === 'maker') {
             return 'manager';
         }
-        // Definisikan alur approval
-        $highValueFlow = [
-            'manager' => 'direktur_utama',
-            'direktur_utama' => 'fungsi_pengadaan',
-            'fungsi_pengadaan' => 'done' // Final step
-        ];
 
-        $normalFlow = [
+        $singleFlow = [
             'manager' => 'direktur_keuangan',
             'direktur_keuangan' => 'fungsi_pengadaan',
-            'fungsi_pengadaan' => 'done' // Final step
+            'fungsi_pengadaan' => 'done'
         ];
 
-        // Pilih alur berdasarkan totalRab
-        $selectedFlow = ($totalRab > 500000000) ? $highValueFlow : $normalFlow;
+        // Pilih Flow Single
+        $selectedFlow = $singleFlow;
+
 
         // Pastikan current role ada dalam alur yang dipilih
         if (!array_key_exists($currentRole, $selectedFlow)) {

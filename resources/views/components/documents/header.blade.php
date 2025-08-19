@@ -7,7 +7,7 @@
     'isShowPage' => false,
 ])
 
-@php
+{{-- @php
     $printOptions = [
         [
             'label' => 'Surat Permintaan',
@@ -29,6 +29,30 @@
         'maker' => 'manager',
         'manager' => $workRequest->total_rab > 500000000 ? 'direktur_utama' : 'direktur_keuangan',
         'direktur_utama', 'direktur_keuangan' => 'fungsi_pengadaan',
+        default => null,
+    };
+@endphp --}}
+
+@php
+    $printOptions = [
+        [
+            'label' => 'Surat Permintaan',
+            'route' => route('work_request.print-form-request', $workRequest->id),
+        ],
+        [
+            'label' => 'Surat Rab',
+            'route' => route('work_request.print-rab', $workRequest->id),
+        ],
+    ];
+
+    // Dapatkan current approval stage
+    $currentStage = optional($latestApprover)->approver_role ?? 'maker';
+
+    // Tentukan next approver role berdasarkan singleFlow
+    $nextApproverRole = match ($currentStage) {
+        'maker' => 'manager',
+        'manager' => 'direktur_keuangan',
+        'direktur_keuangan' => 'fungsi_pengadaan',
         default => null,
     };
 @endphp
