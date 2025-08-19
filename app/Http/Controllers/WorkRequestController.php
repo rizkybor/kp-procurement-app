@@ -33,7 +33,6 @@ class WorkRequestController extends Controller
         // $workRequest = WorkRequest::all();
         $workRequest = WorkRequest::with('workRequestRab')->get();
 
-
         return view('pages.work-request.index', compact('workRequest'));
     }
 
@@ -46,20 +45,20 @@ class WorkRequestController extends Controller
         $year = date('Y');
 
         // Ambil nomor terakhir
-        $lastNumber = WorkRequest::max('request_number');
-        preg_match('/^(\d{4})/', $lastNumber, $matches);
-        $lastNumeric = $matches[1] ?? '0010';
-        $nextNumber = $lastNumber ? (intval($lastNumeric) + 10) : 10;
+        // $lastNumber = WorkRequest::max('request_number');
+        // preg_match('/^(\d{4})/', $lastNumber, $matches);
+        // $lastNumeric = $matches[1] ?? '0010';
+        // $nextNumber = $lastNumber ? (intval($lastNumeric) + 10) : 10;
 
-        // Format nomor dokumen
-        $numberFormat = sprintf("%04d.FP-KPU-%s-%s", $nextNumber, $monthRoman, $year);
+        // // Format nomor dokumen
+        // $numberFormat = sprintf("%04d.FP-KPU-%s-%s", $nextNumber, $monthRoman, $year);
 
         $today = now()->toDateString();
 
         $keproyekanList = MstKeproyekan::all();
         $typeProcurementList = MstTypeProcurement::all();
 
-        return view('pages.work-request.create', compact('numberFormat', 'keproyekanList', 'typeProcurementList', 'today'));
+        return view('pages.work-request.create', compact('keproyekanList', 'typeProcurementList', 'today'));
     }
 
     /**
@@ -71,14 +70,11 @@ class WorkRequestController extends Controller
             'work_name_request' => 'required',
             'department' => 'required',
             'project_title' => 'required',
-            // 'project_owner' => 'required',
             'procurement_type' => 'required',
-            // 'contract_number' => 'required',
             'project_type' => 'required',
             'request_date' => 'required|date',
             'deadline' => 'required|date|after_or_equal:request_date',
             'pic' => 'required',
-            // 'aanwijzing' => 'required',
             'time_period' => 'nullable',
         ]);
 
@@ -98,11 +94,11 @@ class WorkRequestController extends Controller
         $input['created_by'] = auth()->id();
         $input['request_number'] = $numberFormat;
         $input['status'] = $request->status ?? 0;
-        dd($input,'cek');
-        // $workRequest = WorkRequest::create($input);
 
-        // return redirect()->route('work_request.work_request_items.edit', ['id' => $workRequest->id])
-        //     ->with('success', 'Permintaan kerja berhasil diperbarui.');
+        $workRequest = WorkRequest::create($input);
+
+        return redirect()->route('work_request.work_request_items.edit', ['id' => $workRequest->id])
+            ->with('success', 'Permintaan kerja berhasil diperbarui.');
     }
 
     /**
@@ -125,6 +121,7 @@ class WorkRequestController extends Controller
             ->with('approver')
             ->latest('approved_at')
             ->first();
+
 
         // Kirim data ke view
         return view('pages.work-request.work-request-details.request.show', compact('workRequest', 'itemRequest', 'totalRab', 'latestApprover'));
@@ -150,16 +147,14 @@ class WorkRequestController extends Controller
         }
 
         $validatedData = $request->validate([
-            'work_name_request' => 'nullable',
+            'work_name_request' => 'required',
             'department' => 'required',
             'project_title' => 'required',
-            // 'project_owner' => 'required',
             'procurement_type' => 'required',
-            // 'contract_number' => 'required',
+            'project_type' => 'required',
             'request_date' => 'required|date',
             'deadline' => 'required|date|after_or_equal:request_date',
             'pic' => 'required',
-            // 'aanwijzing' => 'required',
             'time_period' => 'nullable',
         ]);
 
