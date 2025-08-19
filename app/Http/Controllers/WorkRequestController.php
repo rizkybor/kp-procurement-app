@@ -11,6 +11,8 @@ use App\Notifications\ApprovalNotification;
 
 use App\Models\User;
 use App\Models\DocHistories;
+use App\Models\MstKeproyekan;
+use App\Models\MstTypeProcurement;
 use App\Models\DocumentApproval;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestItem;
@@ -54,7 +56,10 @@ class WorkRequestController extends Controller
 
         $today = now()->toDateString();
 
-        return view('pages.work-request.create', compact('numberFormat', 'today'));
+        $keproyekanList = MstKeproyekan::all();
+        $typeProcurementList = MstTypeProcurement::all();
+
+        return view('pages.work-request.create', compact('numberFormat', 'keproyekanList', 'typeProcurementList', 'today'));
     }
 
     /**
@@ -66,13 +71,14 @@ class WorkRequestController extends Controller
             'work_name_request' => 'required',
             'department' => 'required',
             'project_title' => 'required',
-            'project_owner' => 'required',
+            // 'project_owner' => 'required',
             'procurement_type' => 'required',
-            'contract_number' => 'required',
+            // 'contract_number' => 'required',
+            'project_type' => 'required',
             'request_date' => 'required|date',
             'deadline' => 'required|date|after_or_equal:request_date',
             'pic' => 'required',
-            'aanwijzing' => 'required',
+            // 'aanwijzing' => 'required',
             'time_period' => 'nullable',
         ]);
 
@@ -92,11 +98,11 @@ class WorkRequestController extends Controller
         $input['created_by'] = auth()->id();
         $input['request_number'] = $numberFormat;
         $input['status'] = $request->status ?? 0;
+        dd($input,'cek');
+        // $workRequest = WorkRequest::create($input);
 
-        $workRequest = WorkRequest::create($input);
-
-        return redirect()->route('work_request.work_request_items.edit', ['id' => $workRequest->id])
-            ->with('success', 'Permintaan kerja berhasil diperbarui.');
+        // return redirect()->route('work_request.work_request_items.edit', ['id' => $workRequest->id])
+        //     ->with('success', 'Permintaan kerja berhasil diperbarui.');
     }
 
     /**
@@ -147,13 +153,13 @@ class WorkRequestController extends Controller
             'work_name_request' => 'nullable',
             'department' => 'required',
             'project_title' => 'required',
-            'project_owner' => 'required',
+            // 'project_owner' => 'required',
             'procurement_type' => 'required',
-            'contract_number' => 'required',
+            // 'contract_number' => 'required',
             'request_date' => 'required|date',
             'deadline' => 'required|date|after_or_equal:request_date',
             'pic' => 'required',
-            'aanwijzing' => 'required',
+            // 'aanwijzing' => 'required',
             'time_period' => 'nullable',
         ]);
 

@@ -82,13 +82,41 @@
                                 <x-input-error for="deadline" class="mt-2" />
                             </div>
                         </div>
-                        <div class="row-start-4">
+                        {{-- <div class="row-start-4">
                             <div>
                                 <x-label for="project_owner" value="{{ __('Pemilik Proyek') }}" />
                                 <x-input id="project_owner" type="text" name="project_owner"
                                     class="mt-1 block w-full min-h-[40px]" required autocomplete="project_owner"
                                     placeholder="Masukkan pemilik proyek" />
                                 <x-input-error for="project_owner" class="mt-2" />
+                            </div>
+                        </div> --}}
+                        <div class="row-start-4">
+                            <div>
+                                <x-label for="contract_number" value="{{ __('Internal/Keproyekan') }}" />
+                                <select id="contract_number" name="contract_number"
+                                    class="mt-1 block w-full min-h-[40px] border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                    required>
+                                    <option value="">-- Pilih --</option>
+                                    @foreach ($keproyekanList as $item)
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-input-error for="contract_number" class="mt-2" />
+                            </div>
+                        </div>
+                        <div class="row-start-5">
+                            <div>
+                                <x-label for="procurement_type" value="{{ __('Jenis Pengadaan') }}" />
+                                <select id="procurement_type" name="procurement_type"
+                                    class="mt-1 block w-full min-h-[40px] border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                    required>
+                                    <option value="">-- Pilih --</option>
+                                    @foreach ($typeProcurementList as $item)
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-input-error for="procurement_type" class="mt-2" />
                             </div>
                         </div>
                         <div>
@@ -100,7 +128,8 @@
                                 <x-input-error for="pic" class="mt-2" />
                             </div>
                         </div>
-                        <div class="row-start-5">
+
+                        {{-- <div class="row-start-5">
                             <div>
                                 <x-label for="contract_number" value="{{ __('No Kontrak') }}" />
                                 <x-input id="contract_number" type="text" name="contract_number"
@@ -108,8 +137,8 @@
                                     placeholder="Masukkan nomor kontrak" />
                                 <x-input-error for="contract_number" class="mt-2" />
                             </div>
-                        </div>
-                        <div>
+                        </div> --}}
+                        {{-- <div>
                             <div>
                                 <x-label for="aanwijzing" value="{{ __('Aanwijzing') }}" />
                                 <x-input id="aanwijzing" type="text" name="aanwijzing"
@@ -117,16 +146,8 @@
                                     placeholder="Masukkan aanwijzing" />
                                 <x-input-error for="aanwijzing" class="mt-2" />
                             </div>
-                        </div>
-                        <div class="row-start-6">
-                            <div>
-                                <x-label for="procurement_type" value="{{ __('Jenis Pengadaan') }}" />
-                                <x-input id="procurement_type" type="text" name="procurement_type"
-                                    class="mt-1 block w-full min-h-[40px]" required autocomplete="procurement_type"
-                                    placeholder="Masukkan jenis pengadaan" />
-                                <x-input-error for="procurement_type" class="mt-2" />
-                            </div>
-                        </div>
+                        </div> --}}
+
                     </div>
                 </div>
             </div>
