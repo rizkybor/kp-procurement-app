@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderCommunicationController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
@@ -113,6 +114,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');
         Route::get('{id}/show/work_rabs', [WorkRequestRabController::class, 'show'])->name('work_rabs.show');
         Route::get('{id}/show/work_spesifications', [WorkRequestSpesificationController::class, 'show'])->name('work_spesifications.show');
+
+        // Route Order Communication
+        Route::get('{id}/show/order_communication', [OrderCommunicationController::class, 'index'])->name('order_communication.index');
+        Route::post('order_communication', [OrderCommunicationController::class, 'store'])->name('order_communication.store');
+        Route::put('order_communication/{id}', [OrderCommunicationController::class, 'update'])->name('order_communication.update');
+        Route::delete('order_communication/{id}', [OrderCommunicationController::class, 'destroy'])->name('order_communication.destroy');
+        Route::post('order_communication/{id}/upload', [OrderCommunicationController::class, 'upload'])->name('order_communication.upload');
+        Route::delete('order_communication/{id}/delete-file', [OrderCommunicationController::class, 'deleteFile'])->name('order_communication.delete-file');
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {
