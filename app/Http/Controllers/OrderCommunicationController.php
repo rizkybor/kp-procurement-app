@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderCommunication;
+use App\Models\WorkRequest;
 use Illuminate\Http\Request;
 
 class OrderCommunicationController extends Controller
@@ -10,9 +11,15 @@ class OrderCommunicationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        return view('pages.work-request.work-request-details.order-communication.index');
+        // Dapatkan work request berdasarkan ID
+        $workRequests = WorkRequest::findOrFail($id);
+
+        return view(
+            'pages.work-request.work-request-details.order-communication.index',
+            compact('workRequests')
+        );
     }
 
     /**

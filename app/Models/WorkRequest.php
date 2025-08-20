@@ -41,6 +41,11 @@ class WorkRequest extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function orderCommunications()
+    {
+        return $this->hasMany(OrderCommunication::class, 'work_request_id');
+    }
+
     public function workRequestItems()
     {
         return $this->hasMany(WorkRequestItem::class, 'work_request_id');
