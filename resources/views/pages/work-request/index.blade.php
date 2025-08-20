@@ -66,29 +66,35 @@
                                         <div class="font-semibold text-left">No</div>
                                     </th>
                                     <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Judul Proyek</div>
+                                        <div class="font-semibold text-center">Nama Pekerjaan</div>
                                     </th>
                                     <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Pemilik Proyek</div>
+                                        <div class="font-semibold text-center">Judul Proyek</div>
                                     </th>
+                                    {{-- <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-center">Pemilik Proyek</div>
+                                    </th> --}}
                                     <th class="p-2 whitespace-nowrap">
                                         <div class="font-semibold text-center">Status</div>
                                     </th>
-                                    <th class="p-2 whitespace-nowrap">
+                                    {{-- <th class="p-2 whitespace-nowrap">
                                         <div class="font-semibold text-center">No. Kontrak</div>
+                                    </th> --}}
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-center">Nomor Permintaan</div>
                                     </th>
                                     <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Nomor</div>
+                                        <div class="font-semibold text-center">Tanggal Permintaan</div>
                                     </th>
                                     <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Tanggal</div>
+                                        <div class="font-semibold text-center">PIC</div>
                                     </th>
-                                    <th class="p-2 whitespace-nowrap">
+                                    {{-- <th class="p-2 whitespace-nowrap">
                                         <div class="font-semibold text-center">Tenggat</div>
                                     </th>
                                     <th class="p-2 whitespace-nowrap">
                                         <div class="font-semibold text-center">Total RAB</div>
-                                    </th>
+                                    </th> --}}
                                     <th class="p-2 whitespace-nowrap">
                                         <div class="font-semibold text-center">Action</div>
                                     </th>
@@ -169,6 +175,14 @@
                         className: 'p-2 whitespace-nowrap text-sm',
                     },
                     {
+                        data: 'work_name_request',
+                        name: 'work_name_request',
+                        className: 'p-2 whitespace-nowrap text-center text-sm',
+                        render: function(data) {
+                            return `<div>${data ?? '-'}</div>`;
+                        }
+                    },
+                    {
                         data: 'project_title',
                         name: 'project_title',
                         className: 'p-2 whitespace-nowrap text-center text-sm',
@@ -176,14 +190,14 @@
                             return `<div>${data ?? '-'}</div>`;
                         }
                     },
-                    {
-                        data: 'project_owner',
-                        name: 'project_owner',
-                        className: 'p-2 whitespace-nowrap text-center text-sm',
-                        render: function(data) {
-                            return `<div>${data ?? '-'}</div>`;
-                        }
-                    },
+                    // {
+                    //     data: 'project_owner',
+                    //     name: 'project_owner',
+                    //     className: 'p-2 whitespace-nowrap text-center text-sm',
+                    //     render: function(data) {
+                    //         return `<div>${data ?? '-'}</div>`;
+                    //     }
+                    // },
                     {
                         data: 'status',
                         name: 'status',
@@ -191,14 +205,14 @@
                         orderable: false,
                         searchable: true,
                     },
-                    {
-                        data: 'contract_number',
-                        name: 'contract_number',
-                        className: 'p-2 whitespace-nowrap text-center text-sm',
-                        render: function(data) {
-                            return `<div>${data ?? '-'}</div>`;
-                        }
-                    },
+                    // {
+                    //     data: 'contract_number',
+                    //     name: 'contract_number',
+                    //     className: 'p-2 whitespace-nowrap text-center text-sm',
+                    //     render: function(data) {
+                    //         return `<div>${data ?? '-'}</div>`;
+                    //     }
+                    // },
                     {
                         data: 'request_number',
                         name: 'request_number',
@@ -225,30 +239,37 @@
                         }
                     },
                     {
-                        data: 'deadline',
-                        name: 'deadline',
+                        data: 'created_by',
+                        name: 'created_by',
                         className: 'p-2 whitespace-nowrap text-center text-sm',
-                        render: function(data) {
-                            if (!data) return '-';
-
-                            const date = new Date(data);
-                            const options = {
-                                year: 'numeric',
-                                month: 'long',
-                                day: '2-digit'
-                            };
-
-                            return new Intl.DateTimeFormat('id-ID', options).format(date);
-                        }
+                        orderable: false,
+                        searchable: true,
                     },
-                    {
-                        data: 'total_rab',
-                        name: 'total_rab',
-                        className: 'p-2 whitespace-nowrap text-center text-sm',
-                        render: function(data) {
-                            return `<div>${data ?? '-'}</div>`;
-                        }
-                    },
+                    // {
+                    //     data: 'deadline',
+                    //     name: 'deadline',
+                    //     className: 'p-2 whitespace-nowrap text-center text-sm',
+                    //     render: function(data) {
+                    //         if (!data) return '-';
+
+                    //         const date = new Date(data);
+                    //         const options = {
+                    //             year: 'numeric',
+                    //             month: 'long',
+                    //             day: '2-digit'
+                    //         };
+
+                    //         return new Intl.DateTimeFormat('id-ID', options).format(date);
+                    //     }
+                    // },
+                    // {
+                    //     data: 'total_rab',
+                    //     name: 'total_rab',
+                    //     className: 'p-2 whitespace-nowrap text-center text-sm',
+                    //     render: function(data) {
+                    //         return `<div>${data ?? '-'}</div>`;
+                    //     }
+                    // },
                     {
                         data: 'action',
                         name: 'action',
@@ -340,19 +361,19 @@
             <nav class="flex" role="navigation" aria-label="Navigation">
                 <div class="mr-2">
                     ${currentPage > 1 ? `
-                                                                            <button data-page="${currentPage - 2}" 
-                                                                                class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
-                                                                                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                    <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
-                                                                                </svg>
-                                                                            </button>` : `
-                                                                            <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
-                                                                                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                    <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
-                                                                                </svg>
-                                                                            </span>`}
+                                                                                <button data-page="${currentPage - 2}" 
+                                                                                    class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                    border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
+                                                                                    <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                        <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
+                                                                                    </svg>
+                                                                                </button>` : `
+                                                                                <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                    border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
+                                                                                    <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                        <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
+                                                                                    </svg>
+                                                                                </span>`}
                 </div>
                 <ul class="inline-flex text-sm font-medium -space-x-px rounded-lg shadow-sm">`;
 
@@ -383,19 +404,19 @@
                 </ul>
                 <div class="ml-2">
                     ${currentPage < totalPages ? `
-                                                                    <button data-page="${currentPage}" 
-                                                                        class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                        border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
-                                                                        <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                            <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
-                                                                        </svg>
-                                                                    </button>` : `
-                                                                    <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                        border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
-                                                                        <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                            <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
-                                                                        </svg>
-                                                                    </span>`}
+                                                                        <button data-page="${currentPage}" 
+                                                                            class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
+                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+                                                                            </svg>
+                                                                        </button>` : `
+                                                                        <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
+                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+                                                                            </svg>
+                                                                        </span>`}
                 </div>
             </nav>
             </div>`;

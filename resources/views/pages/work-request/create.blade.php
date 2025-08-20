@@ -25,8 +25,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Dashboard actions end -->
 
+            <!-- Dashboard actions end -->
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <div class="px-4 py-5 sm:p-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="grid grid-cols-2 grid-rows-6 gap-4">
@@ -50,10 +50,10 @@
                         </div>
                         <div class="row-start-2">
                             <div>
-                                <x-label for="request_number" value="{{ __('Nomor') }}" />
+                                <x-label for="request_number" value="{{ __('Nomor Permintaan') }}" />
                                 <x-input id="request_number" type="text"
                                     class="block mt-1 w-full bg-gray-200 dark:bg-gray-700" name="request_number"
-                                    required autocomplete="request_number" value="{{ $numberFormat }}" readonly />
+                                     autocomplete="request_number" value="auto" readonly />
                             </div>
                         </div>
                         <div>
@@ -82,13 +82,41 @@
                                 <x-input-error for="deadline" class="mt-2" />
                             </div>
                         </div>
-                        <div class="row-start-4">
+                        {{-- <div class="row-start-4">
                             <div>
                                 <x-label for="project_owner" value="{{ __('Pemilik Proyek') }}" />
                                 <x-input id="project_owner" type="text" name="project_owner"
                                     class="mt-1 block w-full min-h-[40px]" required autocomplete="project_owner"
                                     placeholder="Masukkan pemilik proyek" />
                                 <x-input-error for="project_owner" class="mt-2" />
+                            </div>
+                        </div> --}}
+                        <div class="row-start-4">
+                            <div>
+                                <x-label for="project_type" value="{{ __('Internal/Keproyekan') }}" />
+                                <select id="project_type" name="project_type"
+                                    class="mt-1 block w-full min-h-[40px] border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                    required>
+                                    <option value="">-- Pilih --</option>
+                                    @foreach ($keproyekanList as $item)
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-input-error for="project_type" class="mt-2" />
+                            </div>
+                        </div>
+                        <div class="row-start-5">
+                            <div>
+                                <x-label for="procurement_type" value="{{ __('Jenis Pengadaan') }}" />
+                                <select id="procurement_type" name="procurement_type"
+                                    class="mt-1 block w-full min-h-[40px] border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                    required>
+                                    <option value="">-- Pilih --</option>
+                                    @foreach ($typeProcurementList as $item)
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-input-error for="procurement_type" class="mt-2" />
                             </div>
                         </div>
                         <div>
@@ -100,7 +128,8 @@
                                 <x-input-error for="pic" class="mt-2" />
                             </div>
                         </div>
-                        <div class="row-start-5">
+
+                        {{-- <div class="row-start-5">
                             <div>
                                 <x-label for="contract_number" value="{{ __('No Kontrak') }}" />
                                 <x-input id="contract_number" type="text" name="contract_number"
@@ -108,8 +137,8 @@
                                     placeholder="Masukkan nomor kontrak" />
                                 <x-input-error for="contract_number" class="mt-2" />
                             </div>
-                        </div>
-                        <div>
+                        </div> --}}
+                        {{-- <div>
                             <div>
                                 <x-label for="aanwijzing" value="{{ __('Aanwijzing') }}" />
                                 <x-input id="aanwijzing" type="text" name="aanwijzing"
@@ -117,16 +146,8 @@
                                     placeholder="Masukkan aanwijzing" />
                                 <x-input-error for="aanwijzing" class="mt-2" />
                             </div>
-                        </div>
-                        <div class="row-start-6">
-                            <div>
-                                <x-label for="procurement_type" value="{{ __('Jenis Pengadaan') }}" />
-                                <x-input id="procurement_type" type="text" name="procurement_type"
-                                    class="mt-1 block w-full min-h-[40px]" required autocomplete="procurement_type"
-                                    placeholder="Masukkan jenis pengadaan" />
-                                <x-input-error for="procurement_type" class="mt-2" />
-                            </div>
-                        </div>
+                        </div> --}}
+
                     </div>
                 </div>
             </div>

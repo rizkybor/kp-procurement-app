@@ -6,6 +6,8 @@ use App\Models\DocumentApproval;
 use App\Models\WorkRequestItem;
 use App\Models\WorkRequest;
 use Illuminate\Http\Request;
+use App\Models\MstKeproyekan;
+use App\Models\MstTypeProcurement;
 
 class WorkRequestItemController extends Controller
 {
@@ -72,8 +74,11 @@ class WorkRequestItemController extends Controller
             ->latest('approved_at')
             ->first();
 
+               $keproyekanList = MstKeproyekan::all();
+        $typeProcurementList = MstTypeProcurement::all();
+
         // Kirim data ke view
-        return view('pages.work-request.work-request-details.request.index', compact('workRequest', 'itemRequest', 'latestApprover'));
+        return view('pages.work-request.work-request-details.request.index', compact('workRequest', 'keproyekanList', 'typeProcurementList', 'itemRequest', 'latestApprover'));
     }
 
     /**
