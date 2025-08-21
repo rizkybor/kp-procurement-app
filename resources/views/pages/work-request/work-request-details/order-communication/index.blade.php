@@ -259,10 +259,8 @@
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">8</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        -
-                                    </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Bentuk Perikatan
                                         Perjanjian/SPK/PO</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -279,10 +277,8 @@
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">9</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        -
-                                    </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Pemeriksaan
                                         Pekerjaan (BAP)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -299,10 +295,8 @@
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">10</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        -
-                                    </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Serah Terima
                                         Pekerjaan (BAST)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
