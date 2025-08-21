@@ -11,13 +11,22 @@ class OrderCommunication extends Model
     protected $table = 'order_communications';
     protected $fillable = [
         'work_request_id',
-        'subject',
-        'message',
-        'status',
-        'document_1_path',
-        'document_2_path',
-        'document_3_path',
-        'document_4_path',
+        'company_name',
+        'company_address',
+        'company_goal',
+        'date_applicationletter',
+        'no_applicationletter',
+        'date_offerletter',
+        'no_offerletter',
+        'file_offerletter',
+        'date_evaluationletter',
+        'no_evaluationletter',
+        'date_negotiationletter',
+        'no_negotiationletter',
+        'file_beritaacaraklarifikasi',
+        'file_bentukperikatan',
+        'file_BAD',
+        'file_BAST',
     ];
 
     public function workRequest()

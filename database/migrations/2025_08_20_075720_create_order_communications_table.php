@@ -14,13 +14,22 @@ return new class extends Migration
         Schema::create('order_communications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('work_request_id')->constrained('work_request')->onDelete('cascade');
-            $table->string('subject');
-            $table->text('message');
-            $table->string('status')->default('pending');
-            $table->string('document_1_path')->nullable();
-            $table->string('document_2_path')->nullable();
-            $table->string('document_3_path')->nullable();
-            $table->string('document_4_path')->nullable();
+            $table->string('company_name');
+            $table->string('company_address');
+            $table->string('company_goal');
+            $table->string('date_applicationletter');
+            $table->string('no_applicationletter');
+            $table->string('date_offerletter');
+            $table->string('no_offerletter');
+            $table->string('file_offerletter');
+            $table->string('date_evaluationletter');
+            $table->string('no_evaluationletter');
+            $table->string('date_negotiationletter');
+            $table->string('no_negotiationletter');
+            $table->string('file_beritaacaraklarifikasi');
+            $table->string('file_bentukperikatan');
+            $table->string('file_BAD');
+            $table->string('file_BAST');
             $table->timestamps();
         });
     }
