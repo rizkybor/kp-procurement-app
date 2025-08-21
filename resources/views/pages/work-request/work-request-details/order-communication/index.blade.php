@@ -77,20 +77,31 @@
                             <tbody>
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">1</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        {{ \Carbon\Carbon::parse($workRequests->created_at)->translatedFormat('d F Y') }}
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        {{ $workRequests->request_number }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Formulir Permintaan Pengadaan
                                         Barang Jasa</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        {{ $workRequests->user->department }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="print">
+                                                Download
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">2</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="date" name="tanggal"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Permohonan Permintaan
                                         Harga</td>
@@ -98,47 +109,76 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="print">
+                                                Download
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">3</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="date" name="tanggal"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="text" name="custom_field" placeholder="Isi data..."
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Penawaran Harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="upload">
+                                                Upload
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">4</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="date" name="tanggal"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Evaluasi Teknis Penawaran
                                         Mitra</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">?Divisi Maker?</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        {{ $workRequests->user->department }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="print">
+                                                Download
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">5</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="date" name="tanggal"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat undangan klarifikasi
                                         dan negoisasi harga</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">dari fungsi pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="print">
+                                                Download
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -148,7 +188,7 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Klarifikasi &
                                         Negoisasi Harga</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">dari fungsi pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
@@ -162,7 +202,7 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Penunjukan Penyedia
                                         Barang/Jasa</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">dari fungsi pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
@@ -176,11 +216,15 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Bentuk Perikatan
                                         Perjanjian/SPK/PO</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">dari fungsi pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="upload">
+                                                Upload
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -190,11 +234,15 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Pemeriksaan
                                         Pekerjaan (BAP)</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">dari fungsi pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="upload">
+                                                Upload
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -204,11 +252,15 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Serah Terima
                                         Pekerjaan (BAST)</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">dari fungsi pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">?Otomatis nama perusahaan
                                         vendor?</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        ?action?
+                                        <div class="flex justify-center">
+                                            <x-button.button-action color="blue" icon="upload">
+                                                Upload
+                                            </x-button.button-action>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

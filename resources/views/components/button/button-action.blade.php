@@ -63,6 +63,8 @@
         'send' => '<path stroke-linecap="round" stroke-linejoin="round" d="M22 2L11 13M22 2L15 22L11 13L2 9l20-7z" />',
         'add-document' =>
             '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6H6z" />',
+        'upload' =>
+            '<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-4 4m4-4l4 4" />',
     ];
 
     $iconSvg = isset($icons[$icon])
