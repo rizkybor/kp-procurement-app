@@ -178,11 +178,22 @@
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload"
-                                                name="file_offerletter">
-                                                Upload
-                                            </x-button.button-action>
+                                        <div class="flex justify-center" id="file_offerletter_container">
+                                            @if ($orderCommunication->file_offerletter)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_offerletter')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_offerletter')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_offerletter')">
+                                                    Upload
+                                                </x-button.button-action>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -247,11 +258,22 @@
                                         {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload"
-                                                name="file_beritaacaraklarifikasi">
-                                                Upload
-                                            </x-button.button-action>
+                                        <div class="flex justify-center" id="file_beritaacaraklarifikasi_container">
+                                            @if ($orderCommunication->file_beritaacaraklarifikasi)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_beritaacaraklarifikasi')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_beritaacaraklarifikasi')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_beritaacaraklarifikasi')">
+                                                    Upload
+                                                </x-button.button-action>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -288,11 +310,22 @@
                                         {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload"
-                                                name="file_bentukperikatan">
-                                                Upload
-                                            </x-button.button-action>
+                                        <div class="flex justify-center" id="file_bentukperikatan_container">
+                                            @if ($orderCommunication->file_bentukperikatan)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_bentukperikatan')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_bentukperikatan')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_bentukperikatan')">
+                                                    Upload
+                                                </x-button.button-action>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -308,10 +341,22 @@
                                         {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload" name="file_BAD">
-                                                Upload
-                                            </x-button.button-action>
+                                        <div class="flex justify-center" id="file_bap_container">
+                                            @if ($orderCommunication->file_bap)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_bap')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_bap')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_bap')">
+                                                    Upload
+                                                </x-button.button-action>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -327,10 +372,22 @@
                                         {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload" name="file_BAST">
-                                                Upload
-                                            </x-button.button-action>
+                                        <div class="flex justify-center" id="file_bast_container">
+                                            @if ($orderCommunication->file_bast)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_bast')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_bast')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_bast')">
+                                                    Upload
+                                                </x-button.button-action>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -343,6 +400,11 @@
     </div>
 
     <script>
+        // CSRF Token untuk AJAX
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const orderCommId = {{ $orderCommunication->id }};
+        const workRequestId = {{ $workRequests->id }};
+
         // Toggle vendor dropdown
         function toggleVendorDropdown() {
             document.getElementById("vendorDropdown").classList.toggle("hidden");
@@ -373,6 +435,13 @@
             vendorCells.forEach(cell => {
                 cell.textContent = name;
             });
+
+            // Simpan informasi vendor
+            updateVendorInfo({
+                name,
+                address,
+                type: purpose
+            });
         }
 
         document.addEventListener('click', function(event) {
@@ -382,13 +451,6 @@
                 dropdown.classList.add("hidden");
             }
         });
-    </script>
-
-    <script>
-        // CSRF Token untuk AJAX
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const orderCommId = {{ $orderCommunication->id }};
-        const workRequestId = {{ $workRequests->id }};
 
         // Function untuk update field
         function updateField(field, value) {
@@ -518,39 +580,23 @@
 
         // Function untuk update UI file
         function updateFileUI(field, fileName) {
-            const button = document.querySelector(`button[name="${field}"]`);
-            if (button) {
+            const container = document.getElementById(`${field}_container`);
+            if (container) {
                 if (fileName) {
-                    // Ubah button menjadi memiliki opsi view dan delete
-                    button.innerHTML = `
-                <span class="flex items-center">
-                    <i class="fas fa-eye mr-1"></i> Lihat
-                </span>
-            `;
-                    button.onclick = () => viewFile(field);
-
-                    // Tambahkan button delete jika belum ada
-                    if (!button.nextElementSibling || !button.nextElementSibling.classList.contains('delete-file-btn')) {
-                        const deleteBtn = document.createElement('button');
-                        deleteBtn.className = 'ml-2 text-red-600 hover:text-red-800 delete-file-btn';
-                        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-                        deleteBtn.onclick = () => deleteFile(field);
-                        button.parentNode.appendChild(deleteBtn);
-                    }
+                    container.innerHTML = `
+                        <x-button.button-action color="yellow" icon="eye" onclick="viewFile('${field}')">
+                            Lihat
+                        </x-button.button-action>
+                        <x-button.button-action color="red" icon="trash" class="ml-2" onclick="deleteFile('${field}')">
+                            Hapus
+                        </x-button.button-action>
+                    `;
                 } else {
-                    // Kembalikan ke button upload
-                    button.innerHTML = `
-                <span class="flex items-center">
-                    <i class="fas fa-upload mr-1"></i> Upload
-                </span>
-            `;
-                    button.onclick = () => uploadFile(field);
-
-                    // Hapus button delete jika ada
-                    const deleteBtn = button.nextElementSibling;
-                    if (deleteBtn && deleteBtn.classList.contains('delete-file-btn')) {
-                        deleteBtn.remove();
-                    }
+                    container.innerHTML = `
+                        <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
+                            Upload
+                        </x-button.button-action>
+                    `;
                 }
             }
         }
@@ -560,37 +606,14 @@
             // Implementasi notifikasi sederhana
             const notification = document.createElement('div');
             notification.className = `fixed bottom-4 right-4 p-4 rounded-md shadow-md text-white ${
-    type === 'success' ? 'bg-green-500' : 'bg-red-500'
-}`;
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`;
             notification.textContent = message;
             document.body.appendChild(notification);
 
             setTimeout(() => {
                 notification.remove();
             }, 3000);
-        }
-
-        // Function saat pilih vendor
-        function selectVendor(id, name, address, purpose) {
-            document.getElementById("vendorInput").value = name;
-            document.getElementById("vendor_id").value = id;
-            document.getElementById("vendorNameDisplay").textContent = name;
-            document.getElementById("vendorAddress").textContent = address;
-            document.getElementById("vendorPurpose").textContent = purpose;
-            document.getElementById("vendorDropdown").classList.add("hidden");
-
-            // Update semua sel dengan nama vendor
-            const vendorCells = document.querySelectorAll('.vendor-name-cell');
-            vendorCells.forEach(cell => {
-                cell.textContent = name;
-            });
-
-            // Simpan informasi vendor
-            updateVendorInfo({
-                name,
-                address,
-                type: purpose
-            });
         }
 
         // Event listeners untuk auto-save
@@ -601,50 +624,6 @@
                 input.addEventListener('change', function() {
                     updateField(this.name, this.value);
                 });
-            });
-
-            // Setup file upload buttons - PERBAIKAN DI SINI
-            const fileFields = [
-                'file_offerletter', 'file_beritaacaraklarifikasi',
-                'file_bentukperikatan', 'file_bap', 'file_bast'
-            ];
-
-            fileFields.forEach(field => {
-                const button = document.querySelector(`button[name="${field}"]`);
-                if (button) {
-                    // Gunakan data dari PHP dengan format yang benar
-                    const hasFile = {{ isset($orderCommunication->file_offerletter) ? 'true' : 'false' }};
-
-                    if (hasFile) {
-                        // Untuk setiap field, kita perlu mengecek secara individual
-                        let fileName = null;
-                        switch (field) {
-                            case 'file_offerletter':
-                                fileName = '{{ $orderCommunication->file_offerletter ?? '' }}';
-                                break;
-                            case 'file_beritaacaraklarifikasi':
-                                fileName = '{{ $orderCommunication->file_beritaacaraklarifikasi ?? '' }}';
-                                break;
-                            case 'file_bentukperikatan':
-                                fileName = '{{ $orderCommunication->file_bentukperikatan ?? '' }}';
-                                break;
-                            case 'file_bap':
-                                fileName = '{{ $orderCommunication->file_bap ?? '' }}';
-                                break;
-                            case 'file_bast':
-                                fileName = '{{ $orderCommunication->file_bast ?? '' }}';
-                                break;
-                        }
-
-                        if (fileName) {
-                            updateFileUI(field, fileName);
-                        } else {
-                            button.onclick = () => uploadFile(field);
-                        }
-                    } else {
-                        button.onclick = () => uploadFile(field);
-                    }
-                }
             });
         });
     </script>
