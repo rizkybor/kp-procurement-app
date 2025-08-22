@@ -10,7 +10,8 @@
         </h1>
         <!-- Right: Buttons -->
         <div class="flex gap-2 mt-4 sm:mt-0">
-            <x-modal.request-information.modal-edit-request-information :workRequest="$workRequest" :keproyekanList="$keproyekanList" :typeProcurementList="$typeProcurementList" />
+            <x-modal.request-information.modal-edit-request-information :workRequest="$workRequest" :keproyekanList="$keproyekanList"
+                :typeProcurementList="$typeProcurementList" />
         </div>
     </div>
     <div class="mt-4 md:mt-4 md:col-span-2">
@@ -91,8 +92,19 @@
         <h1 class="text-lg md:text-xl text-gray-800 dark:text-gray-100 font-bold">
             Permintaan Barang
         </h1>
+
         <!-- Right: Buttons -->
         <div class="flex gap-2 mt-4 sm:mt-0">
+            {{-- Button Download Template  --}}
+            <x-button.button-action type="button"
+                onclick="window.location.href='{{ route('work_request.work_request_items.template', $workRequest->id) }}'">
+                Download Template
+            </x-button.button-action>
+
+            {{-- Button Import Template  --}}
+            <x-modal.request-item.import-file-item :workRequest="$workRequest" />
+
+            {{-- Button Add Manual  --}}
             <x-modal.request-item.modal-create-request-item :workRequest="$workRequest" />
         </div>
     </div>

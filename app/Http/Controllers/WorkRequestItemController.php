@@ -8,6 +8,10 @@ use App\Models\WorkRequest;
 use Illuminate\Http\Request;
 use App\Models\MstKeproyekan;
 use App\Models\MstTypeProcurement;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RequestItemTemplateExport;
+use App\Imports\RequestItemImport;
+use Illuminate\Support\Facades\DB;
 
 class WorkRequestItemController extends Controller
 {
@@ -123,5 +127,47 @@ class WorkRequestItemController extends Controller
         $itemRequest->delete();
 
         return redirect()->route('work_request.work_request_items.edit', ['id' => $id])->with('success', 'Data berhasil dihapus!');
+    }
+
+    // GET /work-requests/{id}/items/template
+    public function downloadTemplate($id)
+    {
+        // Opsional: validasi work request ada
+        $workRequest = WorkRequest::findOrFail($id);
+
+        $filename = 'template_permintaan_barang_'.$workRequest->id.'.xlsx';
+        return Excel::download(new RequestItemTemplateExport, $filename);
+    }
+
+    // POST /work-requests/{id}/items/import
+    public function importExcel(Request $request, $id)
+    {
+        $request->validate([
+            'file' => ['required','file','mimes:xlsx','max:10240'], // maks 10MB
+        ],[
+            'file.mimes' => 'File harus .xlsx (Excel).',
+        ]);
+
+        $workRequest = WorkRequest::findOrFail($id);
+
+        DB::beginTransaction();
+        try {
+            Excel::import(new RequestItemImport($workRequest->id), $request->file('file'));
+            DB::commit();
+
+            return back()->with('success', 'Berhasil mengimport permintaan barang dari Excel.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            DB::rollBack();
+            // Ambil error baris
+            $failures = $e->failures();
+            // Susun pesan ringkas
+            $messages = collect($failures)->map(function ($f) {
+                return "Baris {$f->row()}: ".implode('; ', $f->errors());
+            })->implode(' | ');
+            return back()->with('error', "Import gagal: {$messages}");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan saat import: '.$e->getMessage());
+        }
     }
 }
