@@ -17,6 +17,8 @@ class WorkRequestItem extends Model
         'quantity',
         'unit',
         'description',
+        'harga',
+        'total_harga',
     ];
 
     public function workRequest()

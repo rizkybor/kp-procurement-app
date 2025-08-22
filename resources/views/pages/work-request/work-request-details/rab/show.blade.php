@@ -10,7 +10,7 @@
     <div class="grid grid-cols-12 gap-6 mt-4">
 
         <!-- Card (Customers) -->
-        <x-documents.table-rab-show :rabRequest="$rabRequest" :workRequest="$workRequest" :itemRequest="$itemRequest" :totalRab="$totalRab" />
+        <x-documents.table-rab-show :workRequest="$workRequest" :itemRequest="$itemRequest" :totalRab="$totalRab" />
 
     </div>
 @endsection

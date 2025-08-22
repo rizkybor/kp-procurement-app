@@ -132,7 +132,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::delete('/{work_request_item_id}', [WorkRequestItemController::class, 'destroy'])->name('destroy');
         });
 
-            Route::prefix('{id}/work_request_items')->name('work_request_items.')->group(function () {
+        Route::prefix('{id}/work_request_items')->name('work_request_items.')->group(function () {
             Route::get('/template', [WorkRequestItemController::class, 'downloadTemplate'])
                 ->name('template');
 
@@ -146,7 +146,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // Route::get('/{work_rab_id}', [WorkRequestRabController::class, 'show'])->name('show');
             Route::post('/store', [WorkRequestRabController::class, 'store'])->name('store');
             Route::put('/{work_rab_id}/update', [WorkRequestRabController::class, 'update'])->name('update');
-            Route::delete('/{work_rab_id}', [WorkRequestRabController::class, 'destroy'])->name('destroy');
+            Route::patch('/{work_rab_id}/update', [WorkRequestRabController::class, 'update'])->name('update.patch');
+
+            Route::delete(
+                '/{work_rab_id}',
+                [WorkRequestRabController::class, 'destroy']
+            )->name('destroy');
         });
 
         // Work spesification
