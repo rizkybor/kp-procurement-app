@@ -8,14 +8,14 @@
 
         <!-- Right: Buttons -->
         <div class="flex gap-2 mt-4 sm:mt-0">
-            <x-modal.request-rab.modal-create-request-rab :workRequest="$workRequest" :itemRequest="$itemRequest" />
+            {{-- <x-modal.request-rab.modal-create-request-rab :workRequest="$workRequest" :itemRequest="$itemRequest" /> --}}
         </div>
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-4">
 
         <!-- Card (Customers) -->
-        <x-documents.table-rab :rabRequest="$rabRequest" :workRequest="$workRequest" :itemRequest="$itemRequest" :totalRab="$totalRab" />
+        <x-documents.table-rab :workRequest="$workRequest" :itemRequest="$itemRequest" :totalRab="$totalRab" />
 
     </div>
 @endsection

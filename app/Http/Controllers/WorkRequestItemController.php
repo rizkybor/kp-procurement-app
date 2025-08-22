@@ -78,7 +78,7 @@ class WorkRequestItemController extends Controller
             ->latest('approved_at')
             ->first();
 
-               $keproyekanList = MstKeproyekan::all();
+        $keproyekanList = MstKeproyekan::all();
         $typeProcurementList = MstTypeProcurement::all();
 
         // Kirim data ke view
