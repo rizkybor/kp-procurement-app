@@ -1,4 +1,4 @@
-@props(['rabRequest', 'workRequest', 'itemRequest', 'totalRab'])
+@props(['itemRequest', 'workRequest', 'itemRequest', 'totalRab'])
 
 <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
     <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
@@ -36,20 +36,20 @@
                 <!-- Table body -->
                 <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
                     @php $i = 1; @endphp
-                    @if (!empty($rabRequest) && $rabRequest->count())
-                        @foreach ($rabRequest as $rab)
+                    @if (!empty($itemRequest) && $itemRequest->count())
+                        @foreach ($itemRequest as $rab)
                             <tr>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center">{{ $i++ }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left">{{ $rab->workRequestItem->description }}</div>
+                                    <div class="text-left">{{ $rab->item_name }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-center">{{ $rab->workRequestItem->quantity }}</div>
+                                    <div class="text-center">{{ $rab->quantity }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-center">{{ $rab->workRequestItem->unit }}</div>
+                                    <div class="text-center">{{ $rab->unit }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center">Rp. {{ number_format($rab->harga, 0, ',', '.') }}</div>
@@ -72,7 +72,7 @@
                 </tbody>
 
                 {{-- tabel total keseluruhan harga rab --}}
-                @if (!empty($rabRequest) && $rabRequest->count())
+                @if (!empty($itemRequest) && $itemRequest->count())
                     <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
                         <tr>
                             <td class="p-2 whitespace-nowrap">

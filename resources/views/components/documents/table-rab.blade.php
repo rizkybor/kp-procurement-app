@@ -57,7 +57,7 @@
                                 </td>
 
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left">{{ $rab->description }}</div>
+                                    <div class="text-left">{{ $rab->item_name }}</div>
                                 </td>
 
                                 {{-- JUMLAH: editable --}}
