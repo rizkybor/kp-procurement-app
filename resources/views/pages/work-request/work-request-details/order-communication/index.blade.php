@@ -56,19 +56,22 @@
                         </div>
                     </div>
 
+                    <!-- Di bagian vendor display -->
                     <div class="space-y-2">
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Nama Perusahaan</span>
-                            <span class="text-gray-600 dark:text-gray-400">: <span
-                                    id="vendorNameDisplay">-</span></span>
+                            <span class="text-gray-600 dark:text-gray-400">: <span id="vendorNameDisplay"
+                                    name="company_name">{{ $orderCommunication->company_name ?? '-' }}</span></span>
                         </div>
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Alamat Perusahaan</span>
-                            <span class="text-gray-600 dark:text-gray-400">: <span id="vendorAddress">-</span></span>
+                            <span class="text-gray-600 dark:text-gray-400">: <span id="vendorAddress"
+                                    name="company_address">{{ $orderCommunication->company_address ?? '-' }}</span></span>
                         </div>
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Tujuan Perusahaan</span>
-                            <span class="text-gray-600 dark:text-gray-400">: <span id="vendorPurpose">-</span></span>
+                            <span class="text-gray-600 dark:text-gray-400">: <span id="vendorPurpose"
+                                    name="company_goal">{{ $orderCommunication->company_goal ?? '-' }}</span></span>
                         </div>
                     </div>
 
@@ -113,7 +116,9 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">1</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        {{ \Carbon\Carbon::parse($workRequests->created_at)->translatedFormat('d F Y') }}
+                                        <span class="flex justify-center items-center h-full">
+                                            {{ \Carbon\Carbon::parse($workRequests->created_at)->format('m/d/Y') }}
+                                        </span>
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         {{ $workRequests->request_number }}</td>
@@ -134,15 +139,18 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">2</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        <input type="date" name="tanggal"
+                                        <input type="date" name="date_applicationletter"
+                                            value="{{ $orderCommunication->date_applicationletter }}"
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_applicationletter">-
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Permohonan Permintaan
                                         Harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
                                             <x-button.button-action color="blue" icon="print">
@@ -155,20 +163,24 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">3</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        <input type="date" name="tanggal"
+                                        <input type="date" name="date_offerletter"
+                                            value="{{ $orderCommunication->date_offerletter }}"
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        <input type="text" name="custom_field" placeholder="Isi data..."
+                                        <input type="text" name="no_offerletter" placeholder="Isi data..."
+                                            value="{{ $orderCommunication->no_offerletter }}"
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Penawaran Harga</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload">
+                                            <x-button.button-action color="blue" icon="upload"
+                                                name="file_offerletter">
                                                 Upload
                                             </x-button.button-action>
                                         </div>
@@ -178,10 +190,12 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">4</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        <input type="date" name="tanggal"
+                                        <input type="date" name="date_evaluationletter"
+                                            value="{{ $orderCommunication->date_evaluationletter }}"
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_evaluationletter">
+                                        -</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Evaluasi Teknis Penawaran
                                         Mitra</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -199,15 +213,18 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">5</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        <input type="date" name="tanggal"
+                                        <input type="date" name="date_negotiationletter"
+                                            value="{{ $orderCommunication->date_negotiationletter }}"
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"
+                                        name="no_negotiationletter">-</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat undangan klarifikasi
                                         dan negoisasi harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
                                             <x-button.button-action color="blue" icon="print">
@@ -226,11 +243,13 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Klarifikasi &
                                         Negoisasi Harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload">
+                                            <x-button.button-action color="blue" icon="upload"
+                                                name="file_beritaacaraklarifikasi">
                                                 Upload
                                             </x-button.button-action>
                                         </div>
@@ -246,8 +265,9 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Penunjukan Penyedia
                                         Barang/Jasa</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
                                             <x-button.button-action color="blue" icon="print">
@@ -264,11 +284,13 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Bentuk Perikatan
                                         Perjanjian/SPK/PO</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload">
+                                            <x-button.button-action color="blue" icon="upload"
+                                                name="file_bentukperikatan">
                                                 Upload
                                             </x-button.button-action>
                                         </div>
@@ -282,11 +304,12 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Pemeriksaan
                                         Pekerjaan (BAP)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload">
+                                            <x-button.button-action color="blue" icon="upload" name="file_BAD">
                                                 Upload
                                             </x-button.button-action>
                                         </div>
@@ -300,11 +323,12 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Serah Terima
                                         Pekerjaan (BAST)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">Otomatis
-                                        Nama Vendor</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="upload">
+                                            <x-button.button-action color="blue" icon="upload" name="file_BAST">
                                                 Upload
                                             </x-button.button-action>
                                         </div>
@@ -317,6 +341,7 @@
             </div>
         </div>
     </div>
+
     <script>
         // Toggle vendor dropdown
         function toggleVendorDropdown() {
@@ -356,6 +381,271 @@
             if (!input.contains(event.target) && !dropdown.contains(event.target)) {
                 dropdown.classList.add("hidden");
             }
+        });
+    </script>
+
+    <script>
+        // CSRF Token untuk AJAX
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const orderCommId = {{ $orderCommunication->id }};
+        const workRequestId = {{ $workRequests->id }};
+
+        // Function untuk update field
+        function updateField(field, value) {
+            fetch(`/work_request/order_communication/${orderCommId}/update-field`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        field: field,
+                        value: value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Data berhasil disimpan', 'success');
+                    } else {
+                        showNotification('Gagal menyimpan data', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Terjadi kesalahan', 'error');
+                });
+        }
+
+        // Function untuk upload file
+        function uploadFile(field) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.doc,.docx,.jpg,.jpeg,.png';
+
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const formData = new FormData();
+                formData.append('field', field);
+                formData.append('file', file);
+
+                fetch(`/work_request/order_communication/${orderCommId}/upload`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showNotification('File berhasil diupload', 'success');
+                            // Update UI untuk menampilkan file yang diupload
+                            updateFileUI(field, data.file_name);
+                        } else {
+                            showNotification('Gagal upload file', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        showNotification('Terjadi kesalahan', 'error');
+                    });
+            };
+
+            input.click();
+        }
+
+        // Function untuk delete file
+        function deleteFile(field) {
+            if (!confirm('Apakah Anda yakin ingin menghapus file ini?')) return;
+
+            fetch(`/work_request/order_communication/${orderCommId}/delete-file`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        field: field
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('File berhasil dihapus', 'success');
+                        // Update UI setelah hapus file
+                        updateFileUI(field, null);
+                    } else {
+                        showNotification('Gagal menghapus file', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Terjadi kesalahan', 'error');
+                });
+        }
+
+        // Function untuk view file
+        function viewFile(field) {
+            window.open(`/work_request/order_communication/${orderCommId}/view-file/${field}`, '_blank');
+        }
+
+        // Function untuk update vendor info
+        function updateVendorInfo(vendorData) {
+            fetch(`/work_request/order_communication/${orderCommId}/update-vendor`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        company_name: vendorData.name,
+                        company_address: vendorData.address,
+                        company_goal: vendorData.type
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Informasi vendor berhasil disimpan', 'success');
+                    } else {
+                        showNotification('Gagal menyimpan informasi vendor', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Terjadi kesalahan', 'error');
+                });
+        }
+
+        // Function untuk update UI file
+        function updateFileUI(field, fileName) {
+            const button = document.querySelector(`button[name="${field}"]`);
+            if (button) {
+                if (fileName) {
+                    // Ubah button menjadi memiliki opsi view dan delete
+                    button.innerHTML = `
+                <span class="flex items-center">
+                    <i class="fas fa-eye mr-1"></i> Lihat
+                </span>
+            `;
+                    button.onclick = () => viewFile(field);
+
+                    // Tambahkan button delete jika belum ada
+                    if (!button.nextElementSibling || !button.nextElementSibling.classList.contains('delete-file-btn')) {
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.className = 'ml-2 text-red-600 hover:text-red-800 delete-file-btn';
+                        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                        deleteBtn.onclick = () => deleteFile(field);
+                        button.parentNode.appendChild(deleteBtn);
+                    }
+                } else {
+                    // Kembalikan ke button upload
+                    button.innerHTML = `
+                <span class="flex items-center">
+                    <i class="fas fa-upload mr-1"></i> Upload
+                </span>
+            `;
+                    button.onclick = () => uploadFile(field);
+
+                    // Hapus button delete jika ada
+                    const deleteBtn = button.nextElementSibling;
+                    if (deleteBtn && deleteBtn.classList.contains('delete-file-btn')) {
+                        deleteBtn.remove();
+                    }
+                }
+            }
+        }
+
+        // Function untuk show notification
+        function showNotification(message, type) {
+            // Implementasi notifikasi sederhana
+            const notification = document.createElement('div');
+            notification.className = `fixed bottom-4 right-4 p-4 rounded-md shadow-md text-white ${
+    type === 'success' ? 'bg-green-500' : 'bg-red-500'
+}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Function saat pilih vendor
+        function selectVendor(id, name, address, purpose) {
+            document.getElementById("vendorInput").value = name;
+            document.getElementById("vendor_id").value = id;
+            document.getElementById("vendorNameDisplay").textContent = name;
+            document.getElementById("vendorAddress").textContent = address;
+            document.getElementById("vendorPurpose").textContent = purpose;
+            document.getElementById("vendorDropdown").classList.add("hidden");
+
+            // Update semua sel dengan nama vendor
+            const vendorCells = document.querySelectorAll('.vendor-name-cell');
+            vendorCells.forEach(cell => {
+                cell.textContent = name;
+            });
+
+            // Simpan informasi vendor
+            updateVendorInfo({
+                name,
+                address,
+                type: purpose
+            });
+        }
+
+        // Event listeners untuk auto-save
+        document.addEventListener('DOMContentLoaded', function() {
+            // Input fields untuk data teks
+            const inputFields = document.querySelectorAll('input[type="date"], input[type="text"]');
+            inputFields.forEach(input => {
+                input.addEventListener('change', function() {
+                    updateField(this.name, this.value);
+                });
+            });
+
+            // Setup file upload buttons - PERBAIKAN DI SINI
+            const fileFields = [
+                'file_offerletter', 'file_beritaacaraklarifikasi',
+                'file_bentukperikatan', 'file_bap', 'file_bast'
+            ];
+
+            fileFields.forEach(field => {
+                const button = document.querySelector(`button[name="${field}"]`);
+                if (button) {
+                    // Gunakan data dari PHP dengan format yang benar
+                    const hasFile = {{ isset($orderCommunication->file_offerletter) ? 'true' : 'false' }};
+
+                    if (hasFile) {
+                        // Untuk setiap field, kita perlu mengecek secara individual
+                        let fileName = null;
+                        switch (field) {
+                            case 'file_offerletter':
+                                fileName = '{{ $orderCommunication->file_offerletter ?? '' }}';
+                                break;
+                            case 'file_beritaacaraklarifikasi':
+                                fileName = '{{ $orderCommunication->file_beritaacaraklarifikasi ?? '' }}';
+                                break;
+                            case 'file_bentukperikatan':
+                                fileName = '{{ $orderCommunication->file_bentukperikatan ?? '' }}';
+                                break;
+                            case 'file_bap':
+                                fileName = '{{ $orderCommunication->file_bap ?? '' }}';
+                                break;
+                            case 'file_bast':
+                                fileName = '{{ $orderCommunication->file_bast ?? '' }}';
+                                break;
+                        }
+
+                        if (fileName) {
+                            updateFileUI(field, fileName);
+                        } else {
+                            button.onclick = () => uploadFile(field);
+                        }
+                    } else {
+                        button.onclick = () => uploadFile(field);
+                    }
+                }
+            });
         });
     </script>
 </x-app-layout>

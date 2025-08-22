@@ -14,22 +14,42 @@ return new class extends Migration
         Schema::create('order_communications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('work_request_id')->constrained('work_request')->onDelete('cascade');
-            $table->string('company_name');
-            $table->string('company_address');
-            $table->string('company_goal');
-            $table->string('date_applicationletter');
-            $table->string('no_applicationletter');
-            $table->string('date_offerletter');
-            $table->string('no_offerletter');
-            $table->string('file_offerletter');
-            $table->string('date_evaluationletter');
-            $table->string('no_evaluationletter');
-            $table->string('date_negotiationletter');
-            $table->string('no_negotiationletter');
-            $table->string('file_beritaacaraklarifikasi');
-            $table->string('file_bentukperikatan');
-            $table->string('file_BAD');
-            $table->string('file_BAST');
+            $table->string('company_name')->nullable(); // Pastikan nullable
+            $table->text('company_address')->nullable(); // Pastikan nullable
+            $table->string('company_goal')->nullable(); // Pastikan nullable
+
+            // Dokumen 2: Surat Permohonan Permintaan Harga
+            $table->date('date_applicationletter')->nullable();
+            $table->string('no_applicationletter')->nullable();
+
+            // Dokumen 3: Surat Penawaran Harga
+            $table->date('date_offerletter')->nullable();
+            $table->string('no_offerletter')->nullable();
+            $table->string('file_offerletter')->nullable();
+
+            // Dokumen 4: Evaluasi Teknis
+            $table->date('date_evaluationletter')->nullable();
+            $table->string('no_evaluationletter')->nullable();
+
+            // Dokumen 5: Surat Undangan Negosiasi
+            $table->date('date_negotiationletter')->nullable();
+            $table->string('no_negotiationletter')->nullable();
+
+            // Dokumen 6: Berita Acara Klarifikasi & Negosiasi
+            $table->string('file_beritaacaraklarifikasi')->nullable();
+
+            // Dokumen 7: Surat Penunjukan
+            $table->string('file_suratpenunjukan')->nullable();
+
+            // Dokumen 8: Bentuk Perikatan
+            $table->string('file_bentukperikatan')->nullable();
+
+            // Dokumen 9: Berita Acara Pemeriksaan (BAP)
+            $table->string('file_bap')->nullable();
+
+            // Dokumen 10: Berita Acara Serah Terima (BAST)
+            $table->string('file_bast')->nullable();
+
             $table->timestamps();
         });
     }

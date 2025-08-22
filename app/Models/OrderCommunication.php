@@ -25,8 +25,8 @@ class OrderCommunication extends Model
         'no_negotiationletter',
         'file_beritaacaraklarifikasi',
         'file_bentukperikatan',
-        'file_BAD',
-        'file_BAST',
+        'file_bap',
+        'file_bast'
     ];
 
     public function workRequest()

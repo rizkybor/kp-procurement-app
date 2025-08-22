@@ -118,10 +118,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // Route Order Communication
         Route::get('{id}/show/order_communication', [OrderCommunicationController::class, 'index'])->name('order_communication.index');
         Route::post('order_communication', [OrderCommunicationController::class, 'store'])->name('order_communication.store');
-        Route::put('order_communication/{id}', [OrderCommunicationController::class, 'update'])->name('order_communication.update');
-        Route::delete('order_communication/{id}', [OrderCommunicationController::class, 'destroy'])->name('order_communication.destroy');
+        Route::post('order_communication/{id}/update-field', [OrderCommunicationController::class, 'update'])->name('order_communication.update-field');
+        Route::post('order_communication/{id}/update-vendor', [OrderCommunicationController::class, 'updateVendorInfo'])->name('order_communication.update-vendor');
         Route::post('order_communication/{id}/upload', [OrderCommunicationController::class, 'upload'])->name('order_communication.upload');
         Route::delete('order_communication/{id}/delete-file', [OrderCommunicationController::class, 'deleteFile'])->name('order_communication.delete-file');
+        Route::get('order_communication/{id}/view-file/{field}', [OrderCommunicationController::class, 'viewFile'])->name('order_communication.view-file');
+
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {
