@@ -132,6 +132,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::delete('/{work_request_item_id}', [WorkRequestItemController::class, 'destroy'])->name('destroy');
         });
 
+            Route::prefix('{id}/work_request_items')->name('work_request_items.')->group(function () {
+            Route::get('/template', [WorkRequestItemController::class, 'downloadTemplate'])
+                ->name('template');
+
+            Route::post('/import', [WorkRequestItemController::class, 'importExcel'])
+                ->name('import');
+        });
+
         // Work Rabs Items
         Route::prefix('{id}/edit/work_rabs')->name('work_rabs.')->group(function () {
             Route::get('/', [WorkRequestRabController::class, 'edit'])->name('edit');
