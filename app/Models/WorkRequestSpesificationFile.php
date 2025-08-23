@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class WorkRequestSpesificationFiles extends Model
+class WorkRequestSpesificationFile extends Model
 {
     protected $table = 'work_request_spesification_files';
 
