@@ -15,6 +15,7 @@ use App\Http\Controllers\WorkRequestDataTableController;
 use App\Http\Controllers\WorkRequestItemController;
 use App\Http\Controllers\WorkRequestRabController;
 use App\Http\Controllers\WorkRequestSpesificationController;
+use App\Http\Controllers\WorkRequestSpesificationFileController;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -164,6 +165,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::put('/{work_spesification_id}/update', [WorkRequestSpesificationController::class, 'update'])->name('update');
             Route::delete('/{work_spesification_id}', [WorkRequestSpesificationController::class, 'destroy'])->name('destroy');
         });
+
+        // Work spesification Files
+        Route::post('{id}/spesification-files', [WorkRequestSpesificationFileController::class, 'store'])
+            ->name('work_spesification_files.store');
+
+        Route::delete('{id}/spesification-files/{file}', [WorkRequestSpesificationFileController::class, 'destroy'])
+            ->name('work_spesification_files.destroy');
+
+        Route::get('spesification-files/{file}', [WorkRequestSpesificationFileController::class, 'download'])
+            ->name('work_spesification_files.download');
 
         // Histories
         Route::prefix('histories')->name('histories.')->group(function () {

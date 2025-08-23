@@ -5,13 +5,6 @@
         <h1 class="text-lg md:text-xl text-gray-800 dark:text-gray-100 font-bold">
             Spesification
         </h1>
-
-        <!-- Right: Buttons -->
-        <div class="flex gap-2 mt-4 sm:mt-0">
-            <div class="flex gap-2 mt-4 sm:mt-0">
-                <x-modal.request-spesification.modal-create-request-spesification :workRequest="$workRequest" />
-            </div>
-        </div>
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-4">
