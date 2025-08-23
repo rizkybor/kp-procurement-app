@@ -32,25 +32,21 @@ class WorkRequestSpesificationController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            'scope_of_work' => 'required',
-            'contract_type' => 'required',
-            'safety_aspect' => 'required',
-            'reporting' => 'required',
-            'provider_requirements' => 'required',
-            'payment_procedures' => 'required',
+            'scope_of_work'      => ['required','string','max:255'],
+            'contract_type'      => ['required','string','max:255'],
+            'payment_procedures' => ['required','string','max:255'],
         ]);
 
         WorkRequestSpesification::create([
-            'work_request_id' => $id,
-            'scope_of_work' => $request->scope_of_work,
-            'contract_type' => $request->contract_type,
-            'safety_aspect' => $request->safety_aspect,
-            'reporting' => $request->reporting,
-            'provider_requirements' => $request->provider_requirements,
+            'work_request_id'    => $id,
+            'scope_of_work'      => $request->scope_of_work,
+            'contract_type'      => $request->contract_type,
             'payment_procedures' => $request->payment_procedures,
         ]);
 
-        return redirect()->route('work_request.work_spesifications.edit', ['id' => $id])->with('success', 'Data berhasil disimpan!');
+        return redirect()
+            ->route('work_request.work_spesifications.edit', ['id' => $id])
+            ->with('success', 'Data berhasil disimpan!');
     }
 
     /**
@@ -73,7 +69,10 @@ class WorkRequestSpesificationController extends Controller
             ->latest('approved_at')
             ->first();
 
-        return view('pages.work-request.work-request-details.spesification.show', compact('workRequest', 'specRequest', 'totalRab', 'latestApprover'));
+        return view(
+            'pages.work-request.work-request-details.spesification.show',
+            compact('workRequest', 'specRequest', 'totalRab', 'latestApprover')
+        );
     }
 
     /**
@@ -90,7 +89,10 @@ class WorkRequestSpesificationController extends Controller
             ->latest('approved_at')
             ->first();
 
-        return view('pages.work-request.work-request-details.spesification.index', compact('workRequest', 'specRequest', 'latestApprover'));
+        return view(
+            'pages.work-request.work-request-details.spesification.index',
+            compact('workRequest', 'specRequest', 'latestApprover')
+        );
     }
 
     /**
@@ -99,12 +101,9 @@ class WorkRequestSpesificationController extends Controller
     public function update(Request $request, $work_request_id, $work_spesification_id)
     {
         $request->validate([
-            'scope_of_work' => 'required',
-            'contract_type' => 'required',
-            'safety_aspect' => 'required',
-            'reporting' => 'required',
-            'provider_requirements' => 'required',
-            'payment_procedures' => 'required',
+            'scope_of_work'      => ['required','string','max:255'],
+            'contract_type'      => ['required','string','max:255'],
+            'payment_procedures' => ['required','string','max:255'],
         ]);
 
         $specRequest = WorkRequestSpesification::where('work_request_id', $work_request_id)
@@ -112,15 +111,14 @@ class WorkRequestSpesificationController extends Controller
             ->firstOrFail();
 
         $specRequest->update([
-            'scope_of_work' => $request->scope_of_work,
-            'contract_type' => $request->contract_type,
-            'safety_aspect' => $request->safety_aspect,
-            'reporting' => $request->reporting,
-            'provider_requirements' => $request->provider_requirements,
+            'scope_of_work'      => $request->scope_of_work,
+            'contract_type'      => $request->contract_type,
             'payment_procedures' => $request->payment_procedures,
         ]);
 
-        return redirect()->route('work_request.work_spesifications.edit', ['id' => $work_request_id])->with('success', 'Data berhasil dihapus!');
+        return redirect()
+            ->route('work_request.work_spesifications.edit', ['id' => $work_request_id])
+            ->with('success', 'Data berhasil diperbarui!');
     }
 
     /**
@@ -129,9 +127,10 @@ class WorkRequestSpesificationController extends Controller
     public function destroy($id, $work_spesification_id)
     {
         $specRequest = WorkRequestSpesification::findOrFail($work_spesification_id);
-
         $specRequest->delete();
 
-        return redirect()->route('work_request.work_spesifications.edit', ['id' => $id])->with('success', 'Data berhasil dihapus!');
+        return redirect()
+            ->route('work_request.work_spesifications.edit', ['id' => $id])
+            ->with('success', 'Data berhasil dihapus!');
     }
 }

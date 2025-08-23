@@ -5,7 +5,7 @@
     <!-- Button to Open Modal -->
     <x-button.button-action @click="modalOpen = true" color="yellow" type="button" icon="add-document"
         showTextOnMobile="true">
-        Tambah Spesification
+        Upload File Spesification
     </x-button.button-action>
     <div class="fixed inset-0 bg-gray-900 bg-opacity-30 z-50 flex items-center justify-center" x-show="modalOpen" x-cloak>
         <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg max-w-lg w-full"
