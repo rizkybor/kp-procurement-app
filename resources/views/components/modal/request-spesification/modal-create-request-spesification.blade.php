@@ -26,7 +26,7 @@
                 <div class="space-y-4">
                     <!-- Input file -->
                     <div x-data @change="files = Array.from($event.target.files)">
-                        <x-label for="files" value="{{ __('Pilih File (boleh lebih dari satu)') }}" />
+                        <x-label for="files" value="{{ __('Pilih File') }}" />
 
                         <input id="files" name="files[]" type="file"
                             class="mt-1 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-amber-500 file:text-white hover:file:bg-amber-600 dark:file:bg-amber-600 dark:hover:file:bg-amber-500"
@@ -50,8 +50,7 @@
                         </template>
 
                         <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                            Format yang didukung: PDF, DOC/DOCX, XLS/XLSX, JPG/PNG, ZIP/RAR. Maks. 10MB per file
-                            (sesuaikan di validator).
+                            Format yang didukung: PDF, DOC/DOCX, XLS/XLSX, JPG/PNG, ZIP/RAR. Maks. 10MB per file.
                         </p>
                     </div>
 
