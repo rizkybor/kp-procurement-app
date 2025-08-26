@@ -114,7 +114,9 @@ class WorkRequestController extends Controller
             ->where('work_request_id', $id)
             ->get();
 
-        $totalRab = $rabRequest->sum('total_harga');
+
+        // Total RAB sekarang dari item
+        $totalRab = $itemRequest->sum('total_harga');
 
         $latestApprover = DocumentApproval::where('document_id', $id)
             ->where('status', '!=', '102') // Abaikan status revisi jika perlu

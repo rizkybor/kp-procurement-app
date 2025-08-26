@@ -66,7 +66,7 @@
     @endif
 
     @if ($isShowPage)
-        <div x-data="{ open: false }" class="relative">
+        {{-- <div x-data="{ open: false }" class="relative">
             <x-button.button-action @click="open = !open" color="blue" icon="print">
                 Cetak Dokumen
             </x-button.button-action>
@@ -84,7 +84,7 @@
                     @endforeach
                 </ul>
             </div>
-        </div>
+        </div> --}}
 
         {{-- User: Selain Maker --}}
         @if (auth()->user()->role !== 'maker')

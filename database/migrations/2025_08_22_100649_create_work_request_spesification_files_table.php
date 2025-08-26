@@ -18,9 +18,10 @@ return new class extends Migration
 
             $table->string('file_name');
             $table->string('original_name');
+            $table->string('description')->nullable();;
             $table->string('extension', 20)->nullable();
             $table->unsignedBigInteger('size')->default(0);
-            $table->string('path');
+            $table->string('path')->nullable();
 
             $table->unsignedBigInteger('uploaded_by')->nullable();
             $table->foreign('uploaded_by', 'fk_wr_spec_files_user')

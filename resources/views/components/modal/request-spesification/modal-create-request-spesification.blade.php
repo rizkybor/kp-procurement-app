@@ -1,18 +1,15 @@
 @props(['workRequest'])
 
-<!-- Modal Upload File Spesification -->
-<div x-data="{ modalOpen: false, files: [] }">
-    <!-- Button Open Modal -->
+<!-- Modal Upload File Spesification (Single File) -->
+<div x-data="{ modalOpen: false, file: null }">
     <x-button.button-action @click="modalOpen = true" color="yellow" type="button" icon="add-document"
         showTextOnMobile="true">
         Upload File Spesification
     </x-button.button-action>
 
-    <!-- Backdrop + Dialog -->
     <div class="fixed inset-0 bg-gray-900 bg-opacity-30 z-50 flex items-center justify-center" x-show="modalOpen" x-cloak>
         <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg max-w-lg w-full"
             @click.outside="modalOpen = false">
-
             <div class="flex justify-center items-center mb-4">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     Upload File Spesification
@@ -23,56 +20,71 @@
                 method="POST" enctype="multipart/form-data">
                 @csrf
 
+                {{-- Error global dari controller/validasi --}}
+                @if ($errors->any())
+                    <div class="mb-4 p-3 rounded-md bg-red-100 border border-red-400 text-red-700 text-sm">
+                        <ul class="list-disc list-inside space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="mb-4 p-3 rounded-md bg-red-100 border border-red-400 text-red-700 text-sm">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="mb-4 p-3 rounded-md bg-green-100 border border-green-400 text-green-700 text-sm">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <div class="space-y-4">
-                    <!-- Input file -->
-                    <div x-data @change="files = Array.from($event.target.files)">
-                        <x-label for="files" value="{{ __('Pilih File (boleh lebih dari satu)') }}" />
+                    <!-- Input file: single -->
+                    <div x-data @change="file = $event.target.files[0] ?? null">
+                        <x-label for="file" value="{{ __('Pilih File') }}" />
 
-                        <input id="files" name="files[]" type="file"
+                        <input id="file" name="file" type="file"
                             class="mt-1 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-amber-500 file:text-white hover:file:bg-amber-600 dark:file:bg-amber-600 dark:hover:file:bg-amber-500"
-                            multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip,.rar" />
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip,.rar" />
 
-                        <x-input-error for="files" class="mt-2" />
-                        <x-input-error for="files.*" class="mt-2" />
+                        <x-input-error for="file" class="mt-2" />
 
-                        <!-- Preview list -->
-                        <template x-if="files.length">
-                            <ul
-                                class="mt-3 space-y-1 text-sm text-gray-700 dark:text-gray-200 max-h-40 overflow-auto border rounded-md p-3 dark:border-gray-700/60">
-                                <template x-for="(f, idx) in files" :key="idx">
-                                    <li class="flex items-center justify-between">
-                                        <span x-text="f.name"></span>
-                                        <span class="text-xs text-gray-500"
-                                            x-text="(f.size/1024).toFixed(1) + ' KB'"></span>
-                                    </li>
-                                </template>
-                            </ul>
+                        <!-- Preview single -->
+                        <template x-if="file">
+                            <div
+                                class="mt-3 text-sm text-gray-700 dark:text-gray-200 border rounded-md p-3 dark:border-gray-700/60">
+                                <div class="flex items-center justify-between">
+                                    <span x-text="file?.name ?? ''"></span>
+                                    <span class="text-xs text-gray-500"
+                                        x-text="(file?.size/1024).toFixed(1) + ' KB'"></span>
+                                </div>
+                            </div>
                         </template>
 
                         <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                            Format yang didukung: PDF, DOC/DOCX, XLS/XLSX, JPG/PNG, ZIP/RAR. Maks. 10MB per file
-                            (sesuaikan di validator).
+                            Format didukung: PDF, DOC/DOCX, XLS/XLSX, JPG/PNG, ZIP/RAR. Maks. 10MB.
                         </p>
                     </div>
 
-                    <!-- (Opsional) Catatan/Keterangan umum untuk batch upload -->
+                    <!-- Catatan -->
                     <div>
-                        <x-label for="note" value="{{ __('Catatan (opsional)') }}" />
-                        <textarea id="note" name="note" rows="2"
+                        <x-label for="description" value="{{ __('Catatan (opsional)') }}" />
+                        <textarea id="description" name="description" rows="2"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                            placeholder="Tambahkan catatan untuk file yang diunggah (opsional)">{{ old('note') }}</textarea>
-                        <x-input-error for="note" class="mt-2" />
+                            placeholder="Tambahkan catatan (opsional)">{{ old('description') }}</textarea>
+                        <x-input-error for="description" class="mt-2" />
                     </div>
                 </div>
 
                 <div class="flex justify-end gap-2 mt-6">
-                    <x-button.button-action color="red" type="button" @click="modalOpen = false">
-                        Batal
-                    </x-button.button-action>
-
-                    <x-button.button-action color="teal" type="submit">
-                        Upload
-                    </x-button.button-action>
+                    <x-button.button-action color="red" type="button"
+                        @click="modalOpen = false">Batal</x-button.button-action>
+                    <x-button.button-action color="teal" type="submit">Upload</x-button.button-action>
                 </div>
             </form>
         </div>
