@@ -23,4 +23,8 @@ class WorkRequestSpesification extends Model
     {
         return $this->belongsTo(WorkRequest::class);
     }
+    public function files()
+    {
+        return $this->hasMany(WorkRequestSpesificationFile::class, 'work_request_spesification_id');
+    }
 }

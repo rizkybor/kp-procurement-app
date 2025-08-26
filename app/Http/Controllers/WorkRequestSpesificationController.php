@@ -6,6 +6,7 @@ use App\Models\DocumentApproval;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestRab;
 use App\Models\WorkRequestSpesification;
+use App\Models\WorkRequestItem;
 use Illuminate\Http\Request;
 
 class WorkRequestSpesificationController extends Controller
@@ -55,13 +56,15 @@ class WorkRequestSpesificationController extends Controller
     public function show($id)
     {
         $workRequest = WorkRequest::findOrFail($id);
-        $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
+        $specRequest = WorkRequestSpesification::with('files')
+        ->where('work_request_id', $id)
+        ->first();
 
-        $rabRequest = WorkRequestRab::with('workRequestItem')
-            ->where('work_request_id', $id)
-            ->get();
+        // Semua item untuk WR ini
+        $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
 
-        $totalRab = $rabRequest->sum('total_harga');
+        // Total RAB sekarang dari item
+        $totalRab = $itemRequest->sum('total_harga');
 
         $latestApprover = DocumentApproval::where('document_id', $id)
             ->where('status', '!=', '102') // Abaikan status revisi jika perlu
@@ -81,7 +84,9 @@ class WorkRequestSpesificationController extends Controller
     public function edit($id)
     {
         $workRequest = WorkRequest::findOrFail($id);
-        $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
+        $specRequest = WorkRequestSpesification::with('files')
+        ->where('work_request_id', $id)
+        ->first();
 
         $latestApprover = DocumentApproval::where('document_id', $id)
             ->where('status', '!=', '102') // Abaikan status revisi jika perlu
