@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 
 class OrderCommunicationController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      */
@@ -24,9 +26,30 @@ class OrderCommunicationController extends Controller
                 'work_request_id' => $id,
                 'company_name' => '-',
                 'company_address' => '-',
-                'company_goal' => '-'
+                'company_goal' => '-',
+                'no_applicationletter' => $this->generateDocumentNumber('application', $id),
+                'no_evaluationletter' => $this->generateDocumentNumber('evaluation', $id),
+                'no_negotiationletter' => $this->generateDocumentNumber('negotiation', $id)
             ]
         );
+
+        // Jika record sudah ada tetapi nomor dokumen masih kosong, generate nomor
+        if ($orderCommunication->wasRecentlyCreated === false) {
+            if (empty($orderCommunication->no_applicationletter)) {
+                $orderCommunication->no_applicationletter = $this->generateDocumentNumber('application', $id);
+            }
+            if (empty($orderCommunication->no_evaluationletter)) {
+                $orderCommunication->no_evaluationletter = $this->generateDocumentNumber('evaluation', $id);
+            }
+            if (empty($orderCommunication->no_negotiationletter)) {
+                $orderCommunication->no_negotiationletter = $this->generateDocumentNumber('negotiation', $id);
+            }
+
+            // Simpan jika ada perubahan
+            if ($orderCommunication->isDirty()) {
+                $orderCommunication->save();
+            }
+        }
 
         // Data dummy vendor
         $vendors = [
@@ -262,6 +285,93 @@ class OrderCommunicationController extends Controller
             'success' => true,
             'message' => 'Informasi vendor berhasil diperbarui'
         ]);
+    }
+
+    /**
+     * Konversi angka ke angka Romawi
+     */
+    private function toRoman($number)
+    {
+        $map = [
+            'M' => 1000,
+            'CM' => 900,
+            'D' => 500,
+            'CD' => 400,
+            'C' => 100,
+            'XC' => 90,
+            'L' => 50,
+            'XL' => 40,
+            'X' => 10,
+            'IX' => 9,
+            'V' => 5,
+            'IV' => 4,
+            'I' => 1
+        ];
+
+        $result = '';
+        foreach ($map as $roman => $value) {
+            $matches = intval($number / $value);
+            $result .= str_repeat($roman, $matches);
+            $number %= $value;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Generate nomor dokumen otomatis
+     */
+    private function generateDocumentNumber($type, $workRequestId)
+    {
+        // Ambil tahun sekarang
+        $currentYear = date('Y');
+
+        // Tentukan prefix berdasarkan jenis dokumen
+        $prefixes = [
+            'application' => 'SPPH',
+            'evaluation' => 'ET',
+            'negotiation' => 'UND-KNH'
+        ];
+
+        $prefix = $prefixes[$type] ?? '';
+
+        // Hitung nomor urut berdasarkan tahun dan work request
+        $lastDoc = OrderCommunication::whereYear('created_at', $currentYear)
+            ->where('work_request_id', '!=', $workRequestId) // Exclude current record if updating
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Jika ada dokumen di tahun yang sama, ambil nomor urutnya
+        if ($lastDoc) {
+            $lastNumber = 0;
+
+            // Cek nomor berdasarkan jenis dokumen
+            switch ($type) {
+                case 'application':
+                    $lastNumber = intval(explode('/', $lastDoc->no_applicationletter)[0] ?? 0);
+                    break;
+                case 'evaluation':
+                    $lastNumber = intval(explode('/', $lastDoc->no_evaluationletter)[0] ?? 0);
+                    break;
+                case 'negotiation':
+                    $lastNumber = intval(explode('/', $lastDoc->no_negotiationletter)[0] ?? 0);
+                    break;
+            }
+
+            $nextNumber = $lastNumber + 10;
+        } else {
+            // Jika tidak ada dokumen di tahun ini, mulai dari 100
+            $nextNumber = 100;
+        }
+
+        // Format nomor dengan leading zeros
+        $formattedNumber = str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
+
+        // Bulan Romawi
+        $romanMonth = $this->toRoman(date('n'));
+
+        // Format akhir
+        return "{$formattedNumber}/{$prefix}/GA/KPU/{$romanMonth}/{$currentYear}";
     }
 
     /**

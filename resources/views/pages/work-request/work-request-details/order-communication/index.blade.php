@@ -143,7 +143,8 @@
                                             value="{{ $orderCommunication->date_applicationletter }}"
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_applicationletter">-
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_applicationletter">
+                                        {{ $orderCommunication->no_applicationletter ?? '-' }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Permohonan Permintaan
                                         Harga</td>
@@ -206,7 +207,7 @@
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_evaluationletter">
-                                        -</td>
+                                        {{ $orderCommunication->no_evaluationletter ?? '-' }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Evaluasi Teknis Penawaran
                                         Mitra</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -229,7 +230,8 @@
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600"
-                                        name="no_negotiationletter">-</td>
+                                        name="no_negotiationletter">
+                                        {{ $orderCommunication->no_negotiationletter ?? '-' }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat undangan klarifikasi
                                         dan negoisasi harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
