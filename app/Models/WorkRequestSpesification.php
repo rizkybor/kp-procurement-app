@@ -13,14 +13,18 @@ class WorkRequestSpesification extends Model
 
     protected $fillable = [
         'work_request_id',
-        'scope_of_work',
         'contract_type',
-        'payment_procedures',
+        'payment_mechanism',
+        'work_duration',
     ];
 
     // relasi ke induk
     public function workRequest()
     {
         return $this->belongsTo(WorkRequest::class);
+    }
+    public function files()
+    {
+        return $this->hasMany(WorkRequestSpesificationFile::class, 'work_request_spesification_id');
     }
 }

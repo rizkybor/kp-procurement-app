@@ -6,6 +6,7 @@ use App\Models\DocumentApproval;
 use App\Models\WorkRequest;
 use App\Models\WorkRequestRab;
 use App\Models\WorkRequestSpesification;
+use App\Models\WorkRequestItem;
 use Illuminate\Http\Request;
 
 class WorkRequestSpesificationController extends Controller
@@ -30,24 +31,25 @@ class WorkRequestSpesificationController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request, $id)
-    {
-        $request->validate([
-            'scope_of_work'      => ['required','string','max:255'],
-            'contract_type'      => ['required','string','max:255'],
-            'payment_procedures' => ['required','string','max:255'],
-        ]);
+{
+    $data = $request->validate([
+        'contract_type'      => ['nullable','string','max:255'],
+        'payment_mechanism'  => ['nullable','string','max:255'],
+        'work_duration'      => ['nullable','string','max:255'],
+    ]);
 
-        WorkRequestSpesification::create([
-            'work_request_id'    => $id,
-            'scope_of_work'      => $request->scope_of_work,
-            'contract_type'      => $request->contract_type,
-            'payment_procedures' => $request->payment_procedures,
-        ]);
+    $spec = \App\Models\WorkRequestSpesification::create([
+        'work_request_id'   => $id,
+        'contract_type'     => $data['contract_type']     ?? null,
+        'payment_mechanism' => $data['payment_mechanism'] ?? null,
+        'work_duration'     => $data['work_duration']     ?? null,
+    ]);
 
-        return redirect()
-            ->route('work_request.work_spesifications.edit', ['id' => $id])
-            ->with('success', 'Data berhasil disimpan!');
-    }
+    return response()->json([
+        'message' => 'Created',
+        'data' => $spec->only(['id','contract_type','payment_mechanism','work_duration']),
+    ], 201);
+}
 
     /**
      * Display the specified resource.
@@ -55,13 +57,15 @@ class WorkRequestSpesificationController extends Controller
     public function show($id)
     {
         $workRequest = WorkRequest::findOrFail($id);
-        $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
-
-        $rabRequest = WorkRequestRab::with('workRequestItem')
+        $specRequest = WorkRequestSpesification::with('files')
             ->where('work_request_id', $id)
-            ->get();
+            ->first();
 
-        $totalRab = $rabRequest->sum('total_harga');
+        // Semua item untuk WR ini
+        $itemRequest = WorkRequestItem::where('work_request_id', $id)->get();
+
+        // Total RAB sekarang dari item
+        $totalRab = $itemRequest->sum('total_harga');
 
         $latestApprover = DocumentApproval::where('document_id', $id)
             ->where('status', '!=', '102') // Abaikan status revisi jika perlu
@@ -81,7 +85,9 @@ class WorkRequestSpesificationController extends Controller
     public function edit($id)
     {
         $workRequest = WorkRequest::findOrFail($id);
-        $specRequest = WorkRequestSpesification::where('work_request_id', $id)->get();
+        $specRequest = WorkRequestSpesification::with('files')
+            ->where('work_request_id', $id)
+            ->first();
 
         $latestApprover = DocumentApproval::where('document_id', $id)
             ->where('status', '!=', '102') // Abaikan status revisi jika perlu
@@ -98,28 +104,27 @@ class WorkRequestSpesificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $work_request_id, $work_spesification_id)
-    {
-        $request->validate([
-            'scope_of_work'      => ['required','string','max:255'],
-            'contract_type'      => ['required','string','max:255'],
-            'payment_procedures' => ['required','string','max:255'],
-        ]);
+    public function update(Request $request, $id, $work_spesification_id)
+{
+    $spec = \App\Models\WorkRequestSpesification::where('work_request_id', $id)
+        ->where('id', $work_spesification_id)
+        ->firstOrFail();
 
-        $specRequest = WorkRequestSpesification::where('work_request_id', $work_request_id)
-            ->where('id', $work_spesification_id)
-            ->firstOrFail();
+    $data = $request->validate([
+        'contract_type'      => ['nullable','string','max:255'],
+        'payment_mechanism'  => ['nullable','string','max:255'],
+        'work_duration'      => ['nullable','string','max:255'],
+    ]);
 
-        $specRequest->update([
-            'scope_of_work'      => $request->scope_of_work,
-            'contract_type'      => $request->contract_type,
-            'payment_procedures' => $request->payment_procedures,
-        ]);
+    // hanya update key yang ada di request
+    $spec->fill($data);
+    $spec->save();
 
-        return redirect()
-            ->route('work_request.work_spesifications.edit', ['id' => $work_request_id])
-            ->with('success', 'Data berhasil diperbarui!');
-    }
+    return response()->json([
+        'message' => 'Updated',
+        'data' => $spec->only(['id','contract_type','payment_mechanism','work_duration']),
+    ]);
+}
 
     /**
      * Remove the specified resource from storage.

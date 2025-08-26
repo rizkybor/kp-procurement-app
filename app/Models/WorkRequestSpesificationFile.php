@@ -18,6 +18,7 @@ class WorkRequestSpesificationFile extends Model
         'disk',
         'path',
         'uploaded_by',
+        'description'
     ];
 
     protected $casts = [
