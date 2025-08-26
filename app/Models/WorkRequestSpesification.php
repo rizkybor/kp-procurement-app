@@ -13,9 +13,9 @@ class WorkRequestSpesification extends Model
 
     protected $fillable = [
         'work_request_id',
-        'scope_of_work',
         'contract_type',
-        'payment_procedures',
+        'payment_mechanism',
+        'work_duration',
     ];
 
     // relasi ke induk

@@ -20,29 +20,6 @@
                 method="POST" enctype="multipart/form-data">
                 @csrf
 
-                {{-- Error global dari controller/validasi --}}
-                @if ($errors->any())
-                    <div class="mb-4 p-3 rounded-md bg-red-100 border border-red-400 text-red-700 text-sm">
-                        <ul class="list-disc list-inside space-y-1">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                @if (session('error'))
-                    <div class="mb-4 p-3 rounded-md bg-red-100 border border-red-400 text-red-700 text-sm">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-                @if (session('success'))
-                    <div class="mb-4 p-3 rounded-md bg-green-100 border border-green-400 text-green-700 text-sm">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 <div class="space-y-4">
                     <!-- Input file: single -->
                     <div x-data @change="file = $event.target.files[0] ?? null">

@@ -11,19 +11,19 @@
             <div class="flex items-center gap-3">
                 <span class="text-gray-600 dark:text-gray-300 w-48">Tipe Kontrak</span>
                 <span class="text-amber-500 font-medium">
-                    : {{ $workRequest->contract_type ?? 'Lorem Ipsum' }}
+                    : {{ $specRequest->contract_type ?? 'Lorem Ipsum' }}
                 </span>
             </div>
             <div class="flex items-center gap-3">
                 <span class="text-gray-600 dark:text-gray-300 w-56">Mekanisme Pembayaran</span>
                 <span class="text-amber-500 font-medium">
-                    : {{ $workRequest->payment_mechanism ?? 'Lorem Ipsum' }}
+                    : {{ $specRequest->payment_mechanism ?? 'Lorem Ipsum' }}
                 </span>
             </div>
             <div class="flex items-center gap-3">
                 <span class="text-gray-600 dark:text-gray-300 w-48">Jangka Waktu Pekerjaan</span>
                 <span class="text-amber-500 font-medium">
-                    : {{ $workRequest->work_duration ?? 'Lorem Ipsum' }}
+                    : {{ $specRequest->work_duration ?? 'Lorem Ipsum' }}
                 </span>
             </div>
         </div>
@@ -35,6 +35,19 @@
 
         <!-- Tabel File -->
         <div class="overflow-x-auto border border-gray-100 dark:border-gray-700/60 rounded-xl">
+             <div
+                class="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-800/50 rounded-t-xl">
+                {{-- Title --}}
+                <h2 class="text-base md:text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 7h18M3 12h18M3 17h18" />
+                    </svg>
+                    File Specification
+                </h2>
+            </div>
+
             <table class="table-auto w-full">
                 <thead
                     class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50">

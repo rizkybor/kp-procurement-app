@@ -12,10 +12,9 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('work_request_id')->constrained('work_request')->onDelete('cascade');
-
-            $table->string('scope_of_work', 255)->nullable();
             $table->string('contract_type', 255)->nullable();
-            $table->string('payment_procedures', 255)->nullable();
+            $table->string('payment_mechanism', 255)->nullable();
+            $table->string('work_duration', 255)->nullable();
             $table->timestamps();
         });
     }

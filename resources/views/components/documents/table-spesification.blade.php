@@ -5,39 +5,116 @@
         <h2 class="font-semibold dark:text-gray-100">Edit Form Spesification</h2>
     </header>
 
+    {{-- Error global dari controller/validasi --}}
+    @if ($errors->any())
+        <div class="mb-4 p-3 rounded-md bg-red-100 border border-red-400 text-red-700 text-sm">
+            <ul class="list-disc list-inside space-y-1">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="mb-4 p-3 rounded-md bg-red-100 border border-red-400 text-red-700 text-sm">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="mb-4 p-3 rounded-md bg-green-100 border border-green-400 text-green-700 text-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="p-5 space-y-6">
 
         <!-- Spesifikasi Ringkasan -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="flex items-center gap-3">
-                <span class="text-gray-600 dark:text-gray-300 w-48">Tipe Kontrak</span>
-                <span class="text-amber-500 font-medium">
-                    : {{ $workRequest->contract_type ?? 'Lorem Ipsum' }}
-                </span>
+        <div x-data="specAutosave({
+            workId: {{ $workRequest->id }},
+            specId: {{ $specRequest->id ?? 'null' }},
+            values: {
+                contract_type: @js($specRequest->contract_type ?? ($workRequest->contract_type ?? '')),
+                payment_mechanism: @js($specRequest->payment_mechanism ?? ($workRequest->payment_mechanism ?? '')),
+                work_duration: @js($specRequest->work_duration ?? ($workRequest->work_duration ?? '')),
+            },
+            createUrl: '{{ route('work_request.work_spesifications.store', ['id' => $workRequest->id]) }}',
+            updateUrlTpl: '{{ route('work_request.work_spesifications.update', ['id' => $workRequest->id, 'work_spesification_id' => '__ID__']) }}',
+            csrf: '{{ csrf_token() }}'
+        })" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {{-- Tipe Kontrak --}}
+            <div class="flex items-start md:items-center gap-3">
+                <label class="text-gray-600 dark:text-gray-300 w-48 pt-2 md:pt-0">Tipe Kontrak</label>
+                <div class="flex-1">
+                    <input type="text" x-model="values.contract_type" @input="queueSave('contract_type')"
+                        placeholder="mis. Lump Sum, Time-Based, Unit Price"
+                        class="w-full rounded-lg border-b border-gray-300 dark:border-gray-600 bg-transparent focus:outline-none focus:border-amber-500 text-amber-500 py-1.5" />
+                    <p x-show="errors.contract_type" x-cloak class="mt-1 text-sm text-red-600"
+                        x-text="errors.contract_type"></p>
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                <span class="text-gray-600 dark:text-gray-300 w-56">Mekanisme Pembayaran</span>
-                <span class="text-amber-500 font-medium">
-                    : {{ $workRequest->payment_mechanism ?? 'Lorem Ipsum' }}
-                </span>
+
+            {{-- Mekanisme Pembayaran --}}
+            <div class="flex items-start md:items-center gap-3">
+                <label class="text-gray-600 dark:text-gray-300 w-56 pt-2 md:pt-0">Mekanisme Pembayaran</label>
+                <div class="flex-1">
+                    <input type="text" x-model="values.payment_mechanism" @input="queueSave('payment_mechanism')"
+                        placeholder="mis. Termin, Bulanan, Progress, Sekaligus"
+                        class="w-full rounded-lg border-b border-gray-300 dark:border-gray-600 bg-transparent focus:outline-none focus:border-amber-500 text-amber-500 py-1.5" />
+                    <p x-show="errors.payment_mechanism" x-cloak class="mt-1 text-sm text-red-600"
+                        x-text="errors.payment_mechanism"></p>
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                <span class="text-gray-600 dark:text-gray-300 w-48">Jangka Waktu Pekerjaan</span>
-                <span class="text-amber-500 font-medium">
-                    : {{ $workRequest->work_duration ?? 'Lorem Ipsum' }}
+
+            {{-- Jangka Waktu Pekerjaan --}}
+            <div class="flex items-start md:items-center gap-3">
+                <label class="text-gray-600 dark:text-gray-300 w-48 pt-2 md:pt-0">Jangka Waktu Pekerjaan</label>
+                <div class="flex-1">
+                    <input type="text" x-model="values.work_duration" @input="queueSave('work_duration')"
+                        placeholder="mis. 12 bulan / 180 hari kalender"
+                        class="w-full rounded-lg border-b border-gray-300 dark:border-gray-600 bg-transparent focus:outline-none focus:border-amber-500 text-amber-500 py-1.5" />
+                    <p x-show="errors.work_duration" x-cloak class="mt-1 text-sm text-red-600"
+                        x-text="errors.work_duration"></p>
+                </div>
+            </div>
+
+            {{-- Status autosave (letakkan di paling bawah kolom kiri) --}}
+            <div class="col-span-1 md:col-span-2">
+                <span class="text-xs"
+                    :class="{
+                        'text-gray-400': status==='idle',
+                        'text-amber-600': status==='saving',
+                        'text-emerald-600': status==='saved',
+                        'text-red-600': status==='error'
+                    }"
+                    x-text="statusText">
                 </span>
             </div>
         </div>
 
-        <!-- Right: Buttons -->
-        <div class="flex gap-2 mt-4 sm:mt-0">
-            <div class="flex gap-2 mt-4 sm:mt-0">
-                <x-modal.request-spesification.modal-create-request-spesification :workRequest="$workRequest" />
-            </div>
-        </div>
 
         <!-- Tabel File -->
-        <div class="overflow-x-auto border border-gray-100 dark:border-gray-700/60 rounded-xl">
+        <div class="overflow-x-auto border border-gray-100 rounded-xl">
+            <div
+                class="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-800/50 rounded-t-xl">
+                {{-- Title --}}
+                <h2 class="text-base md:text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 7h18M3 12h18M3 17h18" />
+                    </svg>
+                    File Specification
+                </h2>
+
+                {{-- Upload Button --}}
+                <div>
+                    <x-modal.request-spesification.modal-create-request-spesification :workRequest="$workRequest" />
+                </div>
+            </div>
+
             <table class="table-auto w-full">
                 <thead
                     class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50">
@@ -67,10 +144,9 @@
                                     {{-- Download --}}
                                     <a href="{{ asset('storage/' . $file->path) }}" target="_blank"
                                         class="inline-flex items-center justify-center w-full sm:w-auto px-3 py-1.5 text-xs font-medium
-                  rounded-md bg-teal-500 text-white hover:bg-teal-600
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500
-                  dark:focus:ring-offset-gray-800">
-                                        {{-- ikon optional --}}
+                                    rounded-md bg-teal-500 text-white hover:bg-teal-600
+                                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500
+                                    dark:focus:ring-offset-gray-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1.5"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -88,9 +164,9 @@
                                         @method('DELETE')
                                         <button type="submit"
                                             class="inline-flex items-center justify-center w-full sm:w-auto px-3 py-1.5 text-xs font-medium
-                           rounded-md bg-red-500 text-white hover:bg-red-600
-                           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-                           dark:focus:ring-offset-gray-800">
+                                        rounded-md bg-red-500 text-white hover:bg-red-600
+                                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+                                        dark:focus:ring-offset-gray-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1.5"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -104,7 +180,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="p-3 text-center text-gray-400">
+                            <td colspan="4" class="p-3 text-center text-gray-400">
                                 Belum ada file diunggah
                             </td>
                         </tr>
@@ -114,3 +190,115 @@
         </div>
     </div>
 </div>
+</div>
+
+
+<script>
+    function specAutosave(init) {
+        return {
+            ...init,
+            // state
+            savingTimer: null,
+            dirtyFields: new Set(),
+            status: 'idle', // idle | saving | saved | error
+            statusText: 'Ready',
+            errors: {},
+
+            updateUrl() {
+                if (!this.specId) return null;
+                return this.updateUrlTpl.replace('__ID__', this.specId);
+            },
+
+            setStatus(s, text) {
+                this.status = s;
+                this.statusText = text || ({
+                    idle: 'Ready',
+                    saving: 'Saving…',
+                    saved: 'Saved',
+                    error: 'Error saving'
+                } [s]);
+            },
+
+            queueSave(field) {
+                this.dirtyFields.add(field);
+                if (this.savingTimer) clearTimeout(this.savingTimer);
+                // debounce 800ms
+                this.savingTimer = setTimeout(() => this.flushSave(), 800);
+            },
+
+            async flushSave() {
+                if (this.dirtyFields.size === 0) return;
+
+                // payload hanya field yang berubah
+                const payload = {
+                    _method: 'PUT'
+                };
+                this.dirtyFields.forEach(f => payload[f] = this.values[f]);
+
+                this.setStatus('saving');
+                this.errors = {};
+
+                try {
+                    // jika belum ada specId -> create dulu
+                    if (!this.specId) {
+                        const createRes = await fetch(this.createUrl, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': this.csrf,
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(this.values)
+                        });
+
+                        const createJson = await createRes.json().catch(() => ({}));
+                        if (!createRes.ok) {
+                            this.handleValidation(createRes.status, createJson);
+                            return;
+                        }
+                        // ambil id baru untuk update berikutnya
+                        this.specId = createJson?.data?.id ?? createJson?.id ?? null;
+                    }
+
+                    // lalu update hanya field yang dirty
+                    const res = await fetch(this.updateUrl(), {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': this.csrf,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const json = await res.json().catch(() => ({}));
+                    if (!res.ok) {
+                        this.handleValidation(res.status, json);
+                        return;
+                    }
+
+                    this.setStatus('saved', 'Saved');
+                    this.dirtyFields.clear();
+                    // kembalikan ke idle setelah 2 detik
+                    setTimeout(() => this.setStatus('idle'), 2000);
+
+                } catch (e) {
+                    console.error(e);
+                    this.setStatus('error', 'Network error');
+                }
+            },
+
+            handleValidation(status, json) {
+                if (status === 422 && json?.errors) {
+                    // Laravel validation
+                    const flat = {};
+                    Object.keys(json.errors).forEach(k => flat[k] = json.errors[k][0]);
+                    this.errors = flat;
+                    this.setStatus('error', 'Validation error');
+                } else {
+                    this.setStatus('error', json?.message || 'Failed saving');
+                }
+            }
+        }
+    }
+</script>
