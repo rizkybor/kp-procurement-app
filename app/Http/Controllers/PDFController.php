@@ -55,10 +55,21 @@ class PDFController extends Controller
     return $pdf->stream('document-rab.pdf');
   }
 
-  public function generateApplication()
+  public function generateApplication($id)
   {
+    $workRequest = WorkRequest::with([
+      'User',
+      'workRequestItems',
+      'workRequestRab',
+      'orderCommunications',
+    ])->findOrFail($id);
+
+    $data = [
+      'workRequest' => $workRequest
+    ];
+
     // Load Blade view dari folder templates
-    $pdf = Pdf::loadView('templates.document-application');
+    $pdf = Pdf::loadView('templates.document-application', $data);
 
     return $pdf->stream('document-application.pdf');
   }

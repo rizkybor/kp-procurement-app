@@ -96,20 +96,22 @@
                     <tr>
                         <td style="width: 10%; border: none;">Nomor</td>
                         <td style="width: 90%; border: none;">:
+                            {{ $workRequest->orderCommunications->first()->no_applicationletter ?? '-' }}
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 10%; border: none;">Sifat</td>
-                        <td style="width: 90%; border: none;">: </td>
+                        <td style="width: 90%; border: none;">: Segera</td>
                     </tr>
                     <tr>
                         <td style="width: 10%; border: none;">Lampiran</td>
-                        <td style="width: 90%; border: none;">:</td>
+                        <td style="width: 90%; border: none;">: 1 ( satu ) set</td>
                     </tr>
                     <tr>
                         <td style="width: 10%; border: none; vertical-align: top;">Perihal</td>
                         <td style="width: 90%; border: none; vertical-align: top;">
-                            <div style="display: inline-block; vertical-align: top;">:</div>
+                            <div style="display: inline-block; vertical-align: top;">: Surat Permohonan Penawaran Harga
+                                (SPPH) {{ $workRequest->project_title ?? '-' }}</div>
                             <div style="display: inline-block; width: calc(100% - 10px);">
                                 <strong></strong>
                             </div>
@@ -123,6 +125,11 @@
                 <tr>
                     <td style="width: 100%; border: none;">
                         Jakarta,
+                        {{ $workRequest->orderCommunications->first()->date_applicationletter
+                            ? \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_applicationletter)->translatedFormat(
+                                'd F Y',
+                            )
+                            : '-' }}
                     </td>
                 </tr>
             </table>
@@ -133,10 +140,13 @@
                     <td style="width: 100%; border: none;">Kepada Yth.</td>
                 </tr>
                 <tr>
-                    <td style="width: 100%; border: none;"><strong></strong></td>
+                    <td style="width: 100%; border: none;"><strong>Bapak Rizky Ajie Kurniawan</strong></td>
                 </tr>
                 <tr>
-                    <td style="width: 100%; border: none;"></td>
+                    <td style="width: 100%; border: none;">Jl. Pd. Cabe Raya, Kec. Pamulang, Kota
+                        Tangerang Selatan,
+                        Banten 15418
+                    </td>
                 </tr>
             </table>
 
@@ -145,7 +155,8 @@
                 Dengan Hormat,
             </div>
             <div class="mt-4 text-smaller justify-text leading-relaxed">
-                Sehubungan dengan adanya "". Kami memberikan kesempatan kepada "", agar dapat menyampaikan Surat
+                Sehubungan dengan adanya {{ $workRequest->work_name_request ?? '-' }}. Kami memberikan kesempatan kepada
+                {{ $workRequest->orderCommunications->first()->company_name ?? '-' }}, agar dapat menyampaikan Surat
                 Penawaran
                 Harga (SPH), berkaitan dengan hal tersebut, kami memerlukan hal sebagai berikut :
             </div>
@@ -178,8 +189,15 @@
                     <tr>
                         <td style="width:5%;">1.</td>
                         <td style="width:20%;">Hari / Tanggal</td>
-                        <td style="width:75%; text-align:left;">: 10 Februari 2025 Sampai dengan tanggal 14 Februari
-                            2025</td>
+                        <td style="width:75%; text-align:left;">:
+                            {{ $workRequest->orderCommunications->first()->date_applicationletter
+                                ? \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_applicationletter)->translatedFormat(
+                                    'd F Y',
+                                )
+                                : '-' }}
+                            Sampai dengan tanggal
+                            {{ \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_applicationletter)->addDays(7)->translatedFormat('d F Y') }}
+                        </td>
                     </tr>
                     <tr>
                         <td>2.</td>
