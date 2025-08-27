@@ -166,23 +166,20 @@ class OrderCommunicationController extends Controller
         return response()->json(['success' => false, 'message' => 'Field tidak valid']);
     }
 
-    /**
-     * Upload file
-     */
     public function upload(Request $request, $id)
     {
         $orderCommunication = OrderCommunication::findOrFail($id);
         $field = $request->field;
 
         $validFileFields = [
-            'file_offerletter',
-            'file_beritaacaraklarifikasi',
-            'file_bentukperikatan',
-            'file_bap',
-            'file_bast'
+            'file_offerletter' => 'offer_letters',
+            'file_beritaacaraklarifikasi' => 'klarifikasi',
+            'file_bentukperikatan' => 'perikatan',
+            'file_bap' => 'bap',
+            'file_bast' => 'bast'
         ];
 
-        if (!in_array($field, $validFileFields)) {
+        if (!array_key_exists($field, $validFileFields)) {
             return response()->json(['success' => false, 'message' => 'Field file tidak valid']);
         }
 
@@ -190,15 +187,18 @@ class OrderCommunicationController extends Controller
             'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:2048'
         ]);
 
+        // Dapatkan folder berdasarkan field
+        $folder = $validFileFields[$field];
+
         // Hapus file lama jika ada
         if ($orderCommunication->$field) {
-            Storage::delete('public/orcom_files/' . $orderCommunication->$field);
+            Storage::delete('public/orcom_files/' . $folder . '/' . $orderCommunication->$field);
         }
 
-        // Simpan file baru
+        // Simpan file baru di folder yang sesuai
         $file = $request->file('file');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = $file->storeAs('public/orcom_files', $fileName);
+        $filePath = $file->storeAs('public/orcom_files/' . $folder, $fileName);
 
         $orderCommunication->$field = $fileName;
         $orderCommunication->save();
@@ -219,20 +219,23 @@ class OrderCommunicationController extends Controller
         $field = $request->field;
 
         $validFileFields = [
-            'file_offerletter',
-            'file_beritaacaraklarifikasi',
-            'file_bentukperikatan',
-            'file_bap',
-            'file_bast'
+            'file_offerletter' => 'offer_letters',
+            'file_beritaacaraklarifikasi' => 'klarifikasi',
+            'file_bentukperikatan' => 'perikatan',
+            'file_bap' => 'bap',
+            'file_bast' => 'bast'
         ];
 
-        if (!in_array($field, $validFileFields)) {
+        if (!array_key_exists($field, $validFileFields)) {
             return response()->json(['success' => false, 'message' => 'Field file tidak valid']);
         }
 
+        // Dapatkan folder berdasarkan field
+        $folder = $validFileFields[$field];
+
         // Hapus file dari storage
         if ($orderCommunication->$field) {
-            Storage::delete('public/orcom_files/' . $orderCommunication->$field);
+            Storage::delete('public/orcom_files/' . $folder . '/' . $orderCommunication->$field);
             $orderCommunication->$field = null;
             $orderCommunication->save();
         }
@@ -248,18 +251,20 @@ class OrderCommunicationController extends Controller
         $orderCommunication = OrderCommunication::findOrFail($id);
 
         $validFileFields = [
-            'file_offerletter',
-            'file_beritaacaraklarifikasi',
-            'file_bentukperikatan',
-            'file_bap',
-            'file_bast'
+            'file_offerletter' => 'offer_letters',
+            'file_beritaacaraklarifikasi' => 'klarifikasi',
+            'file_bentukperikatan' => 'perikatan',
+            'file_bap' => 'bap',
+            'file_bast' => 'bast'
         ];
 
-        if (!in_array($field, $validFileFields) || !$orderCommunication->$field) {
+        if (!array_key_exists($field, $validFileFields) || !$orderCommunication->$field) {
             abort(404);
         }
 
-        $filePath = storage_path('app/public/orcom_files/' . $orderCommunication->$field);
+        // Dapatkan folder berdasarkan field
+        $folder = $validFileFields[$field];
+        $filePath = storage_path('app/public/orcom_files/' . $folder . '/' . $orderCommunication->$field);
 
         if (!file_exists($filePath)) {
             abort(404);
@@ -267,6 +272,7 @@ class OrderCommunicationController extends Controller
 
         return response()->file($filePath);
     }
+
 
     /**
      * Update vendor info
