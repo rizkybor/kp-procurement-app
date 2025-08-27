@@ -154,9 +154,12 @@
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="print">
-                                                Download
-                                            </x-button.button-action>
+                                            <a href="{{ route('work_request.print-application', $workRequests->id) }}">
+                                                <x-button.button-action color="blue" icon="print">
+                                                    Download
+                                                </x-button.button-action>
+                                            </a>
+
                                         </div>
                                     </td>
                                 </tr>

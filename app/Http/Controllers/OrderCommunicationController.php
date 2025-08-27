@@ -166,6 +166,9 @@ class OrderCommunicationController extends Controller
         return response()->json(['success' => false, 'message' => 'Field tidak valid']);
     }
 
+    /**
+     * Upload file
+     */
     public function upload(Request $request, $id)
     {
         $orderCommunication = OrderCommunication::findOrFail($id);

@@ -54,4 +54,12 @@ class PDFController extends Controller
     // return $pdf->download('document-rab.pdf');
     return $pdf->stream('document-rab.pdf');
   }
+
+  public function generateApplication()
+  {
+    // Load Blade view dari folder templates
+    $pdf = Pdf::loadView('templates.document-application');
+
+    return $pdf->stream('document-application.pdf');
+  }
 }
