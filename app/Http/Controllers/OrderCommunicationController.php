@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 
 class OrderCommunicationController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      */
@@ -24,9 +26,32 @@ class OrderCommunicationController extends Controller
                 'work_request_id' => $id,
                 'company_name' => '-',
                 'company_address' => '-',
-                'company_goal' => '-'
+                'company_goal' => '-',
+                'no_applicationletter' => $this->generateDocumentNumber('application', $id),
+                'no_evaluationletter' => $this->generateDocumentNumber('evaluation', $id),
+                'no_negotiationletter' => $this->generateDocumentNumber('negotiation', workRequestId: $id),
+                'no_beritaacaraklarifikasi' => $this->generateDocumentNumber('beritaacara', $id),
+                'no_suratpenunjukan' => $this->generateDocumentNumber('suratpenunjukan', $id),
             ]
         );
+
+        // Jika record sudah ada tetapi nomor dokumen masih kosong, generate nomor
+        if ($orderCommunication->wasRecentlyCreated === false) {
+            if (empty($orderCommunication->no_applicationletter)) {
+                $orderCommunication->no_applicationletter = $this->generateDocumentNumber('application', $id);
+            }
+            if (empty($orderCommunication->no_evaluationletter)) {
+                $orderCommunication->no_evaluationletter = $this->generateDocumentNumber('evaluation', $id);
+            }
+            if (empty($orderCommunication->no_negotiationletter)) {
+                $orderCommunication->no_negotiationletter = $this->generateDocumentNumber('negotiation', $id);
+            }
+
+            // Simpan jika ada perubahan
+            if ($orderCommunication->isDirty()) {
+                $orderCommunication->save();
+            }
+        }
 
         // Data dummy vendor
         $vendors = [
@@ -130,7 +155,16 @@ class OrderCommunicationController extends Controller
             'date_evaluationletter',
             'no_evaluationletter',
             'date_negotiationletter',
-            'no_negotiationletter'
+            'no_negotiationletter',
+            'date_beritaacaraklarifikasi',
+            'date_suratpenunjukan',
+            'no_bentukperikatan',
+            'date_bentukperikatan',
+            'no_bap',
+            'date_bap',
+            'no_bast',
+            'date_bast'
+
         ];
 
         if (in_array($field, $validFields)) {
@@ -152,14 +186,14 @@ class OrderCommunicationController extends Controller
         $field = $request->field;
 
         $validFileFields = [
-            'file_offerletter',
-            'file_beritaacaraklarifikasi',
-            'file_bentukperikatan',
-            'file_bap',
-            'file_bast'
+            'file_offerletter' => 'offer_letters',
+            'file_beritaacaraklarifikasi' => 'klarifikasi',
+            'file_bentukperikatan' => 'perikatan',
+            'file_bap' => 'bap',
+            'file_bast' => 'bast'
         ];
 
-        if (!in_array($field, $validFileFields)) {
+        if (!array_key_exists($field, $validFileFields)) {
             return response()->json(['success' => false, 'message' => 'Field file tidak valid']);
         }
 
@@ -167,15 +201,18 @@ class OrderCommunicationController extends Controller
             'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:2048'
         ]);
 
+        // Dapatkan folder berdasarkan field
+        $folder = $validFileFields[$field];
+
         // Hapus file lama jika ada
         if ($orderCommunication->$field) {
-            Storage::delete('public/orcom_files/' . $orderCommunication->$field);
+            Storage::delete('public/orcom_files/' . $folder . '/' . $orderCommunication->$field);
         }
 
-        // Simpan file baru
+        // Simpan file baru di folder yang sesuai
         $file = $request->file('file');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = $file->storeAs('public/orcom_files', $fileName);
+        $filePath = $file->storeAs('public/orcom_files/' . $folder, $fileName);
 
         $orderCommunication->$field = $fileName;
         $orderCommunication->save();
@@ -196,20 +233,23 @@ class OrderCommunicationController extends Controller
         $field = $request->field;
 
         $validFileFields = [
-            'file_offerletter',
-            'file_beritaacaraklarifikasi',
-            'file_bentukperikatan',
-            'file_bap',
-            'file_bast'
+            'file_offerletter' => 'offer_letters',
+            'file_beritaacaraklarifikasi' => 'klarifikasi',
+            'file_bentukperikatan' => 'perikatan',
+            'file_bap' => 'bap',
+            'file_bast' => 'bast'
         ];
 
-        if (!in_array($field, $validFileFields)) {
+        if (!array_key_exists($field, $validFileFields)) {
             return response()->json(['success' => false, 'message' => 'Field file tidak valid']);
         }
 
+        // Dapatkan folder berdasarkan field
+        $folder = $validFileFields[$field];
+
         // Hapus file dari storage
         if ($orderCommunication->$field) {
-            Storage::delete('public/orcom_files/' . $orderCommunication->$field);
+            Storage::delete('public/orcom_files/' . $folder . '/' . $orderCommunication->$field);
             $orderCommunication->$field = null;
             $orderCommunication->save();
         }
@@ -225,18 +265,20 @@ class OrderCommunicationController extends Controller
         $orderCommunication = OrderCommunication::findOrFail($id);
 
         $validFileFields = [
-            'file_offerletter',
-            'file_beritaacaraklarifikasi',
-            'file_bentukperikatan',
-            'file_bap',
-            'file_bast'
+            'file_offerletter' => 'offer_letters',
+            'file_beritaacaraklarifikasi' => 'klarifikasi',
+            'file_bentukperikatan' => 'perikatan',
+            'file_bap' => 'bap',
+            'file_bast' => 'bast'
         ];
 
-        if (!in_array($field, $validFileFields) || !$orderCommunication->$field) {
+        if (!array_key_exists($field, $validFileFields) || !$orderCommunication->$field) {
             abort(404);
         }
 
-        $filePath = storage_path('app/public/orcom_files/' . $orderCommunication->$field);
+        // Dapatkan folder berdasarkan field
+        $folder = $validFileFields[$field];
+        $filePath = storage_path('app/public/orcom_files/' . $folder . '/' . $orderCommunication->$field);
 
         if (!file_exists($filePath)) {
             abort(404);
@@ -244,6 +286,7 @@ class OrderCommunicationController extends Controller
 
         return response()->file($filePath);
     }
+
 
     /**
      * Update vendor info
@@ -262,6 +305,82 @@ class OrderCommunicationController extends Controller
             'success' => true,
             'message' => 'Informasi vendor berhasil diperbarui'
         ]);
+    }
+
+    /**
+     * Konversi angka ke angka Romawi
+     */
+    private function toRoman($number)
+    {
+        $map = [
+            'M' => 1000,
+            'CM' => 900,
+            'D' => 500,
+            'CD' => 400,
+            'C' => 100,
+            'XC' => 90,
+            'L' => 50,
+            'XL' => 40,
+            'X' => 10,
+            'IX' => 9,
+            'V' => 5,
+            'IV' => 4,
+            'I' => 1
+        ];
+
+        $result = '';
+        foreach ($map as $roman => $value) {
+            $matches = intval($number / $value);
+            $result .= str_repeat($roman, $matches);
+            $number %= $value;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Generate nomor dokumen otomatis
+     */
+    private function generateDocumentNumber($type, $workRequestId)
+    {
+        // Ambil data WorkRequest
+        $workRequest = WorkRequest::findOrFail($workRequestId);
+
+        // Ambil 4 digit pertama dari request_number
+        $requestNumber = substr($workRequest->request_number, 0, 4);
+
+        // Pastikan hanya angka yang diambil (jika ada karakter non-digit)
+        $requestNumber = preg_replace('/[^0-9]/', '', $requestNumber);
+
+        // Jika kurang dari 4 digit, pad dengan leading zeros
+        $formattedNumber = str_pad($requestNumber, 4, '0', STR_PAD_LEFT);
+
+        // Ambil tahun sekarang
+        $currentYear = date('Y');
+
+        // Bulan Romawi
+        $romanMonth = $this->toRoman(date('n'));
+
+        // Tentukan format berdasarkan jenis dokumen
+        switch ($type) {
+            case 'application':
+                return "{$formattedNumber}/SPPH/GA/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'evaluation':
+                return "{$formattedNumber}/ET/GA/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'negotiation':
+                return "{$formattedNumber}/UND-KNH/GA/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'beritaacara':
+                return "{$formattedNumber}.BAKN/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'suratpenunjukan':
+                return "{$formattedNumber}.PPBJ/KPU/{$romanMonth}/{$currentYear}";
+
+            default:
+                return "{$formattedNumber}/DOC/GA/KPU/{$romanMonth}/{$currentYear}";
+        }
     }
 
     /**

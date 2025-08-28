@@ -142,6 +142,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::delete('order_communication/{id}/delete-file', [OrderCommunicationController::class, 'deleteFile'])->name('order_communication.delete-file');
         Route::get('order_communication/{id}/view-file/{field}', [OrderCommunicationController::class, 'viewFile'])->name('order_communication.view-file');
 
+        // Route Print PDF SPPH
+        Route::get('{id}/print-application', [PDFController::class, 'generateApplication'])->name('print-application');
+        Route::get('{id}/print-negotiation', [PDFController::class, 'generateNegotiation'])->name('print-negotiation');
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {
