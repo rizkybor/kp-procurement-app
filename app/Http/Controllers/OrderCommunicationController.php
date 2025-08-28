@@ -155,7 +155,16 @@ class OrderCommunicationController extends Controller
             'date_evaluationletter',
             'no_evaluationletter',
             'date_negotiationletter',
-            'no_negotiationletter'
+            'no_negotiationletter',
+            'date_beritaacaraklarifikasi',
+            'date_suratpenunjukan',
+            'no_bentukperikatan',
+            'date_bentukperikatan',
+            'no_bap',
+            'date_bap',
+            'no_bast',
+            'date_bast'
+
         ];
 
         if (in_array($field, $validFields)) {
