@@ -217,11 +217,16 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         {{ $workRequests->user->department }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
+                                        <div class="flex justify-center space-x-2">
+                                            <x-button.button-action color="blue" icon="upload"
+                                                onclick="uploadFile('file_offerletter')">
+                                                Upload
+                                            </x-button.button-action>
                                             <x-button.button-action color="blue" icon="print">
                                                 Download
                                             </x-button.button-action>
                                         </div>
+
                                     </td>
                                 </tr>
 
@@ -279,10 +284,15 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
-                                                    onclick="uploadFile('file_beritaacaraklarifikasi')">
-                                                    Upload
-                                                </x-button.button-action>
+                                                <div class="flex justify-center space-x-2">
+                                                    <x-button.button-action color="blue" icon="upload"
+                                                        onclick="uploadFile('file_beritaacaraklarifikasi')">
+                                                        Upload
+                                                    </x-button.button-action>
+                                                    <x-button.button-action color="blue" icon="print">
+                                                        Download
+                                                    </x-button.button-action>
+                                                </div>
                                             @endif
                                         </div>
                                     </td>
@@ -304,7 +314,11 @@
                                         {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
+                                        <div class="flex justify-center space-x-2">
+                                            <x-button.button-action color="blue" icon="upload"
+                                                onclick="uploadFile('file_beritaacaraklarifikasi')">
+                                                Upload
+                                            </x-button.button-action>
                                             <x-button.button-action color="blue" icon="print">
                                                 Download
                                             </x-button.button-action>
