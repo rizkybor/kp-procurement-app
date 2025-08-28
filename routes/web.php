@@ -127,6 +127,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
         // Route Print PDF SPPH
         Route::get('{id}/print-application', [PDFController::class, 'generateApplication'])->name('print-application');
+        Route::get('{id}/print-negotiation', [PDFController::class, 'generateNegotiation'])->name('print-negotiation');
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {

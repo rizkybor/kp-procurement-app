@@ -73,4 +73,23 @@ class PDFController extends Controller
 
     return $pdf->stream('document-application.pdf');
   }
+
+  public function generateNegotiation($id)
+  {
+    $workRequest = WorkRequest::with([
+      'User',
+      'workRequestItems',
+      'workRequestRab',
+      'orderCommunications',
+    ])->findOrFail($id);
+
+    $data = [
+      'workRequest' => $workRequest
+    ];
+
+    // Load Blade view dari folder templates
+    $pdf = Pdf::loadView('templates.document-negotiation', $data);
+
+    return $pdf->stream('document-negotiation.pdf');
+  }
 }
