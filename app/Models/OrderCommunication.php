@@ -23,10 +23,24 @@ class OrderCommunication extends Model
         'no_evaluationletter',
         'date_negotiationletter',
         'no_negotiationletter',
+        'date_beritaacaraklarifikasi',
+        'no_beritaacaraklarifikasi',
+        'date_suratpenunjukan',
+        'no_suratpenunjukan',
+        'date_bentukperikatan',
+        'no_bentukperikatan',
+        'date_bap',
+        'no_bap',
+        'date_bast',
+        'no_bast',
+        'nilaikontrak_lampiranberitaacaraklarifikasi',
         'file_beritaacaraklarifikasi',
         'file_bentukperikatan',
         'file_bap',
-        'file_bast'
+        'file_bast',
+        'file_evaluationletter',
+        'file_lampiranberitaacaraklarifikasi',
+        'file_suratpenunjukan'
     ];
 
     public function workRequest()
