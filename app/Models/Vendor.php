@@ -13,10 +13,10 @@ class Vendor extends Model
 
     protected $fillable = [
         'name',
-        'business_type',          // string, refer ke BusinessType::name
+        'business_type',       
         'tax_number',
         'company_address',
-        'business_fields',        // JSON
+        'business_fields',        
         'pic_name',
         'pic_position',
         'file_deed_of_company',
