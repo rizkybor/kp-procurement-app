@@ -129,11 +129,11 @@
                     <!-- Settings -->
                     <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 
                      bg-[linear-gradient(135deg,var(--tw-gradient-stops))] 
-                     @if (Request::is('user*') || Request::is('contracts*') || Request::is('register*')) from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04] @endif"
-                        x-data="{ open: {{ Request::is('user*') || Request::is('contracts*') || Request::is('register*') ? 1 : 0 }} }">
+                     @if (Request::is('user*') || Request::is('contracts*') || Request::is('register*') || Request::is('vendors*')) from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04] @endif"
+                        x-data="{ open: {{ Request::is('user*') || Request::is('contracts*') || Request::is('register*') || Request::is('vendors*') ? 1 : 0 }} }">
 
                         <a class="block text-gray-800 dark:text-gray-100 truncate transition 
-                         @if (!Request::is('user*') && !Request::is('contracts*')) hover:text-gray-900 dark:hover:text-white @endif"
+                         @if (!Request::is('user*') && !Request::is('contracts*') && !Request::is('vendors*')) hover:text-gray-900 dark:hover:text-white @endif"
                             href="#0" @click.prevent="open = !open; sidebarExpanded = true">
 
                             <div class="flex items-center justify-between">
@@ -166,7 +166,7 @@
                         <!-- Dropdown -->
                         <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
                             <ul class="pl-8 mt-1 
-                             @if (!Request::is('user*') && !Request::is('contracts*') && !Request::is('register*')) hidden @endif"
+                             @if (!Request::is('user*') && !Request::is('contracts*') && !Request::is('register*') && !Request::is('vendors*')) hidden @endif"
                                 :class="open ? '!block' : 'hidden'">
                                 <li class="mb-1 last:mb-0">
                                     <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate 
@@ -187,6 +187,17 @@
                                             <span
                                                 class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                                 Create User
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                      <li class="mb-1 last:mb-0">
+                                        <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate 
+                                        @if (Request::is('vendors*')) !text-teal-500 @endif"
+                                            href="{{ route('vendors.page') }}">
+                                            <span
+                                                class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                                Data Vendor
                                             </span>
                                         </a>
                                     </li>

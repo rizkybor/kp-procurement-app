@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             WorkRequestSeeder::class,
             MstKeproyekanSeeder::class,
             MstTypeProcurementSeeder::class,
+            VendorSeeder::class
         ]);
     }
 }

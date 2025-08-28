@@ -17,13 +17,10 @@ class WorkRequest extends Model
         'department',
         'project_title',
         'project_type',
-        // 'project_owner',
         'procurement_type',
-        // 'contract_number',
         'request_date',
         'deadline',
         'pic',
-        // 'aanwijzing',
         'time_period',
         'created_by',
         'status',
@@ -84,5 +81,11 @@ class WorkRequest extends Model
     public function histories()
     {
         return $this->hasMany(DocHistories::class, 'document_id');
+    }
+
+    public function vendors()
+    {
+        return $this->belongsToMany(Vendor::class, 'vendor_work_request', 'work_request_id', 'vendor_id')
+            ->withTimestamps();
     }
 }

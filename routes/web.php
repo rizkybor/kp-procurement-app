@@ -16,6 +16,8 @@ use App\Http\Controllers\WorkRequestItemController;
 use App\Http\Controllers\WorkRequestRabController;
 use App\Http\Controllers\WorkRequestSpesificationController;
 use App\Http\Controllers\WorkRequestSpesificationFileController;
+use App\Http\Controllers\VendorController;
+use App\Http\Controllers\WorkRequestVendorController;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -82,6 +84,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::post('/notifications/clear-all', [NotificationController::class, 'clearAll'])->name('notifications.clearAll');
 
+ Route::get('/vendors/page', [VendorController::class, 'page'])->name('vendors.page'); // halaman blade
+    Route::get('/vendors/{vendor}/show', [VendorController::class, 'show'])->name('vendors.show'); // untuk fetch edit modal (JSON)
+    // Vendors CRUD
+    Route::resource('vendors', VendorController::class)->parameters([
+        'vendors' => 'vendor'
+    ])->names([
+        'index'  => 'vendors.index',
+        'create' => 'vendors.create',
+        'store'  => 'vendors.store',
+        'show'   => 'vendors.show',
+        'edit'   => 'vendors.edit',
+        'update' => 'vendors.update',
+        'destroy' => 'vendors.destroy',
+    ]);
+   
     /*
     |--------------------------------------------------------------------------
     | Work Request Routes
@@ -175,6 +192,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
         Route::get('spesification-files/{file}', [WorkRequestSpesificationFileController::class, 'download'])
             ->name('work_spesification_files.download');
+
+
+        Route::get('{workRequest}/vendors', [WorkRequestVendorController::class, 'index'])
+            ->name('vendors.index');                // GET  /work_request/{workRequest}/vendors
+
+        Route::post('{workRequest}/vendors/attach', [WorkRequestVendorController::class, 'attach'])
+            ->name('vendors.attach');               // POST /work_request/{workRequest}/vendors/attach  { vendor_ids: [1,2] }
+
+        Route::post('{workRequest}/vendors/detach', [WorkRequestVendorController::class, 'detach'])
+            ->name('vendors.detach');               // POST /work_request/{workRequest}/vendors/detach  { vendor_ids: [1] }
+
+        Route::post('{workRequest}/vendors/sync', [WorkRequestVendorController::class, 'sync'])
+            ->name('vendors.sync');
 
         // Histories
         Route::prefix('histories')->name('histories.')->group(function () {
