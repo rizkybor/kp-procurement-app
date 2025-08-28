@@ -253,9 +253,14 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">6</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        -
+                                        <input type="date" name="date_beritaacaraklarifikasi"
+                                            value="{{ $orderCommunication->date_beritaacaraklarifikasi }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"
+                                        name="no_beritaacaraklarifikasi">
+                                        {{ $orderCommunication->no_beritaacaraklarifikasi ?? '-' }}
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Klarifikasi &
                                         Negoisasi Harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -286,9 +291,12 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">7</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
-                                        -
+                                        <input type="date" name="date_suratpenunjukan"
+                                            value="{{ $orderCommunication->date_suratpenunjukan }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
                                     </td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600">-</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_suratpenunjukan">
+                                        {{ $orderCommunication->no_suratpenunjukan ?? '-' }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Penunjukan Penyedia
                                         Barang/Jasa</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -306,8 +314,16 @@
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">8</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="date" name="date_bentukperikatan"
+                                            value="{{ $orderCommunication->date_bentukperikatan }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="text" name="no_bentukperikatan" placeholder="Isi data..."
+                                            value="{{ $orderCommunication->no_bentukperikatan }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Bentuk Perikatan
                                         Perjanjian/SPK/PO</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -337,8 +353,16 @@
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">9</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="date" name="date_bap"
+                                            value="{{ $orderCommunication->date_bap }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="text" name="no_bap" placeholder="Isi data..."
+                                            value="{{ $orderCommunication->no_bap }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Pemeriksaan
                                         Pekerjaan (BAP)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
@@ -368,8 +392,16 @@
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">10</td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600"></td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="date" name="date_bast"
+                                            value="{{ $orderCommunication->date_bast }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        <input type="text" name="no_bast" placeholder="Isi data..."
+                                            value="{{ $orderCommunication->no_bast }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                    </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Serah Terima
                                         Pekerjaan (BAST)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>

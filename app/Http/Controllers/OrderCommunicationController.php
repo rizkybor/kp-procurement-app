@@ -29,7 +29,9 @@ class OrderCommunicationController extends Controller
                 'company_goal' => '-',
                 'no_applicationletter' => $this->generateDocumentNumber('application', $id),
                 'no_evaluationletter' => $this->generateDocumentNumber('evaluation', $id),
-                'no_negotiationletter' => $this->generateDocumentNumber('negotiation', $id)
+                'no_negotiationletter' => $this->generateDocumentNumber('negotiation', workRequestId: $id),
+                'no_beritaacaraklarifikasi' => $this->generateDocumentNumber('beritaacara', $id),
+                'no_suratpenunjukan' => $this->generateDocumentNumber('suratpenunjukan', $id),
             ]
         );
 
@@ -332,55 +334,44 @@ class OrderCommunicationController extends Controller
      */
     private function generateDocumentNumber($type, $workRequestId)
     {
+        // Ambil data WorkRequest
+        $workRequest = WorkRequest::findOrFail($workRequestId);
+
+        // Ambil 4 digit pertama dari request_number
+        $requestNumber = substr($workRequest->request_number, 0, 4);
+
+        // Pastikan hanya angka yang diambil (jika ada karakter non-digit)
+        $requestNumber = preg_replace('/[^0-9]/', '', $requestNumber);
+
+        // Jika kurang dari 4 digit, pad dengan leading zeros
+        $formattedNumber = str_pad($requestNumber, 4, '0', STR_PAD_LEFT);
+
         // Ambil tahun sekarang
         $currentYear = date('Y');
-
-        // Tentukan prefix berdasarkan jenis dokumen
-        $prefixes = [
-            'application' => 'SPPH',
-            'evaluation' => 'ET',
-            'negotiation' => 'UND-KNH'
-        ];
-
-        $prefix = $prefixes[$type] ?? '';
-
-        // Hitung nomor urut berdasarkan tahun dan work request
-        $lastDoc = OrderCommunication::whereYear('created_at', $currentYear)
-            ->where('work_request_id', '!=', $workRequestId) // Exclude current record if updating
-            ->orderBy('id', 'desc')
-            ->first();
-
-        // Jika ada dokumen di tahun yang sama, ambil nomor urutnya
-        if ($lastDoc) {
-            $lastNumber = 0;
-
-            // Cek nomor berdasarkan jenis dokumen
-            switch ($type) {
-                case 'application':
-                    $lastNumber = intval(explode('/', $lastDoc->no_applicationletter)[0] ?? 0);
-                    break;
-                case 'evaluation':
-                    $lastNumber = intval(explode('/', $lastDoc->no_evaluationletter)[0] ?? 0);
-                    break;
-                case 'negotiation':
-                    $lastNumber = intval(explode('/', $lastDoc->no_negotiationletter)[0] ?? 0);
-                    break;
-            }
-
-            $nextNumber = $lastNumber + 10;
-        } else {
-            // Jika tidak ada dokumen di tahun ini, mulai dari 100
-            $nextNumber = 100;
-        }
-
-        // Format nomor dengan leading zeros
-        $formattedNumber = str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
 
         // Bulan Romawi
         $romanMonth = $this->toRoman(date('n'));
 
-        // Format akhir
-        return "{$formattedNumber}/{$prefix}/GA/KPU/{$romanMonth}/{$currentYear}";
+        // Tentukan format berdasarkan jenis dokumen
+        switch ($type) {
+            case 'application':
+                return "{$formattedNumber}/SPPH/GA/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'evaluation':
+                return "{$formattedNumber}/ET/GA/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'negotiation':
+                return "{$formattedNumber}/UND-KNH/GA/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'beritaacara':
+                return "{$formattedNumber}.BAKN/KPU/{$romanMonth}/{$currentYear}";
+
+            case 'suratpenunjukan':
+                return "{$formattedNumber}.PPBJ/KPU/{$romanMonth}/{$currentYear}";
+
+            default:
+                return "{$formattedNumber}/DOC/GA/KPU/{$romanMonth}/{$currentYear}";
+        }
     }
 
     /**
