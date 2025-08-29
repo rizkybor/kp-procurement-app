@@ -11,9 +11,7 @@ class OrderCommunication extends Model
     protected $table = 'order_communications';
     protected $fillable = [
         'work_request_id',
-        'company_name',
-        'company_address',
-        'company_goal',
+        'vendor_id',
         'date_applicationletter',
         'no_applicationletter',
         'date_offerletter',
@@ -46,5 +44,10 @@ class OrderCommunication extends Model
     public function workRequest()
     {
         return $this->belongsTo(WorkRequest::class, 'work_request_id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
     }
 }

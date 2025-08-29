@@ -13,10 +13,10 @@ class Vendor extends Model
 
     protected $fillable = [
         'name',
-        'business_type',       
+        'business_type',
         'tax_number',
         'company_address',
-        'business_fields',        
+        'business_fields',
         'pic_name',
         'pic_position',
         'file_deed_of_company',
@@ -43,5 +43,9 @@ class Vendor extends Model
     public function businessType()
     {
         return $this->belongsTo(BusinessType::class, 'business_type', 'name');
+    }
+    public function orderCommunications()
+    {
+        return $this->hasMany(OrderCommunication::class);
     }
 }

@@ -7,7 +7,6 @@
             </h1>
         </div>
         <div class="grid grid-cols-12 gap-6">
-
             <!-- Card (Customers) -->
             <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
                 <!-- Header -->
@@ -33,9 +32,11 @@
                                 class="block w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
                                 bg-white dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 
                                 focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all"
-                                oninput="filterVendorDropdown()" onclick="toggleVendorDropdown()" autocomplete="off" />
+                                oninput="filterVendorDropdown()" onclick="toggleVendorDropdown()" autocomplete="off"
+                                value="{{ $orderCommunication->vendor ? $orderCommunication->vendor->name : '' }}" />
 
-                            <input type="hidden" id="vendor_id" name="vendor_id" value="" />
+                            <input type="hidden" id="vendor_id" name="vendor_id"
+                                value="{{ $orderCommunication->vendor_id ?? '' }}" />
 
                             <ul id="vendorDropdown"
                                 class="absolute z-10 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 
@@ -43,12 +44,14 @@
                                 <!-- Daftar vendor -->
                                 @foreach ($vendors as $vendor)
                                     <li class="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
-                                        onclick="selectVendor('{{ $vendor['id'] }}', '{{ $vendor['name'] }}', '{{ $vendor['address'] }}', '{{ $vendor['type'] }}')">
+                                        onclick="selectVendor('{{ $vendor->id }}', '{{ $vendor->name }}', '{{ $vendor->company_address ?? '' }}', '{{ $vendor->business_type ?? '' }}')">
                                         <div class="font-semibold text-gray-800 dark:text-gray-200">
-                                            {{ $vendor['name'] }}</div>
-                                        <div class="text-sm text-gray-500 dark:text-gray-400">{{ $vendor['address'] }}
+                                            {{ $vendor->name }}</div>
+                                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                                            {{ $vendor->company_address ?? '' }}
                                         </div>
-                                        <div class="text-xs text-blue-600 dark:text-blue-400 mt-1">{{ $vendor['type'] }}
+                                        <div class="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                                            {{ $vendor->business_type ?? '' }}
                                         </div>
                                     </li>
                                 @endforeach
@@ -61,17 +64,17 @@
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Nama Perusahaan</span>
                             <span class="text-gray-600 dark:text-gray-400">: <span id="vendorNameDisplay"
-                                    name="company_name">{{ $orderCommunication->company_name ?? '-' }}</span></span>
+                                    name="company_name">{{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? '-') }}</span></span>
                         </div>
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Alamat Perusahaan</span>
                             <span class="text-gray-600 dark:text-gray-400">: <span id="vendorAddress"
-                                    name="company_address">{{ $orderCommunication->company_address ?? '-' }}</span></span>
+                                    name="company_address">{{ $orderCommunication->company_address ?? ($orderCommunication->vendor->company_address ?? '-') }}</span></span>
                         </div>
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Tujuan Perusahaan</span>
                             <span class="text-gray-600 dark:text-gray-400">: <span id="vendorPurpose"
-                                    name="company_goal">{{ $orderCommunication->company_goal ?? '-' }}</span></span>
+                                    name="company_goal">{{ $orderCommunication->company_goal ?? ($orderCommunication->vendor->business_type ?? '-') }}</span></span>
                         </div>
                     </div>
 
@@ -95,7 +98,7 @@
                                     <th scope="col" class="px-3 py-3 border-x dark:border-neutral-600 w-32">
                                         No Document
                                     </th>
-                                    <th scope="col" class="px-3 py-3 border-x dark:border-neutral-600 min-w-[200px]">
+                                    <th scope="col" class="px-3 py-3 border-x dark:border-neutral-600 w-32">
                                         Uraian
                                     </th>
                                     <th scope="col" class="px-3 py-3 border-x dark:border-neutral-600 w-40">
@@ -141,7 +144,8 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_applicationletter"
                                             value="{{ $orderCommunication->date_applicationletter }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_applicationletter', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_applicationletter">
                                         {{ $orderCommunication->no_applicationletter ?? '-' }}
@@ -150,7 +154,7 @@
                                         Harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
@@ -169,16 +173,18 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_offerletter"
                                             value="{{ $orderCommunication->date_offerletter }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_offerletter', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="text" name="no_offerletter" placeholder="Isi data..."
                                             value="{{ $orderCommunication->no_offerletter }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('no_offerletter', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Surat Penawaran Harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
@@ -207,7 +213,8 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_evaluationletter"
                                             value="{{ $orderCommunication->date_evaluationletter }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_evaluationletter', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_evaluationletter">
                                         {{ $orderCommunication->no_evaluationletter ?? '-' }}</td>
@@ -219,7 +226,7 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center space-x-2">
                                             <x-button.button-action color="blue" icon="upload"
-                                                onclick="uploadFile('file_offerletter')">
+                                                onclick="uploadFile('file_evaluationletter')">
                                                 Upload
                                             </x-button.button-action>
                                             <x-button.button-action color="blue" icon="print">
@@ -235,7 +242,8 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_negotiationletter"
                                             value="{{ $orderCommunication->date_negotiationletter }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_negotiationletter', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600"
                                         name="no_negotiationletter">
@@ -244,7 +252,7 @@
                                         dan negoisasi harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
@@ -263,7 +271,8 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_beritaacaraklarifikasi"
                                             value="{{ $orderCommunication->date_beritaacaraklarifikasi }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_beritaacaraklarifikasi', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600"
                                         name="no_beritaacaraklarifikasi">
@@ -273,7 +282,7 @@
                                         Negoisasi Harga</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center" id="file_beritaacaraklarifikasi_container">
@@ -306,7 +315,8 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_suratpenunjukan"
                                             value="{{ $orderCommunication->date_suratpenunjukan }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_suratpenunjukan', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600" name="no_suratpenunjukan">
                                         {{ $orderCommunication->no_suratpenunjukan ?? '-' }}</td>
@@ -314,12 +324,12 @@
                                         Barang/Jasa</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center space-x-2">
                                             <x-button.button-action color="blue" icon="upload"
-                                                onclick="uploadFile('file_beritaacaraklarifikasi')">
+                                                onclick="uploadFile('file_suratpenunjukan')">
                                                 Upload
                                             </x-button.button-action>
                                             <x-button.button-action color="blue" icon="print">
@@ -334,18 +344,20 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_bentukperikatan"
                                             value="{{ $orderCommunication->date_bentukperikatan }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_bentukperikatan', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="text" name="no_bentukperikatan" placeholder="Isi data..."
                                             value="{{ $orderCommunication->no_bentukperikatan }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('no_bentukperikatan', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Bentuk Perikatan
                                         Perjanjian/SPK/PO</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center" id="file_bentukperikatan_container">
@@ -373,18 +385,20 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_bap"
                                             value="{{ $orderCommunication->date_bap }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_bap', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="text" name="no_bap" placeholder="Isi data..."
                                             value="{{ $orderCommunication->no_bap }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('no_bap', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Pemeriksaan
                                         Pekerjaan (BAP)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center" id="file_bap_container">
@@ -412,18 +426,20 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_bast"
                                             value="{{ $orderCommunication->date_bast }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_bast', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="text" name="no_bast" placeholder="Isi data..."
                                             value="{{ $orderCommunication->no_bast }}"
-                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('no_bast', this.value)">
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Berita Acara Serah Terima
                                         Pekerjaan (BAST)</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
-                                        {{ $orderCommunication->company_name ?? 'Otomatis Nama Vendor' }}
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center" id="file_bast_container">
@@ -475,6 +491,7 @@
             });
         }
 
+
         // Function saat pilih vendor
         function selectVendor(id, name, address, purpose) {
             document.getElementById("vendorInput").value = name;
@@ -491,11 +508,7 @@
             });
 
             // Simpan informasi vendor
-            updateVendorInfo({
-                name,
-                address,
-                type: purpose
-            });
+            updateVendorInfo(id, name, address, purpose);
         }
 
         document.addEventListener('click', function(event) {
@@ -525,6 +538,7 @@
                         showNotification('Data berhasil disimpan', 'success');
                     } else {
                         showNotification('Gagal menyimpan data', 'error');
+                        console.log("DEBUG: gagal simpan", response);
                     }
                 })
                 .catch(error => {
@@ -606,7 +620,7 @@
         }
 
         // Function untuk update vendor info
-        function updateVendorInfo(vendorData) {
+        function updateVendorInfo(vendorId, name, address, purpose) {
             fetch(`/work_request/order_communication/${orderCommId}/update-vendor`, {
                     method: 'POST',
                     headers: {
@@ -614,9 +628,10 @@
                         'X-CSRF-TOKEN': csrfToken
                     },
                     body: JSON.stringify({
-                        company_name: vendorData.name,
-                        company_address: vendorData.address,
-                        company_goal: vendorData.type
+                        vendor_id: vendorId,
+                        company_name: name,
+                        company_address: address,
+                        company_goal: purpose
                     })
                 })
                 .then(response => response.json())
@@ -646,11 +661,24 @@
                         </x-button.button-action>
                     `;
                 } else {
-                    container.innerHTML = `
-                        <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
-                            Upload
-                        </x-button.button-action>
-                    `;
+                    if (field === 'file_beritaacaraklarifikasi') {
+                        container.innerHTML = `
+                            <div class="flex justify-center space-x-2">
+                                <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
+                                    Upload
+                                </x-button.button-action>
+                                <x-button.button-action color="blue" icon="print">
+                                    Download
+                                </x-button.button-action>
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML = `
+                            <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
+                                Upload
+                            </x-button.button-action>
+                        `;
+                    }
                 }
             }
         }

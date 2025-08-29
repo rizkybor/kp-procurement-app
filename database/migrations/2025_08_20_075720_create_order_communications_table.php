@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('order_communications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('work_request_id')->constrained('work_request')->onDelete('cascade');
-            $table->string('company_name')->nullable(); // Pastikan nullable
-            $table->text('company_address')->nullable(); // Pastikan nullable
-            $table->string('company_goal')->nullable(); // Pastikan nullable
+            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->onDelete('set null');
 
             // Dokumen 2: Surat Permohonan Permintaan Harga
             $table->date('date_applicationletter')->nullable();

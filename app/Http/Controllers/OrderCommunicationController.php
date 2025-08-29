@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderCommunication;
 use App\Models\WorkRequest;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,9 +25,6 @@ class OrderCommunicationController extends Controller
             ['work_request_id' => $id],
             [
                 'work_request_id' => $id,
-                'company_name' => '-',
-                'company_address' => '-',
-                'company_goal' => '-',
                 'no_applicationletter' => $this->generateDocumentNumber('application', $id),
                 'no_evaluationletter' => $this->generateDocumentNumber('evaluation', $id),
                 'no_negotiationletter' => $this->generateDocumentNumber('negotiation', workRequestId: $id),
@@ -54,38 +52,7 @@ class OrderCommunicationController extends Controller
         }
 
         // Data dummy vendor
-        $vendors = [
-            [
-                'id' => '1',
-                'name' => 'PT. Vendor Contoh 1',
-                'address' => 'Jl. Contoh Alamat No. 123',
-                'type' => 'Penyedia Barang'
-            ],
-            [
-                'id' => '2',
-                'name' => 'CV. Mitra Jaya',
-                'address' => 'Jl. Raya Bogor No. 45',
-                'type' => 'Penyedia Jasa'
-            ],
-            [
-                'id' => '3',
-                'name' => 'PT. Sumber Rejeki',
-                'address' => 'Jl. Gatot Subroto No. 78',
-                'type' => 'Penyedia Barang & Jasa'
-            ],
-            [
-                'id' => '4',
-                'name' => 'PT. Teknologi Maju',
-                'address' => 'Jl. Sudirman No. 10',
-                'type' => 'Penyedia Jasa IT'
-            ],
-            [
-                'id' => '5',
-                'name' => 'UD. Jaya Abadi',
-                'address' => 'Jl. Pasar Minggu No. 25',
-                'type' => 'Penyedia Barang'
-            ]
-        ];
+        $vendors = Vendor::all();
 
         return view(
             'pages.work-request.work-request-details.order-communication.index',
@@ -101,19 +68,10 @@ class OrderCommunicationController extends Controller
         // Validasi
         $validated = $request->validate([
             'work_request_id' => 'required|exists:work_requests,id',
-            'company_name' => 'nullable|string|max:255',
-            'company_address' => 'nullable|string',
-            'company_goal' => 'nullable|string|max:255',
+            'vendor_id' => 'nullable|exists:vendors,id',
         ]);
 
-        // Berikan nilai default jika kosong
-        $defaultValues = [
-            'company_name' => '-',
-            'company_address' => '-',
-            'company_goal' => '-'
-        ];
-
-        $validated = array_merge($defaultValues, $validated);
+        $validated = array_merge($validated);
 
         // Cari atau buat data OrderCommunication
         $orderCommunication = OrderCommunication::firstOrCreate(
@@ -296,9 +254,7 @@ class OrderCommunicationController extends Controller
         $orderCommunication = OrderCommunication::findOrFail($id);
 
         $orderCommunication->update([
-            'company_name' => $request->company_name,
-            'company_address' => $request->company_address,
-            'company_goal' => $request->company_goal,
+            'vendor_id' => $request->vendor_id,
         ]);
 
         return response()->json([
