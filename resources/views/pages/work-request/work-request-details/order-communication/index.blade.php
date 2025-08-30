@@ -703,9 +703,13 @@
             // Input fields untuk data teks
             const inputFields = document.querySelectorAll('input[type="date"], input[type="text"]');
             inputFields.forEach(input => {
-                input.addEventListener('change', function() {
-                    updateField(this.name, this.value);
-                });
+                // Skip jika sudah ada event listener
+                if (!input.hasAttribute('data-has-listener')) {
+                    input.setAttribute('data-has-listener', 'true');
+                    input.addEventListener('change', function() {
+                        updateField(this.name, this.value);
+                    });
+                }
             });
         });
     </script>
