@@ -315,15 +315,16 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <div class="flex justify-center space-x-2">
-                                                    <x-button.button-action color="blue" icon="upload"
-                                                        onclick="uploadFile('file_beritaacaraklarifikasi')">
-                                                        Upload
-                                                    </x-button.button-action>
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_beritaacaraklarifikasi')">
+                                                    Upload
+                                                </x-button.button-action>
+                                                <a
+                                                    href="{{ route('work_request.print-beritaacaraklarifikasi', $workRequests->id) }}">
                                                     <x-button.button-action color="blue" icon="print">
                                                         Download
                                                     </x-button.button-action>
-                                                </div>
+                                                </a>
                                             @endif
                                         </div>
                                     </td>
@@ -668,7 +669,8 @@
 
         // routes download
         const downloadRoutes = {
-            file_evaluationletter: "{{ route('work_request.print-evaluation', $workRequests->id) }}"
+            file_evaluationletter: "{{ route('work_request.print-evaluation', $workRequests->id) }}",
+            file_beritaacaraklarifikasi: "{{ route('work_request.print-beritaacaraklarifikasi', $workRequests->id) }}"
         };
 
         // Function untuk update UI file

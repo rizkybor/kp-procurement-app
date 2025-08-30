@@ -6,6 +6,7 @@ use App\Models\WorkRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Carbon\Carbon;
 
 class PDFController extends Controller
 {
@@ -122,5 +123,78 @@ class PDFController extends Controller
     return response()->streamDownload(function () use ($writer) {
       $writer->save('php://output');
     }, 'evaluasi-teknik-penawaran-mitra.xlsx');
+  }
+
+  public function generateBeritaacara($id)
+  {
+    // ambil template
+    $templatePath = storage_path('app/templates/berita-acara-klarifikasi-&-negoisasi-harga.xlsx');
+    $spreadsheet = IOFactory::load($templatePath);
+
+    // ambil sheet pertama
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $workRequest = WorkRequest::with([
+      'User',
+      'workRequestItems',
+      'workRequestRab',
+      'orderCommunications.vendor',
+      'workRequestSpesifications',
+    ])->findOrFail($id);
+
+    // tanggal
+    $date = Carbon::parse($workRequest->orderCommunications->first()->date_beritaacaraklarifikasi)->locale('id');
+
+    $hari = $date->translatedFormat('l'); // Senin
+    $tanggal = $this->terbilang((int) $date->format('d')); // Tujuh Belas
+    $bulan = $date->translatedFormat('F'); // Februari
+    $tahun = $this->terbilang((int) $date->format('Y')); // Dua Ribu Dua Puluh Lima
+
+    $kalimatTanggal = "Pada hari ini {$hari} tanggal {$tanggal} Bulan {$bulan} Tahun {$tahun}";
+    $no = "No:{$workRequest->orderCommunications->first()->no_beritaacaraklarifikasi}";
+    $teks = "Menyatakan telah melakukan Klarifikasi dan Negosiasi Harga Pekerjaan {$workRequest->work_name_request} antara PT KPU dengan {$workRequest->orderCommunications->first()->vendor->pic_name}/{$workRequest->orderCommunications->first()->vendor->name}\, dengan rincian harga (terlampir).";
+
+    // isi sheet
+    $sheet->setCellValue('B3', $no);
+    $sheet->setCellValue('B5', $kalimatTanggal);
+    $sheet->setCellValue('E14', $workRequest->orderCommunications->first()->vendor->pic_name);
+    $sheet->setCellValue('E15', $workRequest->orderCommunications->first()->vendor->pic_position);
+    $sheet->setCellValue('E16', $workRequest->orderCommunications->first()->vendor->name);
+    $sheet->setCellValue('B21', $teks);
+    $sheet->setCellValue('F37', $workRequest->orderCommunications->first()->vendor->pic_name);
+    $sheet->setCellValue('F38', $workRequest->orderCommunications->first()->vendor->pic_position);
+
+    // export hasil
+    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    return response()->streamDownload(function () use ($writer) {
+      $writer->save('php://output');
+    }, 'berita-acara-klarifikasi.xlsx');
+  }
+
+  private function terbilang($angka)
+  {
+    $angka = abs($angka);
+    $huruf = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
+    $temp = "";
+
+    if ($angka < 12) {
+      $temp = " " . $huruf[$angka];
+    } else if ($angka < 20) {
+      $temp = $this->terbilang($angka - 10) . " Belas";
+    } else if ($angka < 100) {
+      $temp = $this->terbilang(intval($angka / 10)) . " Puluh " . $this->terbilang($angka % 10);
+    } else if ($angka < 200) {
+      $temp = " Seratus " . $this->terbilang($angka - 100);
+    } else if ($angka < 1000) {
+      $temp = $this->terbilang(intval($angka / 100)) . " Ratus " . $this->terbilang($angka % 100);
+    } else if ($angka < 2000) {
+      $temp = " Seribu " . $this->terbilang($angka - 1000);
+    } else if ($angka < 1000000) {
+      $temp = $this->terbilang(intval($angka / 1000)) . " Ribu " . $this->terbilang($angka % 1000);
+    } else if ($angka < 1000000000) {
+      $temp = $this->terbilang(intval($angka / 1000000)) . " Juta " . $this->terbilang($angka % 1000000);
+    }
+
+    return trim(preg_replace('/\s+/', ' ', $temp)); // rapikan spasi double
   }
 }
