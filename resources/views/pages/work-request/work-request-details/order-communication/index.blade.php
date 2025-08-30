@@ -304,7 +304,8 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center" id="file_beritaacaraklarifikasi_container">
+                                        <div class="flex justify-center space-x-2"
+                                            id="file_beritaacaraklarifikasi_container">
                                             @if ($orderCommunication->file_beritaacaraklarifikasi)
                                                 <x-button.button-action color="yellow" icon="eye"
                                                     onclick="viewFile('file_beritaacaraklarifikasi')">
