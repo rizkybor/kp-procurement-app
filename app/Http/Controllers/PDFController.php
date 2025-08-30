@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\WorkRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PDFController extends Controller
 {
@@ -91,5 +92,35 @@ class PDFController extends Controller
     $pdf = Pdf::loadView('templates.document-negotiation', $data);
 
     return $pdf->stream('document-negotiation.pdf');
+  }
+
+  public function generateEvaluation($id)
+  {
+    // ambil template
+    $templatePath = storage_path('app/templates/evaluasi-teknik-penawaran-mitra.xlsx');
+    $spreadsheet = IOFactory::load($templatePath);
+
+    // ambil sheet pertama
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $workRequest = WorkRequest::with([
+      'User',
+      'workRequestItems',
+      'workRequestRab',
+      'orderCommunications',
+      'workRequestSpesifications',
+    ])->findOrFail($id);
+
+    $sheet->setCellValue('D7', $workRequest->orderCommunications->first()->vendor->name);
+    $sheet->setCellValue('C11', $workRequest->workRequestSpesifications->first()->contract_type);
+    $sheet->setCellValue('C13', $workRequest->workRequestSpesifications->first()->work_duration);
+    $sheet->setCellValue('C15', $workRequest->workRequestSpesifications->first()->payment_mechanism);
+
+    // export hasil
+    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+    return response()->streamDownload(function () use ($writer) {
+      $writer->save('php://output');
+    }, 'evaluasi-teknik-penawaran-mitra.xlsx');
   }
 }

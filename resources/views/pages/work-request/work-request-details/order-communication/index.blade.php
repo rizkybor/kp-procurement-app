@@ -227,14 +227,30 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         {{ $workRequests->user->department }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center space-x-2">
-                                            <x-button.button-action color="blue" icon="upload"
-                                                onclick="uploadFile('file_evaluationletter')">
-                                                Upload
-                                            </x-button.button-action>
-                                            <x-button.button-action color="blue" icon="print">
-                                                Download
-                                            </x-button.button-action>
+                                        <div class="flex justify-center space-x-2"
+                                            id="file_evaluationletter_container">
+                                            @if ($orderCommunication->file_evaluationletter)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_evaluationletter')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_evaluationletter')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_evaluationletter')">
+                                                    Upload
+                                                </x-button.button-action>
+                                                <a
+                                                    href="{{ route('work_request.print-evaluation', $workRequests->id) }}">
+                                                    <x-button.button-action color="blue" icon="print">
+                                                        Download
+                                                    </x-button.button-action>
+                                                </a>
+                                            @endif
+
                                         </div>
 
                                     </td>
@@ -553,7 +569,7 @@
         function uploadFile(field) {
             const input = document.createElement('input');
             input.type = 'file';
-            input.accept = '.pdf,.doc,.docx,.jpg,.jpeg,.png';
+            input.accept = '.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png';
 
             input.onchange = function(e) {
                 const file = e.target.files[0];
@@ -650,37 +666,46 @@
                 });
         }
 
+        // routes download
+        const downloadRoutes = {
+            file_evaluationletter: "{{ route('work_request.print-evaluation', $workRequests->id) }}"
+        };
+
         // Function untuk update UI file
         function updateFileUI(field, fileName) {
             const container = document.getElementById(`${field}_container`);
             if (container) {
                 if (fileName) {
+                    // Tampilkan tombol Lihat dan Hapus untuk semua file yang sudah diupload
                     container.innerHTML = `
-                        <x-button.button-action color="yellow" icon="eye" onclick="viewFile('${field}')">
-                            Lihat
-                        </x-button.button-action>
-                        <x-button.button-action color="red" icon="trash" class="ml-2" onclick="deleteFile('${field}')">
-                            Hapus
-                        </x-button.button-action>
-                    `;
+                <x-button.button-action color="yellow" icon="eye" onclick="viewFile('${field}')">
+                    Lihat
+                </x-button.button-action>
+                <x-button.button-action color="red" icon="trash" class="ml-2" onclick="deleteFile('${field}')">
+                    Hapus
+                </x-button.button-action>
+            `;
                 } else {
-                    if (field === 'file_beritaacaraklarifikasi') {
+                    // Tampilkan tombol Upload (dan Download untuk field tertentu)
+                    if (field === 'file_beritaacaraklarifikasi' || field === 'file_evaluationletter') {
                         container.innerHTML = `
-                            <div class="flex justify-center space-x-2">
-                                <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
-                                    Upload
-                                </x-button.button-action>
-                                <x-button.button-action color="blue" icon="print">
-                                    Download
-                                </x-button.button-action>
-                            </div>
-                        `;
+                    <div class="flex justify-center space-x-2">
+                        <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
+                            Upload
+                        </x-button.button-action>
+                        <a href="${downloadRoutes[field]}" target="_blank">
+                            <x-button.button-action color="blue" icon="print">
+                                Download
+                            </x-button.button-action>
+                         </a>
+                    </div>
+                `;
                     } else {
                         container.innerHTML = `
-                            <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
-                                Upload
-                            </x-button.button-action>
-                        `;
+                    <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
+                        Upload
+                    </x-button.button-action>
+                `;
                     }
                 }
             }

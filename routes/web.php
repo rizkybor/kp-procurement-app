@@ -84,7 +84,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::post('/notifications/clear-all', [NotificationController::class, 'clearAll'])->name('notifications.clearAll');
 
- Route::get('/vendors/page', [VendorController::class, 'page'])->name('vendors.page'); // halaman blade
+    Route::get('/vendors/page', [VendorController::class, 'page'])->name('vendors.page'); // halaman blade
     Route::get('/vendors/{vendor}/show', [VendorController::class, 'show'])->name('vendors.show'); // untuk fetch edit modal (JSON)
     // Vendors CRUD
     Route::resource('vendors', VendorController::class)->parameters([
@@ -98,7 +98,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         'update' => 'vendors.update',
         'destroy' => 'vendors.destroy',
     ]);
-   
+
     /*
     |--------------------------------------------------------------------------
     | Work Request Routes
@@ -145,6 +145,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // Route Print PDF SPPH
         Route::get('{id}/print-application', [PDFController::class, 'generateApplication'])->name('print-application');
         Route::get('{id}/print-negotiation', [PDFController::class, 'generateNegotiation'])->name('print-negotiation');
+        Route::get('{id}/evaluation', [PDFController::class, 'generateEvaluation'])->name('print-evaluation');
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {

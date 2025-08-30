@@ -21,7 +21,7 @@ class WorkRequestSpesification extends Model
     // relasi ke induk
     public function workRequest()
     {
-        return $this->belongsTo(WorkRequest::class);
+        return $this->belongsTo(WorkRequest::class, 'work_request_id');
     }
     public function files()
     {

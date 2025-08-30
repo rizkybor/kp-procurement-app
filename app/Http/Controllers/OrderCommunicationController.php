@@ -148,7 +148,8 @@ class OrderCommunicationController extends Controller
             'file_beritaacaraklarifikasi' => 'klarifikasi',
             'file_bentukperikatan' => 'perikatan',
             'file_bap' => 'bap',
-            'file_bast' => 'bast'
+            'file_bast' => 'bast',
+            'file_evaluationletter' => 'evaluation'
         ];
 
         if (!array_key_exists($field, $validFileFields)) {
@@ -156,7 +157,7 @@ class OrderCommunicationController extends Controller
         }
 
         $request->validate([
-            'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:2048'
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:2048'
         ]);
 
         // Dapatkan folder berdasarkan field
@@ -195,7 +196,8 @@ class OrderCommunicationController extends Controller
             'file_beritaacaraklarifikasi' => 'klarifikasi',
             'file_bentukperikatan' => 'perikatan',
             'file_bap' => 'bap',
-            'file_bast' => 'bast'
+            'file_bast' => 'bast',
+            'file_evaluationletter' => 'evaluation'
         ];
 
         if (!array_key_exists($field, $validFileFields)) {
@@ -227,7 +229,8 @@ class OrderCommunicationController extends Controller
             'file_beritaacaraklarifikasi' => 'klarifikasi',
             'file_bentukperikatan' => 'perikatan',
             'file_bap' => 'bap',
-            'file_bast' => 'bast'
+            'file_bast' => 'bast',
+            'file_evaluationletter' => 'evaluation'
         ];
 
         if (!array_key_exists($field, $validFileFields) || !$orderCommunication->$field) {
