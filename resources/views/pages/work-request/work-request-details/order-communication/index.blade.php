@@ -64,17 +64,17 @@
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Nama Perusahaan</span>
                             <span class="text-gray-600 dark:text-gray-400">: <span id="vendorNameDisplay"
-                                    name="company_name">{{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? '-') }}</span></span>
+                                    name="company_name">{{ $orderCommunication->vendor->name ?? '-' }}</span></span>
                         </div>
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Alamat Perusahaan</span>
                             <span class="text-gray-600 dark:text-gray-400">: <span id="vendorAddress"
-                                    name="company_address">{{ $orderCommunication->company_address ?? ($orderCommunication->vendor->company_address ?? '-') }}</span></span>
+                                    name="company_address">{{ $orderCommunication->vendor->company_address ?? '-' }}</span></span>
                         </div>
                         <div class="flex">
                             <span class="font-semibold dark:text-gray-100 w-40">Tujuan Perusahaan</span>
                             <span class="text-gray-600 dark:text-gray-400">: <span id="vendorPurpose"
-                                    name="company_goal">{{ $orderCommunication->company_goal ?? ($orderCommunication->vendor->business_type ?? '-') }}</span></span>
+                                    name="company_goal">{{ $orderCommunication->vendor->business_type ?? '-' }}</span></span>
                         </div>
                     </div>
 
@@ -132,9 +132,12 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <x-button.button-action color="blue" icon="print">
-                                                Download
-                                            </x-button.button-action>
+                                            <a
+                                                href="{{ route('work_request.print-form-request', $workRequests->id) }}">
+                                                <x-button.button-action color="blue" icon="print">
+                                                    Download
+                                                </x-button.button-action>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

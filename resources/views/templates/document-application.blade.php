@@ -140,12 +140,13 @@
                     <td style="width: 100%; border: none;">Kepada Yth.</td>
                 </tr>
                 <tr>
-                    <td style="width: 100%; border: none;"><strong>Bapak Rizky Ajie Kurniawan</strong></td>
+                    <td style="width: 100%; border: none;">
+                        <strong>{{ $workRequest->orderCommunications->first()->vendor->pic_name ?? '-' }}</strong>
+                    </td>
                 </tr>
                 <tr>
-                    <td style="width: 100%; border: none;">Jl. Pd. Cabe Raya, Kec. Pamulang, Kota
-                        Tangerang Selatan,
-                        Banten 15418
+                    <td style="width: 100%; border: none;">
+                        {{ $workRequest->orderCommunications->first()->vendor->company_address ?? '-' }}
                     </td>
                 </tr>
             </table>
@@ -156,7 +157,7 @@
             </div>
             <div class="mt-4 text-smaller justify-text leading-relaxed">
                 Sehubungan dengan adanya {{ $workRequest->work_name_request ?? '-' }}. Kami memberikan kesempatan kepada
-                {{ $workRequest->orderCommunications->first()->company_name ?? '-' }}, agar dapat menyampaikan Surat
+                {{ $workRequest->orderCommunications->first()->vendor->name ?? '-' }}, agar dapat menyampaikan Surat
                 Penawaran
                 Harga (SPH), berkaitan dengan hal tersebut, kami memerlukan hal sebagai berikut :
             </div>
