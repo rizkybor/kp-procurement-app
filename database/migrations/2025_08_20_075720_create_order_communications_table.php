@@ -39,13 +39,13 @@ return new class extends Migration
             $table->string('no_beritaacaraklarifikasi')->nullable();
             $table->string('file_beritaacaraklarifikasi')->nullable();
 
-            $table->string('nilaikontrak_lampiranberitaacaraklarifikasi')->nullable();
             $table->string('file_lampiranberitaacaraklarifikasi')->nullable();
 
             // Dokumen 7: Surat Penunjukan
             $table->date('date_suratpenunjukan')->nullable();
             $table->string('no_suratpenunjukan')->nullable();
             $table->string('file_suratpenunjukan')->nullable();
+            $table->string('nilaikontrak_suratpenunjukan')->nullable();
 
             // Dokumen 8: Bentuk Perikatan
             $table->date('date_bentukperikatan')->nullable();

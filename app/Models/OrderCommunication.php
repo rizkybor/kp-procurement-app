@@ -31,7 +31,7 @@ class OrderCommunication extends Model
         'no_bap',
         'date_bast',
         'no_bast',
-        'nilaikontrak_lampiranberitaacaraklarifikasi',
+        'nilaikontrak_suratpenunjukan',
         'file_beritaacaraklarifikasi',
         'file_bentukperikatan',
         'file_bap',

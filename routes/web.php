@@ -147,6 +147,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('{id}/print-negotiation', [PDFController::class, 'generateNegotiation'])->name('print-negotiation');
         Route::get('{id}/evaluation', [PDFController::class, 'generateEvaluation'])->name('print-evaluation');
         Route::get('{id}/beritaacara', [PDFController::class, 'generateBeritaacara'])->name('print-beritaacaraklarifikasi');
+        Route::get('{id}/lampiranberitaacara', [PDFController::class, 'generateLampiranBeritaacara'])->name('print-lampiranberitaacaraklarifikasi');
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {

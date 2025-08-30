@@ -149,7 +149,8 @@ class OrderCommunicationController extends Controller
             'file_bentukperikatan' => 'perikatan',
             'file_bap' => 'bap',
             'file_bast' => 'bast',
-            'file_evaluationletter' => 'evaluation'
+            'file_evaluationletter' => 'evaluation',
+            'file_lampiranberitaacaraklarifikasi' => 'lampiranberitaacaraklarifikasi'
         ];
 
         if (!array_key_exists($field, $validFileFields)) {
@@ -197,7 +198,8 @@ class OrderCommunicationController extends Controller
             'file_bentukperikatan' => 'perikatan',
             'file_bap' => 'bap',
             'file_bast' => 'bast',
-            'file_evaluationletter' => 'evaluation'
+            'file_evaluationletter' => 'evaluation',
+            'file_lampiranberitaacaraklarifikasi' => 'lampiranberitaacaraklarifikasi'
         ];
 
         if (!array_key_exists($field, $validFileFields)) {
@@ -230,7 +232,8 @@ class OrderCommunicationController extends Controller
             'file_bentukperikatan' => 'perikatan',
             'file_bap' => 'bap',
             'file_bast' => 'bast',
-            'file_evaluationletter' => 'evaluation'
+            'file_evaluationletter' => 'evaluation',
+            'file_lampiranberitaacaraklarifikasi' => 'lampiranberitaacaraklarifikasi'
         ];
 
         if (!array_key_exists($field, $validFileFields) || !$orderCommunication->$field) {

@@ -334,6 +334,53 @@
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">7</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
+                                        {{-- <input type="date" name="date_beritaacaraklarifikasi"
+                                            value="{{ $orderCommunication->date_beritaacaraklarifikasi }}"
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
+                                            onchange="updateField('date_beritaacaraklarifikasi', this.value)"> --}}
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600"
+                                        name="no_beritaacaraklarifikasi">
+                                        {{-- {{ $orderCommunication->no_beritaacaraklarifikasi ?? '-' }} --}}
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Lampiran Berita Acara
+                                        Klarifikasi &
+                                        Negoisasi Harga</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 vendor-name-cell">
+                                        {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
+                                    </td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
+                                        <div class="flex justify-center space-x-2"
+                                            id="file_lampiranberitaacaraklarifikasi_container">
+                                            @if ($orderCommunication->file_lampiranberitaacaraklarifikasi)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_lampiranberitaacaraklarifikasi')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_lampiranberitaacaraklarifikasi')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_lampiranberitaacaraklarifikasi')">
+                                                    Upload
+                                                </x-button.button-action>
+                                                <a
+                                                    href="{{ route('work_request.print-lampiranberitaacaraklarifikasi', $workRequests->id) }}">
+                                                    <x-button.button-action color="blue" icon="print">
+                                                        Download
+                                                    </x-button.button-action>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">8</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_suratpenunjukan"
                                             value="{{ $orderCommunication->date_suratpenunjukan }}"
                                             class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-2 py-1"
@@ -361,7 +408,7 @@
                                 </tr>
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">8</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">9</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_bentukperikatan"
                                             value="{{ $orderCommunication->date_bentukperikatan }}"
@@ -402,7 +449,7 @@
                                 </tr>
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">9</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">10</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_bap"
                                             value="{{ $orderCommunication->date_bap }}"
@@ -443,7 +490,7 @@
                                 </tr>
 
                                 <tr class="border-b dark:border-neutral-600 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">10</td>
+                                    <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">11</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         <input type="date" name="date_bast"
                                             value="{{ $orderCommunication->date_bast }}"
@@ -671,7 +718,8 @@
         // routes download
         const downloadRoutes = {
             file_evaluationletter: "{{ route('work_request.print-evaluation', $workRequests->id) }}",
-            file_beritaacaraklarifikasi: "{{ route('work_request.print-beritaacaraklarifikasi', $workRequests->id) }}"
+            file_beritaacaraklarifikasi: "{{ route('work_request.print-beritaacaraklarifikasi', $workRequests->id) }}",
+            file_lampiranberitaacaraklarifikasi: "{{ route('work_request.print-lampiranberitaacaraklarifikasi', $workRequests->id) }}"
         };
 
         // Function untuk update UI file
@@ -690,7 +738,8 @@
             `;
                 } else {
                     // Tampilkan tombol Upload (dan Download untuk field tertentu)
-                    if (field === 'file_beritaacaraklarifikasi' || field === 'file_evaluationletter') {
+                    if (field === 'file_beritaacaraklarifikasi' || field === 'file_evaluationletter' || field ===
+                        'file_lampiranberitaacaraklarifikasi') {
                         container.innerHTML = `
                     <div class="flex justify-center space-x-2">
                         <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
