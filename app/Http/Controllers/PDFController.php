@@ -364,4 +364,43 @@ class PDFController extends Controller
       $writer->save('php://output');
     }, 'lampiran-berita-acara-klarifikasi.xlsx');
   }
+
+  public function generateSuratPenunjukan($id)
+  {
+    // ambil template
+    $templatePath = storage_path('app/templates/surat-penunjukan-penyedia-barangjasa.xlsx');
+    $spreadsheet = IOFactory::load($templatePath);
+
+    // ambil sheet pertama
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $workRequest = WorkRequest::with([
+      'User',
+      'workRequestItems',
+      'workRequestRab',
+      'orderCommunications',
+      'workRequestSpesifications',
+    ])->findOrFail($id);
+
+
+    $date = "Jakarta, " . Carbon::parse($workRequest->orderCommunications->first()->date_suratpenunjukan)
+      ->translatedFormat('d F Y');
+    $teks = "Dengan ini kami menunjuk Perusahaan saudara sebagai Penyedia Jasa untuk melaksanakan {$workRequest->work_name_request}, dengan ketentuan sebagai berikut :";
+
+    $sheet->setCellValue('E12', $workRequest->orderCommunications->first()->no_suratpenunjukan);
+    $sheet->setCellValue('K12', $date);
+    $sheet->setCellValue('A17', $workRequest->orderCommunications->first()->vendor->pic_name);
+    $sheet->setCellValue('A18', $workRequest->orderCommunications->first()->vendor->name);
+    $sheet->setCellValue('A19', $workRequest->orderCommunications->first()->vendor->company_address);
+    $sheet->setCellValue('A26', $teks);
+    $sheet->setCellValue('G34', $workRequest->work_name_request);
+    $sheet->setCellValue('G36', $workRequest->orderCommunications->first()->nilaikontrak_suratpenunjukan);
+
+    // export hasil
+    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+    return response()->streamDownload(function () use ($writer) {
+      $writer->save('php://output');
+    }, 'surat-penunjukan-penyedia-barangjasa.xlsx');;
+  }
 }

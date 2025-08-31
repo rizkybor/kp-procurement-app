@@ -395,15 +395,29 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center space-x-2">
-                                            <x-button.button-action color="blue" icon="upload"
-                                                onclick="uploadFile('file_suratpenunjukan')">
-                                                Upload
-                                            </x-button.button-action>
-                                            <x-button.button-action color="blue" icon="print">
-                                                Download
-                                            </x-button.button-action>
-                                        </div>
+                                        <div class="flex justify-center space-x-2"
+                                            id="file_suratpenunjukan_container">
+                                            @if ($orderCommunication->file_suratpenunjukan)
+                                                <x-button.button-action color="yellow" icon="eye"
+                                                    onclick="viewFile('file_suratpenunjukan')">
+                                                    Lihat
+                                                </x-button.button-action>
+                                                <x-button.button-action color="red" icon="trash" class="ml-2"
+                                                    onclick="deleteFile('file_suratpenunjukan')">
+                                                    Hapus
+                                                </x-button.button-action>
+                                            @else
+                                                <x-button.button-action color="blue" icon="upload"
+                                                    onclick="uploadFile('file_suratpenunjukan')">
+                                                    Upload
+                                                </x-button.button-action>
+                                                <a
+                                                    href="{{ route('work_request.print-suratpenunjukan', $workRequests->id) }}">
+                                                    <x-button.button-action color="blue" icon="print">
+                                                        Download
+                                                    </x-button.button-action>
+                                                </a>
+                                            @endif
                                     </td>
                                 </tr>
 
@@ -719,7 +733,8 @@
         const downloadRoutes = {
             file_evaluationletter: "{{ route('work_request.print-evaluation', $workRequests->id) }}",
             file_beritaacaraklarifikasi: "{{ route('work_request.print-beritaacaraklarifikasi', $workRequests->id) }}",
-            file_lampiranberitaacaraklarifikasi: "{{ route('work_request.print-lampiranberitaacaraklarifikasi', $workRequests->id) }}"
+            file_lampiranberitaacaraklarifikasi: "{{ route('work_request.print-lampiranberitaacaraklarifikasi', $workRequests->id) }}",
+            file_suratpenunjukan: "{{ route('work_request.print-suratpenunjukan', $workRequests->id) }}"
         };
 
         // Function untuk update UI file
@@ -739,7 +754,7 @@
                 } else {
                     // Tampilkan tombol Upload (dan Download untuk field tertentu)
                     if (field === 'file_beritaacaraklarifikasi' || field === 'file_evaluationletter' || field ===
-                        'file_lampiranberitaacaraklarifikasi') {
+                        'file_lampiranberitaacaraklarifikasi' || field === 'file_suratpenunjukan') {
                         container.innerHTML = `
                     <div class="flex justify-center space-x-2">
                         <x-button.button-action color="blue" icon="upload" onclick="uploadFile('${field}')">
