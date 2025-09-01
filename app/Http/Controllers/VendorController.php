@@ -176,12 +176,35 @@ class VendorController extends Controller
     {
         foreach ($this->fileFields as $field) {
             if ($request->hasFile($field)) {
+                // Hapus file lama kalau ada
                 if ($existing && !empty($existing->{$field}) && Storage::disk('public')->exists($existing->{$field})) {
                     Storage::disk('public')->delete($existing->{$field});
                 }
-                $path = $request->file($field)->store('vendors', 'public');
+
+                // Buat nama folder berdasarkan nama field
+                $folder = "vendors/{$field}";
+                // Simpan dengan nama asli file
+                $filename = $request->file($field)->getClientOriginalName();
+
+                $path = $request->file($field)->storeAs($folder, $filename, 'public');
+
+                // Simpan path ke DB
                 $data[$field] = $path;
             }
         }
+    }
+    public function download(Vendor $vendor, string $field)
+    {
+        if (!in_array($field, $this->fileFields)) {
+            abort(404, 'File field not valid');
+        }
+
+        $path = $vendor->{$field};
+
+        if (!$path || !Storage::disk('public')->exists($path)) {
+            abort(404, 'File not found');
+        }
+
+        return response()->file(storage_path('app/public/' . $path));
     }
 }
