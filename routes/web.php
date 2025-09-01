@@ -98,7 +98,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         'update' => 'vendors.update',
         'destroy' => 'vendors.destroy',
     ]);
-
+    Route::get('vendors/{vendor}/{field}/download', [VendorController::class, 'download'])
+    ->name('vendors.download');
+   
     /*
     |--------------------------------------------------------------------------
     | Work Request Routes
