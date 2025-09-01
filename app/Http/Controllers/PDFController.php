@@ -395,6 +395,9 @@ class PDFController extends Controller
     $sheet->setCellValue('A26', $teks);
     $sheet->setCellValue('G34', $workRequest->work_name_request);
     $sheet->setCellValue('G36', $workRequest->orderCommunications->first()->nilaikontrak_suratpenunjukan);
+    $sheet->getStyle('G36')->getNumberFormat()->setFormatCode('"Rp" #,##0');
+
+
 
     // export hasil
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

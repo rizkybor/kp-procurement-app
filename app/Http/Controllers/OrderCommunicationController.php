@@ -152,10 +152,23 @@ class OrderCommunicationController extends Controller
             'file_evaluationletter' => 'evaluation',
             'file_lampiranberitaacaraklarifikasi' => 'lampiranberitaacaraklarifikasi',
             'file_suratpenunjukan' => 'suratpenunjukan',
+            'nilaikontrak_suratpenunjukan',
         ];
 
         if (!array_key_exists($field, $validFileFields)) {
             return response()->json(['success' => false, 'message' => 'Field file tidak valid']);
+        }
+
+        // Validasi untuk field nilaikontrak_suratpenunjukan jika field yang diupload adalah file_suratpenunjukan
+        if ($field === 'file_suratpenunjukan') {
+            $request->validate([
+                'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:2048',
+                'nilaikontrak_suratpenunjukan' => 'required|numeric'
+            ]);
+        } else {
+            $request->validate([
+                'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:2048'
+            ]);
         }
 
         $request->validate([
@@ -176,6 +189,12 @@ class OrderCommunicationController extends Controller
         $filePath = $file->storeAs('public/orcom_files/' . $folder, $fileName);
 
         $orderCommunication->$field = $fileName;
+
+        // Simpan nilai kontrak jika field yang diupload adalah file_suratpenunjukan
+        if ($field === 'file_suratpenunjukan') {
+            $orderCommunication->nilaikontrak_suratpenunjukan = $request->nilaikontrak_suratpenunjukan;
+        }
+
         $orderCommunication->save();
 
         return response()->json([
@@ -215,8 +234,15 @@ class OrderCommunicationController extends Controller
         if ($orderCommunication->$field) {
             Storage::delete('public/orcom_files/' . $folder . '/' . $orderCommunication->$field);
             $orderCommunication->$field = null;
+
+            // Hapus juga nilai kontrak jika field yang dihapus adalah file_suratpenunjukan
+            if ($field === 'file_suratpenunjukan') {
+                $orderCommunication->nilaikontrak_suratpenunjukan = null;
+            }
+
             $orderCommunication->save();
         }
+
 
         return response()->json(['success' => true, 'message' => 'File berhasil dihapus']);
     }

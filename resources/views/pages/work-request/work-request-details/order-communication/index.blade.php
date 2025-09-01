@@ -398,10 +398,12 @@
                                         <div class="flex justify-center space-x-2"
                                             id="file_suratpenunjukan_container">
                                             @if ($orderCommunication->file_suratpenunjukan)
-                                                <x-button.button-action color="yellow" icon="eye"
-                                                    onclick="viewFile('file_suratpenunjukan')">
-                                                    Lihat
-                                                </x-button.button-action>
+                                                <a
+                                                    href="{{ route('work_request.print-suratpenunjukan', $workRequests->id) }}">
+                                                    <x-button.button-action color="yellow" icon="eye">
+                                                        Lihat
+                                                    </x-button.button-action>
+                                                </a>
                                                 <x-button.button-action color="red" icon="trash" class="ml-2"
                                                     onclick="deleteFile('file_suratpenunjukan')">
                                                     Hapus
@@ -418,6 +420,7 @@
                                                     </x-button.button-action>
                                                 </a>
                                             @endif
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -551,6 +554,55 @@
         </div>
     </div>
 
+    <!-- Modal untuk Upload Surat Penunjukan -->
+    <div id="uploadSuratPenunjukanModal"
+        class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Upload Surat Penunjukan
+                    Penyedia Barang/Jasa</h3>
+
+                <form id="uploadSuratPenunjukanForm" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="nilaikontrak_suratpenunjukan"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Nilai Kontrak
+                        </label>
+                        <input type="number" id="nilaikontrak_suratpenunjukan" name="nilaikontrak_suratpenunjukan"
+                            value="{{ $orderCommunication->nilaikontrak_suratpenunjukan ?? '' }}"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
+                                  bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-700"
+                            required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="file_suratpenunjukan_input"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            File Surat Penunjukan
+                        </label>
+                        <input type="file" id="file_suratpenunjukan_input" name="file"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
+                                  bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-700"
+                            accept=".pdf,.doc,.docx,.xls,.xlsx" required>
+                    </div>
+
+                    <div class="flex justify-end space-x-2 mt-6">
+                        <button type="button" onclick="closeUploadSuratPenunjukanModal()"
+                            class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100 rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         // CSRF Token untuk AJAX
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -628,8 +680,56 @@
                 });
         }
 
+        // Function untuk membuka modal upload surat penunjukan
+
+        function openUploadSuratPenunjukanModal() {
+            document.getElementById('uploadSuratPenunjukanModal').classList.remove('hidden');
+        }
+
+        // Function untuk menutup modal upload surat penunjukan
+        function closeUploadSuratPenunjukanModal() {
+            document.getElementById('uploadSuratPenunjukanModal').classList.add('hidden');
+        }
+
+        // Event listener untuk form upload surat penunjukan
+        document.getElementById('uploadSuratPenunjukanForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('field', 'file_suratpenunjukan');
+            formData.append('file', document.getElementById('file_suratpenunjukan_input').files[0]);
+            formData.append('nilaikontrak_suratpenunjukan', document.getElementById('nilaikontrak_suratpenunjukan')
+                .value);
+
+            fetch(`/work_request/order_communication/${orderCommId}/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('File berhasil diupload', 'success');
+                        closeUploadSuratPenunjukanModal();
+                        // Update UI untuk menampilkan file yang diupload
+                        updateFileUI('file_suratpenunjukan', data.file_name);
+                    } else {
+                        showNotification('Gagal upload file', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Terjadi kesalahan', 'error');
+                });
+        });
+
         // Function untuk upload file
         function uploadFile(field) {
+            if (field === 'file_suratpenunjukan') {
+                openUploadSuratPenunjukanModal();
+                return;
+            }
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = '.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png';
@@ -669,7 +769,9 @@
 
         // Function untuk delete file
         function deleteFile(field) {
-            if (!confirm('Apakah Anda yakin ingin menghapus file ini?')) return;
+            if (!confirm('Apakah Anda yakin ingin menghapus file ini?' +
+                    (field === 'file_suratpenunjukan' ? ' Nilai kontrak juga akan dihapus.' : ''))) return;
+
 
             fetch(`/work_request/order_communication/${orderCommId}/delete-file`, {
                     method: 'DELETE',
@@ -742,15 +844,29 @@
             const container = document.getElementById(`${field}_container`);
             if (container) {
                 if (fileName) {
-                    // Tampilkan tombol Lihat dan Hapus untuk semua file yang sudah diupload
-                    container.innerHTML = `
-                <x-button.button-action color="yellow" icon="eye" onclick="viewFile('${field}')">
-                    Lihat
-                </x-button.button-action>
-                <x-button.button-action color="red" icon="trash" class="ml-2" onclick="deleteFile('${field}')">
-                    Hapus
-                </x-button.button-action>
-            `;
+                    if (field === 'file_suratpenunjukan') {
+                        // Tampilan khusus untuk file_suratpenunjukan
+                        container.innerHTML = `
+                            <a href="{{ route('work_request.print-suratpenunjukan', $workRequests->id) }}">
+                                <x-button.button-action color="yellow" icon="eye">
+                                    Lihat
+                                </x-button.button-action>
+                            </a>
+                            <x-button.button-action color="red" icon="trash" class="ml-2" onclick="deleteFile('${field}')">
+                                Hapus
+                            </x-button.button-action>
+                        `;
+                    } else {
+                        // Tampilan standar untuk file lainnya
+                        container.innerHTML = `
+                            <x-button.button-action color="yellow" icon="eye" onclick="viewFile('${field}')">
+                                Lihat
+                            </x-button.button-action>
+                            <x-button.button-action color="red" icon="trash" class="ml-2" onclick="deleteFile('${field}')">
+                                Hapus
+                            </x-button.button-action>
+                        `;
+                    }
                 } else {
                     // Tampilkan tombol Upload (dan Download untuk field tertentu)
                     if (field === 'file_beritaacaraklarifikasi' || field === 'file_evaluationletter' || field ===
