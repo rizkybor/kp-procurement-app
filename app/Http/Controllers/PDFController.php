@@ -32,7 +32,7 @@ class PDFController extends Controller
     // Load Blade view dari folder templates
     $pdf = Pdf::loadView('templates.document-form-request', $data);
 
-    $noSurat = $workRequest->first()->request_number;
+    $noSurat = $workRequest->request_number;
 
     // sanitize nama file (hapus / dan \ atau ganti dengan -)
     $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
@@ -187,7 +187,7 @@ class PDFController extends Controller
     $sheet->setCellValue('F38', $workRequest->orderCommunications->first()->vendor->pic_position);
 
     // ambil nomor surat
-    $noSurat = $workRequest->orderCommunications->first()->no_suratpenunjukan;
+    $noSurat = $workRequest->orderCommunications->first()->no_beritaacaraklarifikasi;
 
     // sanitize nama file (hapus / dan \ atau ganti dengan -)
     $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
@@ -388,7 +388,7 @@ class PDFController extends Controller
     $sheet->getStyle('O' . $startRow . ':P' . $lastDataRow)->applyFromArray($currencyStyle);
 
     // ambil nomor surat
-    $noSurat = $workRequest->orderCommunications->first()->no_suratpenunjukan;
+    $noSurat = $workRequest->orderCommunications->first()->no_beritaacaraklarifikasi;
 
     // sanitize nama file (hapus / dan \ atau ganti dengan -)
     $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
