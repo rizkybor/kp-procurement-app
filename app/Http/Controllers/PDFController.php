@@ -32,9 +32,14 @@ class PDFController extends Controller
     // Load Blade view dari folder templates
     $pdf = Pdf::loadView('templates.document-form-request', $data);
 
+    $noSurat = $workRequest->first()->request_number;
+
+    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
+
     // Download file PDF dengan nama document-letter.pdf
     // return $pdf->download('document-form-request.pdf');
-    return $pdf->stream('document-form-request.pdf');
+    return $pdf->stream($sanitizedNoSurat . '.pdf');
   }
 
   public function generateRab($id)
@@ -70,10 +75,15 @@ class PDFController extends Controller
       'workRequest' => $workRequest
     ];
 
+    $noSurat = $workRequest->orderCommunications->first()->no_applicationletter;
+
+    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
+
     // Load Blade view dari folder templates
     $pdf = Pdf::loadView('templates.document-application', $data);
 
-    return $pdf->stream('document-application.pdf');
+    return $pdf->stream($sanitizedNoSurat . '.pdf');
   }
 
   public function generateNegotiation($id)
@@ -89,10 +99,16 @@ class PDFController extends Controller
       'workRequest' => $workRequest
     ];
 
+    // ambil nomor surat
+    $noSurat = $workRequest->orderCommunications->first()->no_negotiationletter;
+
+    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
+
     // Load Blade view dari folder templates
     $pdf = Pdf::loadView('templates.document-negotiation', $data);
 
-    return $pdf->stream('document-negotiation.pdf');
+    return $pdf->stream($sanitizedNoSurat . '.pdf');
   }
 
   public function generateEvaluation($id)
@@ -117,12 +133,18 @@ class PDFController extends Controller
     $sheet->setCellValue('C13', $workRequest->workRequestSpesifications->first()->work_duration);
     $sheet->setCellValue('C15', $workRequest->workRequestSpesifications->first()->payment_mechanism);
 
+    // ambil nomor surat
+    $noSurat = $workRequest->orderCommunications->first()->no_evaluationletter;
+
+    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
+
     // export hasil
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 
     return response()->streamDownload(function () use ($writer) {
       $writer->save('php://output');
-    }, 'evaluasi-teknik-penawaran-mitra.xlsx');
+    }, $sanitizedNoSurat . '.xlsx');
   }
 
   public function generateBeritaacara($id)
@@ -164,11 +186,18 @@ class PDFController extends Controller
     $sheet->setCellValue('F37', $workRequest->orderCommunications->first()->vendor->pic_name);
     $sheet->setCellValue('F38', $workRequest->orderCommunications->first()->vendor->pic_position);
 
+    // ambil nomor surat
+    $noSurat = $workRequest->orderCommunications->first()->no_suratpenunjukan;
+
+    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
+
     // export hasil
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+
     return response()->streamDownload(function () use ($writer) {
       $writer->save('php://output');
-    }, 'berita-acara-klarifikasi.xlsx');
+    }, $sanitizedNoSurat . '.xlsx');
   }
 
   private function terbilang($angka)
@@ -358,11 +387,21 @@ class PDFController extends Controller
     $lastDataRow = $currentRow - 1;
     $sheet->getStyle('O' . $startRow . ':P' . $lastDataRow)->applyFromArray($currencyStyle);
 
+    // ambil nomor surat
+    $noSurat = $workRequest->orderCommunications->first()->no_suratpenunjukan;
+
+    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
+
+    // tambahkan -LAMP di belakang
+    $sanitizedNoSurat .= '-LAMP';
+
     // export hasil
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+
     return response()->streamDownload(function () use ($writer) {
       $writer->save('php://output');
-    }, 'lampiran-berita-acara-klarifikasi.xlsx');
+    }, $sanitizedNoSurat . '.xlsx');
   }
 
   public function generateSuratPenunjukan($id)
@@ -397,13 +436,17 @@ class PDFController extends Controller
     $sheet->setCellValue('G36', $workRequest->orderCommunications->first()->nilaikontrak_suratpenunjukan);
     $sheet->getStyle('G36')->getNumberFormat()->setFormatCode('"Rp" #,##0');
 
+    // ambil nomor surat
+    $noSurat = $workRequest->orderCommunications->first()->no_suratpenunjukan;
 
+    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
 
     // export hasil
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 
     return response()->streamDownload(function () use ($writer) {
       $writer->save('php://output');
-    }, 'surat-penunjukan-penyedia-barangjasa.xlsx');;
+    }, $sanitizedNoSurat . '.xlsx');
   }
 }
