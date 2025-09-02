@@ -5,6 +5,12 @@
             <h1 class="text-xl md:text-2xl text-gray-800 dark:text-gray-100 font-bold">
                 ORCOM (Order Communication)
             </h1>
+
+            <x-button.button-action color="blue" type="button" icon="back"
+                onclick="window.location='{{ route('work_request.work_request_items.show', $workRequests->id) }}'">
+                Back
+            </x-button.button-action>
+
         </div>
         <div class="grid grid-cols-12 gap-6">
             <!-- Card (Customers) -->

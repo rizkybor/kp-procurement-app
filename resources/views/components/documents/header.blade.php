@@ -102,13 +102,17 @@
                     Need Info
                 </x-button.button-action>
 
-                <x-button.button-action color="blue" icon="approve"
-                    data-action="{{ route('work_request.processApproval', $workRequest['id']) }}"
-                    data-title="Approve Document" data-button-text="Approve"
-                    data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
-                    onclick="openModal(this)">
-                    Approve
-                </x-button.button-action>
+                {{-- Show Approve button only for maker, manager, direktur_keuangan, direktur_utama --}}
+                @if (in_array(auth()->user()->role, ['maker', 'manager', 'direktur_keuangan', 'direktur_utama']))
+                    <x-button.button-action color="blue" icon="approve"
+                        data-action="{{ route('work_request.processApproval', $workRequest['id']) }}"
+                        data-title="Approve Document" data-button-text="Approve"
+                        data-button-color="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-700"
+                        onclick="openModal(this)">
+                        Approve
+                    </x-button.button-action>
+                @endif
+
             @endif
         @endif
 
@@ -141,6 +145,14 @@
                 </x-button.button-action>
             @endif
         @endif
+    @endif
+
+    {{-- Only show Menu Orcom button for fungsi_pengadaan role --}}
+    @if (auth()->user()->role === 'fungsi_pengadaan')
+        <x-button.button-action color="blue" type="button" icon="document"
+            onclick="window.location='{{ route('work_request.order_communication.index', $workRequest->id) }}'">
+            Menu Orcom
+        </x-button.button-action>
     @endif
 
     <x-modal.global.modal-proccess-global :workRequest="$workRequest" />
