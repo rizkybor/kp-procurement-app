@@ -14,7 +14,7 @@
         </div>
         <div class="flex justify-center items-center mb-4">
             <p class="text-gray-700 dark:text-gray-300 text-sm">
-                <strong>No Kontrak:</strong> {{ $workRequest['contract_number'] ?? 'Tidak Diketahui' }}
+                <strong>No Permintaan:</strong> {{ $workRequest['request_number'] ?? 'Tidak Diketahui' }}
             </p>
         </div>
 
