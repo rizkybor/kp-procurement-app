@@ -7,6 +7,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use ZipArchive;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class PDFController extends Controller
 {
@@ -448,5 +452,261 @@ class PDFController extends Controller
     return response()->streamDownload(function () use ($writer) {
       $writer->save('php://output');
     }, $sanitizedNoSurat . '.xlsx');
+  }
+
+  public function downloadAllFiles($id)
+  {
+    $tempDir = null;
+    $zipPath = null;
+
+    try {
+
+
+      $workRequest = WorkRequest::with(['orderCommunications', 'User', 'workRequestItems'])->findOrFail($id);
+
+
+      $orderCommunication = $workRequest->orderCommunications->first();
+
+      if (!$orderCommunication) {
+        Log::warning('Order communication not found for work request ID: ' . $id);
+        return redirect()->back()->with('error', 'Data order communication tidak ditemukan');
+      }
+
+
+
+      // Create temporary directory
+      $tempDir = storage_path('app/temp_orcom_' . uniqid());
+
+
+      if (!file_exists($tempDir)) {
+        mkdir($tempDir, 0777, true);
+      }
+
+      $filesAdded = [];
+      $fileCount = 0;
+
+
+
+      // 1. FILE-FILE YANG DIUPLOAD
+      $fileFields = [
+        'file_offerletter' => ['name' => 'Surat_Penawaran_Harga', 'folder' => 'offer_letters'],
+        'file_evaluationletter' => ['name' => 'Evaluasi_Teknis_Penawaran_Mitra', 'folder' => 'evaluation'],
+        'file_beritaacaraklarifikasi' => ['name' => 'Berita_Acara_Klarifikasi_Negoisasi_Harga', 'folder' => 'klarifikasi'],
+        'file_lampiranberitaacaraklarifikasi' => ['name' => 'Lampiran_Berita_Acara_Klarifikasi_Negoisasi_Harga', 'folder' => 'lampiranberitaacaraklarifikasi'],
+        'file_suratpenunjukan' => ['name' => 'Surat_Penunjukan_Penyedia_Barang_Jasa', 'folder' => 'suratpenunjukan'],
+        'file_bentukperikatan' => ['name' => 'Bentuk_Perikatan_Perjanjian_SPK_PO', 'folder' => 'perikatan'],
+        'file_bap' => ['name' => 'Berita_Acara_Pemeriksaan_Pekerjaan_BAP', 'folder' => 'bap'],
+        'file_bast' => ['name' => 'Berita_Acara_Serah_Terima_Pekerjaan_BAST', 'folder' => 'bast']
+      ];
+
+      foreach ($fileFields as $field => $fileInfo) {
+        Log::debug('Checking field: ' . $field);
+
+        if ($orderCommunication->$field) {
+          Log::debug('Field has value: ' . $orderCommunication->$field);
+
+          $storagePath = 'public/orcom_files/' . $fileInfo['folder'] . '/' . $orderCommunication->$field;
+
+          if (Storage::exists($storagePath)) {
+            Log::debug('File exists in storage: ' . $storagePath);
+
+            $filePath = Storage::path($storagePath);
+            $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+            $newFileName = $fileInfo['name'] . '.' . $fileExtension;
+            $tempFilePath = $tempDir . '/' . $newFileName;
+
+            Log::debug('Copying file from: ' . $filePath . ' to: ' . $tempFilePath);
+
+            if (copy($filePath, $tempFilePath)) {
+              $filesAdded[] = $tempFilePath;
+              $fileCount++;
+              Log::debug('File copied successfully: ' . $newFileName);
+            } else {
+              Log::error('Failed to copy file: ' . $filePath);
+            }
+          } else {
+            Log::warning('File does not exist in storage: ' . $storagePath);
+          }
+        } else {
+          Log::debug('Field is empty: ' . $field);
+        }
+      }
+
+      // 2. TAMBAHKAN 3 FILE PDF YANG DINAMIS
+
+
+      // a. Form Request PDF (generateRequest)
+      try {
+        $data = ['workRequest' => $workRequest];
+        $pdf = Pdf::loadView('templates.document-form-request', $data);
+
+        $fileName = 'Formulir_Permintaan_Pengadaan_' . $this->sanitizeFileName($workRequest->request_number) . '.pdf';
+        $filePath = $tempDir . '/' . $fileName;
+        $pdf->save($filePath);
+
+        $filesAdded[] = $filePath;
+        $fileCount++;
+        Log::debug('Form Request PDF generated: ' . $fileName);
+      } catch (\Exception $e) {
+        Log::error('Failed to generate Form Request PDF: ' . $e->getMessage());
+      }
+
+      // b. Application Letter PDF (generateApplication)
+      try {
+        if ($orderCommunication->no_applicationletter) {
+          $data = ['workRequest' => $workRequest];
+          $pdf = Pdf::loadView('templates.document-application', $data);
+
+          $fileName = 'Surat_Permohonan_Permintaan_Harga_' . $this->sanitizeFileName($orderCommunication->no_applicationletter) . '.pdf';
+          $filePath = $tempDir . '/' . $fileName;
+          $pdf->save($filePath);
+
+          $filesAdded[] = $filePath;
+          $fileCount++;
+          Log::debug('Application Letter PDF generated: ' . $fileName);
+        }
+      } catch (\Exception $e) {
+        Log::error('Failed to generate Application Letter PDF: ' . $e->getMessage());
+      }
+
+      // c. Negotiation Letter PDF (generateNegotiation)
+      try {
+        if ($orderCommunication->no_negotiationletter) {
+          $data = ['workRequest' => $workRequest];
+          $pdf = Pdf::loadView('templates.document-negotiation', $data);
+
+          $fileName = 'Surat_Undangan_Klarifikasi_Negoisasi_' . $this->sanitizeFileName($orderCommunication->no_negotiationletter) . '.pdf';
+          $filePath = $tempDir . '/' . $fileName;
+          $pdf->save($filePath);
+
+          $filesAdded[] = $filePath;
+          $fileCount++;
+          Log::debug('Negotiation Letter PDF generated: ' . $fileName);
+        }
+      } catch (\Exception $e) {
+        Log::error('Failed to generate Negotiation Letter PDF: ' . $e->getMessage());
+      }
+
+
+
+      // Check if any files were added
+      if (empty($filesAdded)) {
+        Log::warning('No files available for download');
+
+        // Cleanup temp directory
+        if (file_exists($tempDir)) {
+          array_map('unlink', glob("$tempDir/*"));
+          rmdir($tempDir);
+        }
+
+        return redirect()->back()->with('error', 'Tidak ada file yang dapat diunduh');
+      }
+
+      // Create ZIP file
+      $zipFileName = 'ORCOM-' . $this->sanitizeFileName($workRequest->request_number) . '.zip';
+      $zipPath = storage_path('app/' . $zipFileName);
+
+
+
+      // Remove existing zip file if any
+      if (file_exists($zipPath)) {
+        unlink($zipPath);
+      }
+
+      $zip = new ZipArchive();
+
+      if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+
+
+        // Add all files to ZIP
+        foreach ($filesAdded as $filePath) {
+          $fileName = basename($filePath);
+          Log::debug('Adding file to ZIP: ' . $fileName);
+
+          if ($zip->addFile($filePath, $fileName)) {
+            Log::debug('File added to ZIP: ' . $fileName);
+          } else {
+            Log::error('Failed to add file to ZIP: ' . $fileName);
+          }
+        }
+
+        if ($zip->close()) {
+        } else {
+          Log::error('Failed to close ZIP archive');
+          throw new \Exception('Failed to close ZIP archive');
+        }
+
+        // Cleanup temp files
+        foreach ($filesAdded as $filePath) {
+          if (file_exists($filePath)) {
+            unlink($filePath);
+          }
+        }
+
+
+        // Cleanup temp directory
+        if (file_exists($tempDir)) {
+          rmdir($tempDir);
+        }
+
+
+
+        // Return download response
+        return response()->download($zipPath, $zipFileName, [
+          'Content-Type' => 'application/zip',
+          'Content-Disposition' => 'attachment; filename="' . $zipFileName . '"',
+        ])->deleteFileAfterSend(true);
+      } else {
+        Log::error('Failed to open ZIP archive: ' . $zipPath);
+
+        // Cleanup on error
+        foreach ($filesAdded as $filePath) {
+          if (file_exists($filePath)) {
+            unlink($filePath);
+          }
+        }
+        if (file_exists($tempDir)) {
+          rmdir($tempDir);
+        }
+
+        return redirect()->back()->with('error', 'Gagal membuat file ZIP');
+      }
+    } catch (\Exception $e) {
+      Log::error('Exception in downloadAllFiles: ' . $e->getMessage());
+      Log::error('Exception trace: ' . $e->getTraceAsString());
+
+      // Cleanup on exception
+      if ($tempDir && file_exists($tempDir)) {
+        try {
+          array_map('unlink', glob("$tempDir/*"));
+          if (is_dir($tempDir)) {
+            rmdir($tempDir);
+          }
+        } catch (\Exception $cleanupError) {
+          Log::error('Error during cleanup: ' . $cleanupError->getMessage());
+        }
+      }
+
+      if ($zipPath && file_exists($zipPath)) {
+        try {
+          unlink($zipPath);
+        } catch (\Exception $cleanupError) {
+          Log::error('Error during ZIP cleanup: ' . $cleanupError->getMessage());
+        }
+      }
+
+      return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+    }
+  }
+
+  /**
+   * Sanitize file name
+   *
+   * @param string $fileName
+   * @return string
+   */
+  private function sanitizeFileName($fileName)
+  {
+    return preg_replace('/[^a-zA-Z0-9_-]/', '_', $fileName);
   }
 }

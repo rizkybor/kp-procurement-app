@@ -99,8 +99,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         'destroy' => 'vendors.destroy',
     ]);
     Route::get('vendors/{vendor}/{field}/download', [VendorController::class, 'download'])
-    ->name('vendors.download');
-   
+        ->name('vendors.download');
     /*
     |--------------------------------------------------------------------------
     | Work Request Routes
@@ -151,6 +150,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('{id}/beritaacara', [PDFController::class, 'generateBeritaacara'])->name('print-beritaacaraklarifikasi');
         Route::get('{id}/lampiranberitaacara', [PDFController::class, 'generateLampiranBeritaacara'])->name('print-lampiranberitaacaraklarifikasi');
         Route::get('{id}/suratpenunjukan', [PDFController::class, 'generateSuratPenunjukan'])->name('print-suratpenunjukan');
+
+        Route::get('{id}/download-all-files', [PDFController::class, 'downloadAllFiles'])
+            ->name('download-all-files');
 
         // Work Request Items
         Route::prefix('{id}/edit/work_request_items')->name('work_request_items.')->group(function () {

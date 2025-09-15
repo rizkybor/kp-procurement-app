@@ -6,11 +6,19 @@
                 ORCOM (Order Communication)
             </h1>
 
-            <x-button.button-action color="blue" type="button" icon="back"
-                onclick="window.location='{{ route('work_request.work_request_items.show', $workRequests->id) }}'">
-                Back
-            </x-button.button-action>
+            <div class="flex space-x-2">
+                <!-- Tombol Download All Files -->
+                <a href="{{ route('work_request.download-all-files', $workRequests->id) }}">
+                    <x-button.button-action color="green" icon="download">
+                        Download Semua File
+                    </x-button.button-action>
+                </a>
 
+                <x-button.button-action color="blue" type="button"
+                    onclick="window.location='{{ route('work_request.work_request_items.show', $workRequests->id) }}'">
+                    Kembali
+                </x-button.button-action>
+            </div>
         </div>
         <div class="grid grid-cols-12 gap-6">
             <!-- Card (Customers) -->
@@ -167,7 +175,8 @@
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
                                         <div class="flex justify-center">
-                                            <a href="{{ route('work_request.print-application', $workRequests->id) }}">
+                                            <a
+                                                href="{{ route('work_request.print-application', $workRequests->id) }}">
                                                 <x-button.button-action color="blue" icon="print">
                                                     Download
                                                 </x-button.button-action>
