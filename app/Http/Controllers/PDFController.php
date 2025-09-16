@@ -461,10 +461,7 @@ class PDFController extends Controller
 
     try {
 
-
       $workRequest = WorkRequest::with(['orderCommunications', 'User', 'workRequestItems'])->findOrFail($id);
-
-
       $orderCommunication = $workRequest->orderCommunications->first();
 
       if (!$orderCommunication) {
@@ -472,11 +469,8 @@ class PDFController extends Controller
         return redirect()->back()->with('error', 'Data order communication tidak ditemukan');
       }
 
-
-
       // Create temporary directory
       $tempDir = storage_path('app/temp_orcom_' . uniqid());
-
 
       if (!file_exists($tempDir)) {
         mkdir($tempDir, 0777, true);
@@ -484,8 +478,6 @@ class PDFController extends Controller
 
       $filesAdded = [];
       $fileCount = 0;
-
-
 
       // 1. FILE-FILE YANG DIUPLOAD
       $fileFields = [
@@ -533,7 +525,6 @@ class PDFController extends Controller
       }
 
       // 2. TAMBAHKAN 3 FILE PDF YANG DINAMIS
-
 
       // a. Form Request PDF (generateRequest)
       try {
@@ -587,9 +578,6 @@ class PDFController extends Controller
         Log::error('Failed to generate Negotiation Letter PDF: ' . $e->getMessage());
       }
 
-
-
-      // Check if any files were added
       if (empty($filesAdded)) {
         Log::warning('No files available for download');
 
@@ -606,8 +594,6 @@ class PDFController extends Controller
       $zipFileName = 'ORCOM-' . $this->sanitizeFileName($workRequest->request_number) . '.zip';
       $zipPath = storage_path('app/' . $zipFileName);
 
-
-
       // Remove existing zip file if any
       if (file_exists($zipPath)) {
         unlink($zipPath);
@@ -616,7 +602,6 @@ class PDFController extends Controller
       $zip = new ZipArchive();
 
       if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
-
 
         // Add all files to ZIP
         foreach ($filesAdded as $filePath) {
@@ -643,13 +628,10 @@ class PDFController extends Controller
           }
         }
 
-
         // Cleanup temp directory
         if (file_exists($tempDir)) {
           rmdir($tempDir);
         }
-
-
 
         // Return download response
         return response()->download($zipPath, $zipFileName, [
