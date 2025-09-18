@@ -3,6 +3,7 @@
 use App\Http\Controllers\OrderCommunicationController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\NotificationController;
@@ -46,6 +47,12 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
 
         return redirect()->route('register')->with('status', 'User berhasil dibuat.');
     });
+
+    // halaman list user
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 });
 
 Route::get('/token', [TestController::class, 'getDataToken'])->name('token');

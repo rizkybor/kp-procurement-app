@@ -20,6 +20,10 @@ return new class extends Migration {
             // Person in Charge
             $table->string('pic_name')->nullable();
             $table->string('pic_position')->nullable();
+            
+            // Bank Account
+            $table->string('bank_name')->nullable();
+            $table->string('bank_number')->nullable();
 
             // Company Documents
             $table->string('file_deed_of_company')->nullable();        // Akta Perusahaan

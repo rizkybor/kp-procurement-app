@@ -6,7 +6,7 @@
                 <div class="px-4 sm:px-0">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Edit Vendor</h3>
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Update vendor information, PIC details, or re-upload documents.
+                        Ubah informasi vendor, detil PIC, atau re-upload dokumen.
                     </p>
                 </div>
             </div>
@@ -23,18 +23,18 @@
                             {{-- Company Info --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <x-label for="name">Name <span class="text-red-500">*</span></x-label>
+                                    <x-label for="name">Nama Vendor <span class="text-red-500">*</span></x-label>
                                     <x-input id="name" name="name" type="text" class="mt-1 block w-full"
                                              value="{{ old('name', $vendor->name) }}" required/>
                                     <x-input-error for="name" class="mt-2"/>
                                 </div>
 
                                 <div>
-                                    <x-label for="business_type">Business Type</x-label>
+                                    <x-label for="business_type">Tipe Bisnis/Usaha</x-label>
                                     @if(!empty($businessTypes) && count($businessTypes))
                                         <select id="business_type" name="business_type"
                                                 class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm">
-                                            <option value="">Select business type</option>
+                                            <option value="">Pilih Tipe Bisnis/Usaha</option>
                                             @foreach($businessTypes as $bt)
                                                 <option value="{{ $bt }}" @selected(old('business_type', $vendor->business_type)===$bt)>{{ $bt }}</option>
                                             @endforeach
@@ -50,14 +50,14 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <x-label for="tax_number">Tax Number</x-label>
+                                    <x-label for="tax_number">Nomor Pajak</x-label>
                                     <x-input id="tax_number" name="tax_number" type="text" class="mt-1 block w-full"
                                              value="{{ old('tax_number', $vendor->tax_number) }}"/>
                                     <x-input-error for="tax_number" class="mt-2"/>
                                 </div>
 
                                 <div>
-                                    <x-label for="company_address">Company Address</x-label>
+                                    <x-label for="company_address">Alamat Perusahaan</x-label>
                                     <textarea id="company_address" name="company_address" rows="2"
                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-white dark:bg-gray-900">{{ old('company_address', $vendor->company_address) }}</textarea>
                                     <x-input-error for="company_address" class="mt-2"/>
@@ -66,7 +66,7 @@
 
                             {{-- Business Fields (JSON array) --}}
                             <div>
-                                <x-label for="business_fields">Business Fields</x-label>
+                                <x-label for="business_fields">Jenis Usaha</x-label>
                                 @php
                                     $fields = old('business_fields', $vendor->business_fields ?? []);
                                     $fieldsStr = is_array($fields) ? implode(', ', $fields) : (string) $fields;
@@ -74,45 +74,61 @@
                                 <input id="business_fields" name="business_fields[]"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                        value="{{ $fieldsStr }}"
-                                       placeholder="Comma separated (e.g. Logistics, Contractor)">
+                                       placeholder="contoh : Logistik atau lainnya">
                                 <p class="text-xs text-gray-500 mt-1">Separate with comma. Will be saved as an array.</p>
                             </div>
 
                             {{-- PIC --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <x-label for="pic_name">PIC Name</x-label>
+                                    <x-label for="pic_name">Nama PIC</x-label>
                                     <x-input id="pic_name" name="pic_name" type="text" class="mt-1 block w-full"
                                              value="{{ old('pic_name', $vendor->pic_name) }}"/>
                                     <x-input-error for="pic_name" class="mt-2"/>
                                 </div>
                                 <div>
-                                    <x-label for="pic_position">PIC Position</x-label>
+                                    <x-label for="pic_position">Posisi PIC</x-label>
                                     <x-input id="pic_position" name="pic_position" type="text" class="mt-1 block w-full"
                                              value="{{ old('pic_position', $vendor->pic_position) }}"/>
                                     <x-input-error for="pic_position" class="mt-2"/>
                                 </div>
                             </div>
 
+                             {{-- Bank Account --}}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <x-label for="bank_name">Nama Bank</x-label>
+                                    <x-input id="bank_name" name="bank_name" type="text" class="mt-1 block w-full"
+                                             value="{{ old('bank_name', $vendor->bank_name) }}"/>
+                                    <x-input-error for="bank_name" class="mt-2"/>
+                                </div>
+                                <div>
+                                    <x-label for="bank_number">Nomer Rekening Bank</x-label>
+                                    <x-input id="bank_number" name="bank_number" type="text" class="mt-1 block w-full"
+                                             value="{{ old('bank_number', $vendor->bank_number) }}"/>
+                                    <x-input-error for="bank_number" class="mt-2"/>
+                                </div>
+                            </div>
+
                             {{-- Documents (re-upload to replace) --}}
                             <div class="pt-2">
-                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Documents</h4>
-                                <p class="text-xs text-gray-500 mb-3">Upload a file only if you want to replace the existing one.</p>
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Kelengkapan Dokumen</h4>
+                                <p class="text-xs text-gray-500 mb-3">Unggah berkas hanya jika Anda ingin mengganti berkas yang sudah ada.</p>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     @php
                                         $docs = [
-                                            'file_deed_of_company'    => 'Deed of Company',
-                                            'file_legalization_letter'=> 'Legalization Letter',
+                                            'file_deed_of_company'    => 'Akta Perusahaan',
+                                            'file_legalization_letter'=> 'SK Pengesahan',
                                             'file_nib'                => 'NIB',
                                             'file_siujk'              => 'SIUJK',
-                                            'file_tax_registration'   => 'Tax Registration (NPWP)',
-                                            'file_vat_registration'   => 'VAT Registration (PKP)',
-                                            'file_id_card'            => 'ID Card (KTP)',
-                                            'file_vendor_statement'   => 'Vendor Statement',
-                                            'file_integrity_pact'     => 'Integrity Pact',
-                                            'file_vendor_feasibility' => 'Vendor Feasibility',
-                                            'file_interest_statement' => 'Interest Statement',
+                                            'file_tax_registration'   => 'NPWP',
+                                            'file_vat_registration'   => 'PKP',
+                                            'file_id_card'            => 'KTP',
+                                            'file_vendor_statement'   => 'Surat Pernyataan Vendor',
+                                            'file_integrity_pact'     => 'Pakta Integritas',
+                                            'file_vendor_feasibility' => 'Uji Kelayakan Vendor',
+                                            'file_interest_statement' => 'Surat Pernyataan Minat',
                                         ];
                                     @endphp
 
@@ -135,9 +151,9 @@
                         <div class="flex items-center justify-between mt-6">
                             <a href="{{ route('vendors.page') }}"
                                class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600">
-                                Back
+                                Kembali
                             </a>
-                            <x-button>Update Vendor</x-button>
+                            <x-button>Ubah Data Vendor</x-button>
                         </div>
                     </div>
                 </form>

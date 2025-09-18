@@ -88,6 +88,8 @@ class VendorController extends Controller
             // Text fields
             'name'             => ['required', 'string', 'max:255'],
             'business_type'    => ['nullable', 'string', 'max:255'], // referensi ke tabel business_types (by name)
+            'bank_name'       => ['nullable', 'string', 'max:100'],
+            'bank_number'       => ['nullable', 'string', 'max:100'],
             'tax_number'       => ['nullable', 'string', 'max:100'],
             'company_address'  => ['nullable', 'string'],
             'business_fields'  => ['nullable', 'array'],   // JSON array
@@ -126,6 +128,8 @@ class VendorController extends Controller
         $data = $request->validate([
             'name'             => ['sometimes', 'required', 'string', 'max:255'],
             'business_type'    => ['nullable', 'string', 'max:255'],
+            'bank_name'       => ['nullable', 'string', 'max:100'],
+            'bank_number'       => ['nullable', 'string', 'max:100'],
             'tax_number'       => ['nullable', 'string', 'max:100'],
             'company_address'  => ['nullable', 'string'],
             'business_fields'  => ['nullable', 'array'],

@@ -26,6 +26,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Material Procurement', 'Contractor'],
                 'pic_name'         => 'Andi Pratama',
                 'pic_position'     => 'Director',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'CV Mitra Karya Mandiri',
@@ -35,6 +37,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Maintenance Service'],
                 'pic_name'         => 'Siti Rahma',
                 'pic_position'     => 'Operations Manager',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'PT Samudra Logistik',
@@ -44,6 +48,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Transportation', 'Logistics'],
                 'pic_name'         => 'Budi Santoso',
                 'pic_position'     => 'President Director',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'CV Cahaya Elektrik',
@@ -53,6 +59,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Electrical Installation'],
                 'pic_name'         => 'Teguh Saputra',
                 'pic_position'     => 'Manager',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'PT Maju Jaya Konsultan',
@@ -62,6 +70,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Consulting', 'Engineering'],
                 'pic_name'         => 'Rizky Hidayat',
                 'pic_position'     => 'Consultant',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'CV Sentosa Abadi',
@@ -71,6 +81,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Construction'],
                 'pic_name'         => 'Ayu Lestari',
                 'pic_position'     => 'Project Manager',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'PT Prima Konstruksi',
@@ -80,6 +92,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['General Contractor'],
                 'pic_name'         => 'Yudi Prakoso',
                 'pic_position'     => 'Site Manager',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'CV Harapan Baru',
@@ -89,6 +103,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Supplier', 'Trading'],
                 'pic_name'         => 'Dewi Sartika',
                 'pic_position'     => 'Owner',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'PT Global Informatika',
@@ -98,6 +114,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['IT Solutions', 'Networking'],
                 'pic_name'         => 'Fajar Nugroho',
                 'pic_position'     => 'IT Director',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
             [
                 'name'             => 'CV Mandiri Sejahtera',
@@ -107,6 +125,8 @@ class VendorSeeder extends Seeder
                 'business_fields'  => ['Interior Design'],
                 'pic_name'         => 'Kadek Wijaya',
                 'pic_position'     => 'Interior Designer',
+                'bank_name'        => '',
+                'bank_number'        => '',
             ],
         ];
 

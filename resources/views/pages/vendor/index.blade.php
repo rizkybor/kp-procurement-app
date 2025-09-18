@@ -3,10 +3,10 @@
 
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">List All Vendors</h1>
+            <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Daftar Semua Vendor</h1>
 
             <x-link-button href="{{ route('vendors.create') }}" style="background-color: black" class="mt-3 sm:mt-0">
-                + Add New Vendor
+                + Tambah Vendor
             </x-link-button>
         </div>
 
@@ -15,7 +15,7 @@
             <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
                 <header
                     class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <h2 class="font-semibold dark:text-gray-100 py-3">Vendors</h2>
+                    <h2 class="font-semibold dark:text-gray-100 py-3">Vendor</h2>
 
                     <form method="GET" action="{{ route('vendors.page') }}" class="flex gap-2">
                         <input type="text" name="search" placeholder="Search name/type/address..."
@@ -35,10 +35,10 @@
                             class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50">
                             <tr>
                                 <th class="p-2 whitespace-nowrap text-left">#</th>
-                                <th class="p-2 whitespace-nowrap text-left">Name</th>
-                                <th class="p-2 whitespace-nowrap text-left">Address</th>
-                                <th class="p-2 whitespace-nowrap text-left">Business Type</th>
-                                <th class="p-2 whitespace-nowrap text-left">Actions</th>
+                                <th class="p-2 whitespace-nowrap text-left">Nama</th>
+                                <th class="p-2 whitespace-nowrap text-left">Alamat</th>
+                                <th class="p-2 whitespace-nowrap text-left">Tipe Bisnis</th>
+                                <th class="p-2 whitespace-nowrap text-left">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
