@@ -26,7 +26,7 @@
                         <div class="grid grid-cols-1 gap-y-6">
                             <!-- Full Name -->
                             <div>
-                                <x-label for="name">{{ __('Full Name') }} <span
+                                <x-label for="name">{{ __('Nama Lengkap') }} <span
                                         class="text-red-500">*</span></x-label>
                                 <x-input id="name" type="text" name="name"
                                     class="mt-1 block w-full min-h-[40px]" :value="old('name')" required autofocus
@@ -44,7 +44,7 @@
 
                             <!-- Email -->
                             <div>
-                                <x-label for="email">{{ __('Email Address') }} <span
+                                <x-label for="email">{{ __('Alamat Email') }} <span
                                         class="text-red-500">*</span></x-label>
                                 <x-input id="email" type="email" name="email" :value="old('email')" required
                                     placeholder="Masukkan alamat email" />
@@ -60,7 +60,7 @@
 
                             <!-- Confirm Password -->
                             <div>
-                                <x-label for="password_confirmation">{{ __('Confirm Password') }} <span
+                                <x-label for="password_confirmation">{{ __('Konfirmasi Password') }} <span
                                         class="text-red-500">*</span></x-label>
                                 <x-input id="password_confirmation" type="password" name="password_confirmation"
                                     required autocomplete="new-password" placeholder="Masukkan ulang password" />
@@ -68,11 +68,11 @@
 
                             <!-- Department -->
                             <div>
-                                <x-label for="department">{{ __('Department') }} <span
+                                <x-label for="department">{{ __('Departemen') }} <span
                                         class="text-red-500">*</span></x-label>
                                 <select id="department" name="department"
                                     class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm" required>
-                                    <option value="">Pilih Department</option>
+                                    <option value="">Pilih Departemen</option>
                                     <option value="SDM">SDM</option>
                                     <option value="Finance">Finance</option>
                                     <option value="Pengadaan">Pengadaan</option>
@@ -85,7 +85,7 @@
 
                             <!-- Position -->
                             <div>
-                                <x-label for="position">{{ __('Position') }} <span
+                                <x-label for="position">{{ __('Posisi') }} <span
                                         class="text-red-500">*</span></x-label>
                                 <x-input id="position" type="text" name="position" :value="old('position')" required
                                     placeholder="Masukkan posisi" />
@@ -109,7 +109,7 @@
 
                             <!-- Employee Status -->
                             <div>
-                                <x-label for="employee_status">{{ __('Employee Status') }} <span
+                                <x-label for="employee_status">{{ __('Status Pegawai') }} <span
                                         class="text-red-500">*</span></x-label>
                                 <select id="employee_status" name="employee_status"
                                     class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm" required>
@@ -140,7 +140,7 @@
 
                             <!-- Identity Number -->
                             <div>
-                                <x-label for="identity_number">{{ __('Identity Number') }} <span
+                                <x-label for="identity_number">{{ __('Nomor Identitas') }} <span
                                         class="text-red-500">*</span></x-label>
                                 <x-input id="identity_number" type="text" name="identity_number" :value="old('identity_number')"
                                     required placeholder="Masukkan nomor identitas" />
@@ -148,7 +148,7 @@
                         </div>
 
                         <div class="flex items-center justify-between mt-6">
-                            <x-button>{{ __('Sign Up') }}</x-button>
+                            <x-button>{{ __('Daftarkan Akun') }}</x-button>
                         </div>
 
                         @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
