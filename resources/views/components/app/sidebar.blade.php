@@ -168,7 +168,7 @@
                             <ul class="pl-8 mt-1 
                              @if (!Request::is('user*') && !Request::is('contracts*') && !Request::is('register*') && !Request::is('vendors*')) hidden @endif"
                                 :class="open ? '!block' : 'hidden'">
-                                <li class="mb-1 last:mb-0">
+                                {{-- <li class="mb-1 last:mb-0">
                                     <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate 
                                      @if (Request::is('user*')) !text-teal-500 @endif"
                                         href="{{ route('profile.show') }}">
@@ -177,16 +177,27 @@
                                             Profile
                                         </span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 @role('super_admin')
-                                    <li class="mb-1 last:mb-0">
+                                    {{-- <li class="mb-1 last:mb-0">
                                         <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate 
                                         @if (Request::is('register*')) !text-teal-500 @endif"
                                             href="{{ route('register') }}">
                                             <span
                                                 class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                                 Create User
+                                            </span>
+                                        </a>
+                                    </li> --}}
+
+                                     <li class="mb-1 last:mb-0">
+                                        <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate 
+                                        @if (Request::is('users*')) !text-teal-500 @endif"
+                                            href="{{ route('users.index') }}">
+                                            <span
+                                                class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                                Daftar Pengguna
                                             </span>
                                         </a>
                                     </li>
@@ -197,7 +208,7 @@
                                             href="{{ route('vendors.page') }}">
                                             <span
                                                 class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                                Data Vendor
+                                                Daftar Vendor
                                             </span>
                                         </a>
                                     </li>
