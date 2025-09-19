@@ -113,9 +113,10 @@ class VendorController extends Controller
 
         $this->handleUploads($request, $data);
 
-        $vendor = Vendor::create($data);
+        Vendor::create($data);
 
-        return response()->json($vendor, 201);
+        return redirect()->route('vendors.page')
+            ->with('success', 'Vendor berhasil ditambahkan.');
     }
 
     public function show(Vendor $vendor)
@@ -155,7 +156,9 @@ class VendorController extends Controller
 
         $vendor->update($data);
 
-        return response()->json($vendor);
+        // Redirect ke halaman detail vendor
+        return redirect()->route('vendors.edit', $vendor->id)
+            ->with('success', 'Vendor berhasil diperbarui.');
     }
 
     public function destroy(Vendor $vendor)
@@ -169,7 +172,8 @@ class VendorController extends Controller
 
         $vendor->delete();
 
-        return response()->json(['message' => 'Vendor deleted']);
+        return redirect()->route('vendors.page')
+            ->with('success', 'Vendor berhasil dihapus.');
     }
 
     /**
@@ -187,9 +191,14 @@ class VendorController extends Controller
 
                 // Buat nama folder berdasarkan nama field
                 $folder = "vendors/{$field}";
-                // Simpan dengan nama asli file
-                $filename = $request->file($field)->getClientOriginalName();
 
+                // Ambil ekstensi file
+                $originalName = $request->file($field)->getClientOriginalName();
+
+                // Buat nama unik (misalnya pakai timestamp + uniqid)
+                $filename = uniqid() . '_' .  date('Ymd') . '_' . $originalName;
+
+                // Simpan file
                 $path = $request->file($field)->storeAs($folder, $filename, 'public');
 
                 // Simpan path ke DB
