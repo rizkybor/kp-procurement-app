@@ -9,14 +9,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 14px;
+            font-size: 12px;
             min-height: 100vh;
             padding: 32px;
             background-color: white;
         }
 
         .text-smaller {
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .alamat p {
@@ -82,6 +82,17 @@
             margin: 4px 0;
             /* Mengurangi margin pada paragraf */
         }
+
+        .footerKpu {
+            font-size: 11px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footerKpu td {
+            vertical-align: top;
+        }
     </style>
 </head>
 
@@ -89,10 +100,20 @@
     <div class="container">
         <div class="content-wrap">
             <!-- Header -->
+            <div style="margin-bottom: 1.25rem;">
+                <img src="file://{{ public_path('images/logo-kpu-ls.png') }}"
+                    alt="Logo KPU"style="height: 50px; width: auto;">
+            </div>
 
             <!-- Surat Detail -->
             <div class="text-smaller">
                 <table border="0">
+                    {{-- <tr>
+                        <td style="border: none;">
+                            <img src="file://{{ public_path('images/logo-kpu-ls.png') }}"
+                                alt="Logo KPU"style="height: 50px; width: auto;">
+                        </td>
+                    </tr> --}}
                     <tr>
                         <td style="width: 10%; border: none;">Nomor</td>
                         <td style="width: 90%; border: none;">:
@@ -263,6 +284,24 @@
             <p>Manager SDM dan Umum</p>
         </div>
     </div>
+
+    {{-- Footer --}}
+    <div class="footerKpu mt-2 text-smaller">
+        <table border="0">
+            <tr>
+                <td style="width: 30%; border: none;">
+                    <strong>PT. KARYA PRIMA USAHATAMA<br><em>melayani & memahami</em></strong>
+                </td>
+                <td style="width: 30%; border: none;">
+                    RUKO KETAPANG INDAH BLOK A2 NO.8<br>Jl. K.H. Zainul Arifin<br>Jakarta Barat - 11140<br>Indonesia
+                </td>
+                <td style="width: 30%; border: none;">
+                    <strong>T</strong>: +62 21-6343 558 <br> <strong>E</strong>: contact@pt-kpusahatama.com
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </body>
 
 </html>

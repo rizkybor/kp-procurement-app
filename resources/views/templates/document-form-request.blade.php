@@ -58,6 +58,18 @@
             margin-left: 20px;
             /* Sesuaikan sesuai kebutuhan */
         }
+
+        .footerKpu {
+            padding: 32px;
+            font-size: 11px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footerKpu td {
+            vertical-align: top;
+        }
     </style>
 </head>
 
@@ -170,6 +182,23 @@
         </div>
 
         <p>* Coret salah satu</p>
+    </div>
+
+    {{-- Footer --}}
+    <div class="footerKpu mt-2 text-smaller">
+        <table border="0">
+            <tr>
+                <td style="width: 30%; border: none;">
+                    <strong>PT. KARYA PRIMA USAHATAMA<br><em>melayani & memahami</em></strong>
+                </td>
+                <td style="width: 30%; border: none;">
+                    RUKO KETAPANG INDAH BLOK A2 NO.8<br>Jl. K.H. Zainul Arifin<br>Jakarta Barat - 11140<br>Indonesia
+                </td>
+                <td style="width: 30%; border: none;">
+                    <strong>T</strong>: +62 21-6343 558 <br> <strong>E</strong>: contact@pt-kpusahatama.com
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 

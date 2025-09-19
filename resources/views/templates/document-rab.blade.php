@@ -52,6 +52,18 @@
             display: inline-block;
             width: 45%;
         }
+
+        .footerKpu {
+            padding: 32px;
+            font-size: 11px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footerKpu td {
+            vertical-align: top;
+        }
     </style>
 </head>
 
@@ -105,7 +117,7 @@
         </table>
 
         @php
-            $subTotal = $workRequest->workRequestRab->sum('total_harga');
+            $subTotal = $workRequest->workRequestItems->sum('total_harga');
         @endphp
 
         <table class="table-auto w-full">
@@ -136,19 +148,19 @@
 
             <!-- Table body -->
             <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
-                @forelse ($workRequest->workRequestRab as $index => $item)
+                @forelse ($workRequest->workRequestItems as $index => $item)
                     <tr>
                         <td class="p-2 whitespace-nowrap">
                             <div class="text-center">{{ $index + 1 }}</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
-                            <div class="text-left">{{ $item->workRequestItem->description }}</div>
+                            <div class="text-left">{{ $item->description }}</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">{{ $item->workRequestItem->quantity }}</div>
+                            <div class="text-center">{{ $item->quantity }}</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
-                            <div class="text-center">{{ $item->workRequestItem->unit }}</div>
+                            <div class="text-center">{{ $item->unit }}</div>
                         </td>
                         <td class="p-2 whitespace-nowrap">
                             <div class="text-center">Rp. {{ number_format($item->harga, 0, ',', '.') }}</div>
@@ -165,7 +177,7 @@
             </tbody>
 
             <!-- Subtotal -->
-            @if ($workRequest->workRequestRab->count())
+            @if ($workRequest->workRequestItems->count())
                 <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
                     <tr>
                         <td colspan="4" class="p-2 whitespace-nowrap text-right">
@@ -201,6 +213,22 @@
                 <p>(Sesuai dengan kewenangan)</p>
             </div>
         </div>
+    </div>
+    {{-- Footer --}}
+    <div class="footerKpu mt-2 text-smaller">
+        <table border="0">
+            <tr>
+                <td style="width: 30%; border: none;">
+                    <strong>PT. KARYA PRIMA USAHATAMA<br><em>melayani & memahami</em></strong>
+                </td>
+                <td style="width: 30%; border: none;">
+                    RUKO KETAPANG INDAH BLOK A2 NO.8<br>Jl. K.H. Zainul Arifin<br>Jakarta Barat - 11140<br>Indonesia
+                </td>
+                <td style="width: 30%; border: none;">
+                    <strong>T</strong>: +62 21-6343 558 <br> <strong>E</strong>: contact@pt-kpusahatama.com
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 
