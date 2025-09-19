@@ -95,11 +95,11 @@
                 </x-button.button-action>
 
                 <x-button.button-action color="orange" icon="info"
-                    data-action="{{ route('work_request.processRevision', $workRequest['id']) }}" data-title="Need Info"
+                    data-action="{{ route('work_request.processRevision', $workRequest['id']) }}" data-title="Reject"
                     data-button-text="Send"
                     data-button-color="bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow-700"
                     onclick="openModal(this)">
-                    Need Info
+                    Reject
                 </x-button.button-action>
 
                 {{-- Show Approve button only for maker, manager, direktur_keuangan, direktur_utama --}}
