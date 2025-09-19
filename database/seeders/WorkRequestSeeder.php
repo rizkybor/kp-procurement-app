@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Arr;
 
 class WorkRequestSeeder extends Seeder
 {
@@ -53,7 +54,7 @@ class WorkRequestSeeder extends Seeder
                 'request_number' => $numberFormat,
                 'department' => $department,
                 'project_title' => 'Proyek ' . ($i + 1),
-                'project_type' => '',
+                'project_type' => Arr::random(['Internal', 'Keproyekan']),
                 // 'project_owner' => 'Owner ' . ($i + 1),
                 // 'contract_number' => 'CN-2025-' . str_pad($i + 1, 3, '0', STR_PAD_LEFT),
                 'procurement_type' => ['Pengadaan Langsung', 'Tender', 'Penunjukan Langsung'][rand(0, 2)],
