@@ -95,11 +95,11 @@
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">Pemilik Proyek</td>
-                <td style="width: 70%; border: none;">: {{ $workRequest->project_owner ?? '...' }}</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->User->name ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">No. Kontrak</td>
-                <td style="width: 70%; border: none;">: {{ $workRequest->contract_number ?? '...' }}</td>
+                <td style="width: 70%; border: none;">: {{ $workRequest->request_number ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="width: 30%; border: none;">Jenis Pengadaan</td>
