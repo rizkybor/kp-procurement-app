@@ -135,6 +135,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // Route Print PDF Form Request dan RAB
         Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');;
         Route::get('/{id}/print-rab', [PDFController::class, 'generateRab'])->name('print-rab');;
+        Route::get('/{id}/tabel-orcom', [PDFController::class, 'generateTabelOrcom'])->name('print-tabel-orcom');;
 
         // Route Show
         Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');

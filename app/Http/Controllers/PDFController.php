@@ -66,6 +66,18 @@ class PDFController extends Controller
     return $pdf->stream('document-rab.pdf');
   }
 
+  public function generateTabelOrcom($id)
+  {
+    $workRequest = WorkRequest::with(['orderCommunications', 'User', 'workRequestItems', 'workRequestRab'])->findOrFail($id);
+
+    $data = [
+      'workRequest' => $workRequest
+    ];
+
+    $pdf = Pdf::loadView('templates.document-tabel-orcom', $data);
+    return $pdf->stream('document-tabel-orcom.pdf');
+  }
+
   public function generateApplication($id)
   {
     $workRequest = WorkRequest::with([
