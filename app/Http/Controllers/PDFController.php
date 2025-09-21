@@ -461,7 +461,7 @@ class PDFController extends Controller
 
     try {
 
-      $workRequest = WorkRequest::with(['orderCommunications', 'User', 'workRequestItems'])->findOrFail($id);
+      $workRequest = WorkRequest::with(['orderCommunications', 'User', 'workRequestItems', 'workRequestRab'])->findOrFail($id);
       $orderCommunication = $workRequest->orderCommunications->first();
 
       if (!$orderCommunication) {
@@ -576,6 +576,23 @@ class PDFController extends Controller
         }
       } catch (\Exception $e) {
         Log::error('Failed to generate Negotiation Letter PDF: ' . $e->getMessage());
+      }
+
+      // d. RAB (generateRab)
+      try {
+        $data = ['workRequest' => $workRequest];
+        $pdf = Pdf::loadView('templates.document-rab', $data);
+
+        $fileName = 'Rencana_Anggaran_Biaya_' . $this->sanitizeFileName($workRequest->request_number) . '.pdf';
+        $filePath = $tempDir . '/' . $fileName;
+        $pdf->save($filePath);
+
+        $filesAdded[] = $filePath;
+        $fileCount++;
+        Log::debug('RAB PDF generated: ' . $fileName);
+      } catch (\Exception $e) {
+        Log::error('Failed to generate RAB PDF: ' . $e->getMessage());
+        Log::error('RAB PDF Error Details: ' . $e->getTraceAsString());
       }
 
       if (empty($filesAdded)) {
