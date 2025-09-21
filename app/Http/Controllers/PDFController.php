@@ -607,6 +607,23 @@ class PDFController extends Controller
         Log::error('RAB PDF Error Details: ' . $e->getTraceAsString());
       }
 
+      // e. Tabel Orcom
+      try {
+        $data = ['workRequest' => $workRequest];
+        $pdf = Pdf::loadView('templates.document-tabel-orcom', $data);
+
+        $fileName = 'Tabel_Order_Management_' . $this->sanitizeFileName($workRequest->request_number) . '.pdf';
+        $filePath = $tempDir . '/' . $fileName;
+        $pdf->save($filePath);
+
+        $filesAdded[] = $filePath;
+        $fileCount++;
+        Log::debug('Tabel Orcom PDF generated: ' . $fileName);
+      } catch (\Exception $e) {
+        Log::error('Failed to generate Tabel Orcom PDF: ' . $e->getMessage());
+        Log::error('Tabel Orcom PDF Error Details: ' . $e->getTraceAsString());
+      }
+
       if (empty($filesAdded)) {
         Log::warning('No files available for download');
 
