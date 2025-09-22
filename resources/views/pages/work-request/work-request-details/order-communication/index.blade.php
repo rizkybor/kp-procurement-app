@@ -122,7 +122,7 @@
                                         Kepada
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3 border-x dark:border-neutral-600 w-32 text-center">
+                                        class="px-3 py-3 border-x dark:border-neutral-600 w-32 text-right">
                                         Action
                                     </th>
                                 </tr>
@@ -145,7 +145,7 @@
                                         {{ $workRequests->user->department }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
+                                        <div class="flex justify-end">
                                             <a
                                                 href="{{ route('work_request.print-form-request', $workRequests->id) }}">
                                                 <x-button.button-action color="blue" icon="print">
@@ -174,7 +174,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
+                                        <div class="flex justify-end">
                                             <a
                                                 href="{{ route('work_request.print-application', $workRequests->id) }}">
                                                 <x-button.button-action color="blue" icon="print">
@@ -206,7 +206,7 @@
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Fungsi Pengadaan</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center" id="file_offerletter_container">
+                                        <div class="flex justify-end" id="file_offerletter_container">
                                             @if ($orderCommunication->file_offerletter)
                                                 <x-button.button-action color="yellow" icon="eye"
                                                     onclick="viewFile('file_offerletter')">
@@ -217,7 +217,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_offerletter')">
                                                     Upload
                                                 </x-button.button-action>
@@ -242,8 +242,7 @@
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">
                                         {{ $workRequests->user->department }}</td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center space-x-2"
-                                            id="file_evaluationletter_container">
+                                        <div class="flex justify-end space-x-2" id="file_evaluationletter_container">
                                             @if ($orderCommunication->file_evaluationletter)
                                                 <x-button.button-action color="yellow" icon="eye"
                                                     onclick="viewFile('file_evaluationletter')">
@@ -254,7 +253,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_evaluationletter')">
                                                     Upload
                                                 </x-button.button-action>
@@ -289,7 +288,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center">
+                                        <div class="flex justify-end">
                                             <a
                                                 href="{{ route('work_request.print-negotiation', $workRequests->id) }}">
                                                 <x-button.button-action color="blue" icon="print">
@@ -319,7 +318,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center space-x-2"
+                                        <div class="flex justify-end space-x-2"
                                             id="file_beritaacaraklarifikasi_container">
                                             @if ($orderCommunication->file_beritaacaraklarifikasi)
                                                 <x-button.button-action color="yellow" icon="eye"
@@ -331,7 +330,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_beritaacaraklarifikasi')">
                                                     Upload
                                                 </x-button.button-action>
@@ -366,7 +365,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center space-x-2"
+                                        <div class="flex justify-end space-x-2"
                                             id="file_lampiranberitaacaraklarifikasi_container">
                                             @if ($orderCommunication->file_lampiranberitaacaraklarifikasi)
                                                 <x-button.button-action color="yellow" icon="eye"
@@ -378,7 +377,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_lampiranberitaacaraklarifikasi')">
                                                     Upload
                                                 </x-button.button-action>
@@ -410,7 +409,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center space-x-2"
+                                        <div class="flex justify-end space-x-2"
                                             id="file_suratpenunjukan_container">
                                             @if ($orderCommunication->file_suratpenunjukan)
                                                 <a
@@ -424,7 +423,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_suratpenunjukan')">
                                                     Upload
                                                 </x-button.button-action>
@@ -460,7 +459,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center" id="file_bentukperikatan_container">
+                                        <div class="flex justify-end" id="file_bentukperikatan_container">
                                             @if ($orderCommunication->file_bentukperikatan)
                                                 <x-button.button-action color="yellow" icon="eye"
                                                     onclick="viewFile('file_bentukperikatan')">
@@ -471,7 +470,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_bentukperikatan')">
                                                     Upload
                                                 </x-button.button-action>
@@ -501,7 +500,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center" id="file_bap_container">
+                                        <div class="flex justify-end" id="file_bap_container">
                                             @if ($orderCommunication->file_bap)
                                                 <x-button.button-action color="yellow" icon="eye"
                                                     onclick="viewFile('file_bap')">
@@ -512,7 +511,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_bap')">
                                                     Upload
                                                 </x-button.button-action>
@@ -542,7 +541,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-center" id="file_bast_container">
+                                        <div class="flex justify-end" id="file_bast_container">
                                             @if ($orderCommunication->file_bast)
                                                 <x-button.button-action color="yellow" icon="eye"
                                                     onclick="viewFile('file_bast')">
@@ -553,7 +552,7 @@
                                                     Hapus
                                                 </x-button.button-action>
                                             @else
-                                                <x-button.button-action color="blue" icon="upload"
+                                                <x-button.button-action color="teal" icon="upload"
                                                     onclick="uploadFile('file_bast')">
                                                     Upload
                                                 </x-button.button-action>
