@@ -333,6 +333,8 @@ class PDFController extends Controller
     $currentRow = $startRow;
     $totalHarga = 0;
 
+    $sheet->setCellValue('M5', $workRequest->orderCommunications->first()->no_beritaacaraklarifikasi);
+
     foreach ($data as $index => $item) {
       $sheet->setCellValue('A' . $currentRow, $index + 1);
       $sheet->setCellValue('B' . $currentRow, $item['desc']);
