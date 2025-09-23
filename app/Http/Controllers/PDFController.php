@@ -144,6 +144,8 @@ class PDFController extends Controller
       'workRequestSpesifications',
     ])->findOrFail($id);
 
+    $sheet->setCellValue('C5', $workRequest->orderCommunications->first()->no_evaluationletter);
+    $sheet->setCellValue('D8', $workRequest->orderCommunications->first()->no_offerletter);
     $sheet->setCellValue('D7', $workRequest->orderCommunications->first()->vendor->name);
     $sheet->setCellValue('C11', $workRequest->workRequestSpesifications->first()->contract_type);
     $sheet->setCellValue('C13', $workRequest->workRequestSpesifications->first()->work_duration);
