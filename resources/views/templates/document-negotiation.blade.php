@@ -179,7 +179,9 @@
                         <td style="width:25%;">Hari</td>
                         <td style="width:75%; text-align:left;">:
                             {{ $workRequest->orderCommunications->first()->date_negotiationletter
-                                ? \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->addDays(2)->translatedFormat('l')
+                                ? (\Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->addDays(2)->isWeekend()
+                                    ? \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->next('Monday')->translatedFormat('l')
+                                    : \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->addDays(2)->translatedFormat('l'))
                                 : '-' }}
                         </td>
                     </tr>
@@ -187,7 +189,9 @@
                         <td>Tanggal</td>
                         <td>:
                             {{ $workRequest->orderCommunications->first()->date_negotiationletter
-                                ? \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->addDays(2)->translatedFormat('d F Y')
+                                ? (\Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->addDays(2)->isWeekend()
+                                    ? \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->next('Monday')->translatedFormat('d F Y')
+                                    : \Carbon\Carbon::parse($workRequest->orderCommunications->first()->date_negotiationletter)->addDays(2)->translatedFormat('d F Y'))
                                 : '-' }}
                         </td>
                     </tr>
