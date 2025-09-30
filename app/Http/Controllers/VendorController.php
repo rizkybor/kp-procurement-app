@@ -121,7 +121,8 @@ class VendorController extends Controller
 
     public function show(Vendor $vendor)
     {
-        return response()->json($vendor);
+    return view('pages.vendor.show', compact('vendor'));
+
     }
 
     public function update(Request $request, Vendor $vendor)
