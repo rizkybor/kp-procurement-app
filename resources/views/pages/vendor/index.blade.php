@@ -57,6 +57,11 @@
                                         {{ $vendor->business_type ?? '-' }}
                                     </td>
                                     <td class="p-2 text-sm text-gray-700 dark:text-gray-200">
+                                        <a href="{{ route('vendors.show', $vendor) }}"
+                                            class="text-sky-600 hover:text-sky-800 font-semibold text-sm mr-2">
+                                            View
+                                        </a>
+
                                         <a href="{{ route('vendors.edit', $vendor) }}"
                                             class="text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
                                             Edit
