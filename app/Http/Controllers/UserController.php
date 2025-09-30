@@ -27,11 +27,10 @@ class UserController extends Controller
         return view('pages.user.index', compact('users'));
     }
 
-    public function edit(User $user)
-    {
-        // SINGULAR juga
-        return view('pages.user.edit', compact('user'));
-    }
+   public function edit(User $user) {
+    $roles = \Spatie\Permission\Models\Role::orderBy('name')->pluck('name');
+    return view('pages.user.edit', compact('user','roles'));
+}
 
     public function update(Request $request, User $user)
     {
