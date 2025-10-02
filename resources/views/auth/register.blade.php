@@ -1,3 +1,17 @@
+@php
+    // daftar departemen yang SUDAH punya Manager
+    $departmentsWithManager = \App\Models\User::where('role', 'manager')
+        ->pluck('department')
+        ->filter()
+        ->unique()
+        ->values();
+
+    // cek direksi unik (global)
+    $hasDirKeu = \App\Models\User::where('role', 'direktur_keuangan')->exists();
+    $hasDirUtama = \App\Models\User::where('role', 'direktur_utama')->exists();
+    $hasFungsiPengadaan = \App\Models\User::where('role', 'fungsi_pengadaan')->exists();
+@endphp
+
 <x-app-layout>
     {{-- <x-authentication-layout> --}}
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -70,7 +84,7 @@
                             <div>
                                 <x-label for="department">{{ __('Departemen') }} <span
                                         class="text-red-500">*</span></x-label>
-                                <select id="department" name="department"
+                                {{-- <select id="department" name="department"
                                     class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm" required>
                                     <option value="">Pilih Departemen</option>
                                     <option value="SDM">SDM</option>
@@ -79,6 +93,16 @@
                                     <option value="Keuangan">Keuangan</option>
                                     <option value="Operasi">Operasi</option>
                                     <option value="Direksi">Direksi</option>
+                                </select> --}}
+                                <select id="department" name="department"
+                                    class="mt-1 block w-full form-select rounded-md border-gray-300 shadow-sm" required>
+                                    <option value="">Pilih Departemen</option>
+                                    @foreach (['SDM', 'Finance', 'Operasi'] as $dept)
+                                        <option value="{{ $dept }}"
+                                            {{ request('department') === $dept ? 'selected' : '' }}>
+                                            {{ $dept }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <x-input-error for="department" class="mt-2" />
                             </div>
@@ -195,10 +219,120 @@
     </div>
     <script>
         function limitNIPLength(input) {
-            if (input.value.length > 8) {
-                input.value = input.value.slice(0, 8);
+            if (input.value.length > 8) input.value = input.value.slice(0, 8);
+        }
+
+        // --- data dari backend ---
+        const departmentsWithManager = @json($departmentsWithManager ?? []);
+        const hasDirKeu = @json($hasDirKeu);
+        const hasDirUtama = @json($hasDirUtama);
+        const hasFungsiPengadaan = @json($hasFungsiPengadaan);
+
+
+
+        function updateRoleAvailability() {
+            const departmentSelect = document.getElementById('department');
+            const roleSelect = document.getElementById('role');
+            if (!departmentSelect || !roleSelect) return;
+
+            const opt = (val) => roleSelect.querySelector(`option[value="${val}"]`);
+            const selectedDept = departmentSelect.value || '';
+
+            // 0) Default: jika belum pilih departemen, kunci Manager
+            const managerOpt = opt('manager');
+            if (managerOpt) {
+                if (!selectedDept) {
+                    managerOpt.disabled = true;
+                    managerOpt.hidden = false; // ganti true kalau mau disembunyikan
+                    managerOpt.textContent = 'Manager (pilih departemen dahulu)';
+                    if (roleSelect.value === 'manager') roleSelect.value = '';
+                } else {
+                    // 1) Manager unik per departemen
+                    const alreadyHasManager = departmentsWithManager.includes(selectedDept);
+                    if (alreadyHasManager) {
+                        managerOpt.disabled = true;
+                        managerOpt.hidden = false;
+                        managerOpt.textContent = 'Manager (sudah terisi di departemen ini)';
+                        if (roleSelect.value === 'manager') roleSelect.value = '';
+                    } else {
+                        managerOpt.disabled = false;
+                        managerOpt.hidden = false;
+                        managerOpt.textContent = 'Manager';
+                    }
+                }
+            }
+
+            // 2) Direktur Keuangan unik global
+            const dirKeuOpt = opt('direktur_keuangan');
+            if (dirKeuOpt) {
+                if (hasDirKeu) {
+                    dirKeuOpt.disabled = true;
+                    dirKeuOpt.hidden = false; // set true jika mau sembunyikan
+                    dirKeuOpt.textContent = 'Direktur Keuangan (sudah terisi)';
+                    if (roleSelect.value === 'direktur_keuangan') roleSelect.value = '';
+                } else {
+                    dirKeuOpt.disabled = false;
+                    dirKeuOpt.hidden = false;
+                    dirKeuOpt.textContent = 'Direktur Keuangan';
+                }
+            }
+
+            // 3) Direktur Utama unik global
+            const dirUtamaOpt = opt('direktur_utama');
+            if (dirUtamaOpt) {
+                if (hasDirUtama) {
+                    dirUtamaOpt.disabled = true;
+                    dirUtamaOpt.hidden = false; // set true jika mau sembunyikan
+                    dirUtamaOpt.textContent = 'Direktur Utama (sudah terisi)';
+                    if (roleSelect.value === 'direktur_utama') roleSelect.value = '';
+                } else {
+                    dirUtamaOpt.disabled = false;
+                    dirUtamaOpt.hidden = false;
+                    dirUtamaOpt.textContent = 'Direktur Utama';
+                }
+            }
+
+            // 4) Maker: hanya aktif jika departemen punya Manager
+            const fpOpt = opt('fungsi_pengadaan');
+            if (fpOpt) {
+                if (hasFungsiPengadaan) {
+                    fpOpt.disabled = true;
+                    fpOpt.hidden = false; // set true kalau ingin disembunyikan
+                    fpOpt.textContent = 'Fungsi Pengadaan (sudah terisi)';
+                    if (roleSelect.value === 'fungsi_pengadaan') roleSelect.value = '';
+                } else {
+                    fpOpt.disabled = false;
+                    fpOpt.hidden = false;
+                    fpOpt.textContent = 'Fungsi Pengadaan';
+                }
+            }
+
+            // 5) Maker: hanya aktif jika departemen punya Manager
+            const makerOpt = opt('maker');
+            if (makerOpt) {
+                const deptHasManager = selectedDept && departmentsWithManager.includes(selectedDept);
+
+                if (!selectedDept) {
+                    makerOpt.disabled = true;
+                    makerOpt.textContent = 'Maker (pilih departemen dahulu)';
+                    if (roleSelect.value === 'maker') roleSelect.value = '';
+                } else if (!deptHasManager) {
+                    makerOpt.disabled = true;
+                    makerOpt.textContent = 'Maker (butuh Manager di departemen ini)';
+                    if (roleSelect.value === 'maker') roleSelect.value = '';
+                } else {
+                    makerOpt.disabled = false;
+                    makerOpt.textContent = 'Maker';
+                }
             }
         }
+
+        // Pasang listener setelah DOM siap
+        document.addEventListener('DOMContentLoaded', () => {
+            updateRoleAvailability();
+            const departmentSelect = document.getElementById('department');
+            departmentSelect?.addEventListener('change', updateRoleAvailability);
+        });
     </script>
     {{-- </x-authentication-layout> --}}
 </x-app-layout>
