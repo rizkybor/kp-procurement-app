@@ -121,25 +121,26 @@ class NotificationController extends Controller
   /**
    * Menghapus satu notifikasi.
    */
-  public function destroy($notification_id)
+  public function destroy($id)
   {
+    dd($id, '<<< cek');
     $userId = Auth::id();
 
-    // Hapus dari tabel pivot `notification_recipients`
     NotificationRecipient::where('user_id', $userId)
-      ->where('notification_id', $notification_id)
+      ->where('notification_id', $id)
       ->delete();
 
-    // Jika tidak ada penerima lain, hapus dari `notifications`
-    $remainingRecipients = NotificationRecipient::where('notification_id', $notification_id)->count();
+    $remainingRecipients = NotificationRecipient::where('notification_id', $id)->count();
 
     if ($remainingRecipients === 0) {
-      Notification::where('id', $notification_id)->delete();
+      Notification::where('id', $id)->delete();
     }
 
     return response()->json([
-      'success' => true,
-      'message' => 'Notifikasi berhasil dihapus.'
+        'success' => true,
+        'title'   => 'Berhasil!',
+        'type'    => 'success',
+        'message' => 'Notifikasi berhasil dihapus.'
     ]);
   }
 
@@ -157,8 +158,10 @@ class NotificationController extends Controller
     Notification::whereDoesntHave('recipients')->delete();
 
     return response()->json([
-      'success' => true,
-      'message' => 'Semua notifikasi berhasil dihapus.'
+        'success' => true,
+        'title'   => 'Berhasil!',
+        'type'    => 'success',
+        'message' => 'Semua notifikasi berhasil dihapus.'
     ]);
   }
 
