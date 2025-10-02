@@ -10,6 +10,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\TestController;
+use Laravel\Fortify\Http\Controllers\NewPasswordController;
 
 use App\Http\Controllers\WorkRequestController;
 use App\Http\Controllers\WorkRequestDataTableController;
@@ -48,6 +49,7 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
         return redirect()->route('register')->with('status', 'User berhasil dibuat.');
     });
 
+
     // halaman list user
     // LIST / EDIT / UPDATE / DELETE
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -57,6 +59,10 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
 });
 
 Route::get('/token', [TestController::class, 'getDataToken'])->name('token');
+
+// ROUTE RESET PASSWORD
+Route::get('/reset-password', [NewPasswordController::class, 'create'])->name('password.reset');
+Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
@@ -98,14 +104,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('vendors', VendorController::class)->parameters([
         'vendors' => 'vendor'
     ])->names([
-        'index'  => 'vendors.index',
-        'create' => 'vendors.create',
-        'store'  => 'vendors.store',
-        'show'   => 'vendors.show',
-        'edit'   => 'vendors.edit',
-        'update' => 'vendors.update',
-        'destroy' => 'vendors.destroy',
-    ]);
+                'index' => 'vendors.index',
+                'create' => 'vendors.create',
+                'store' => 'vendors.store',
+                'show' => 'vendors.show',
+                'edit' => 'vendors.edit',
+                'update' => 'vendors.update',
+                'destroy' => 'vendors.destroy',
+            ]);
     Route::get('vendors/{vendor}/{field}/download', [VendorController::class, 'download'])
         ->name('vendors.download');
     /*
@@ -134,9 +140,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::put('/{id}/rejected', [WorkRequestController::class, 'rejected'])->name('rejected');
 
         // Route Print PDF Form Request dan RAB
-        Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');;
-        Route::get('/{id}/print-rab', [PDFController::class, 'generateRab'])->name('print-rab');;
-        Route::get('/{id}/tabel-orcom', [PDFController::class, 'generateTabelOrcom'])->name('print-tabel-orcom');;
+        Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');
+        ;
+        Route::get('/{id}/print-rab', [PDFController::class, 'generateRab'])->name('print-rab');
+        ;
+        Route::get('/{id}/tabel-orcom', [PDFController::class, 'generateTabelOrcom'])->name('print-tabel-orcom');
+        ;
 
         // Route Show
         Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');
