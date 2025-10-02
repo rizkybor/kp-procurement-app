@@ -16,9 +16,9 @@ class UserSeeder extends Seeder
         $users = [
             ['name' => 'Super Admin', 'email' => 'superadmin@example.com', 'role' => 'super_admin', 'department' => null],
             ['name' => 'Maker Sdm', 'email' => 'maker1@example.com', 'role' => 'maker', 'department' => 'SDM'],
-            ['name' => 'Maker Finance', 'email' => 'maker2@example.com', 'role' => 'maker', 'department' => 'Finance'],
+            ['name' => 'Maker Operasi', 'email' => 'maker2@example.com', 'role' => 'maker', 'department' => 'Operasi'],
             ['name' => 'Manager Sdm', 'email' => 'manager1@example.com', 'role' => 'manager', 'department' => 'SDM'],
-            ['name' => 'Manager Finance', 'email' => 'manager2@example.com', 'role' => 'manager', 'department' => 'Finance'],
+            ['name' => 'Manager Operasi', 'email' => 'manager2@example.com', 'role' => 'manager', 'department' => 'Operasi'],
             ['name' => 'Direktur Keuangan User', 'email' => 'direktur_keuangan@example.com', 'role' => 'direktur_keuangan', 'department' => 'Keuangan'],
             ['name' => 'Direktur Utama User', 'email' => 'direktur_utama@example.com', 'role' => 'direktur_utama', 'department' => 'Direksi'],
             ['name' => 'Fungsi Pengadaan User', 'email' => 'fungsi_pengadaan@example.com', 'role' => 'fungsi_pengadaan', 'department' => 'Pengadaan'],
