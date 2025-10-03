@@ -17,7 +17,7 @@
     }
 
     function initializeChart1(themeMode1) {
-        const chartColors1 = themeMode1 === 'dark' ? ["#8470ff"] : ["#8470ff"];
+        const chartColors1 = themeMode1 === 'dark' ? ["#14b8a6"] : ["#14b8a6"];
         const backgroundColor1 = themeMode1 === 'dark' ? "#1F2937" : "#FFFFFF";
         const gridBorderColor1 = themeMode1 === 'dark' ? "#374151" : "#dddddd";
         const textColor1 = themeMode1 === 'dark' ? "#E5E7EB" : "#616161";

@@ -29,7 +29,54 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
             'department' => ['required', 'string', 'max:255'],
             'position' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
+            'role' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) use ($input) {
+                    $dept = $input['department'] ?? null;
+
+                    // 1) Manager unik per departemen
+                    if ($value === 'manager' && $dept) {
+                        $exists = \App\Models\User::where('department', $dept)
+                            ->where('role', 'manager')
+                            ->exists();
+                        if ($exists) {
+                            $fail('Departemen ini sudah memiliki seorang Manager.');
+                            return;
+                        }
+                    }
+
+                    // 2) Direksi & Fungsi Pengadaan unik global
+                    if (in_array($value, ['direktur_keuangan', 'direktur_utama', 'fungsi_pengadaan'], true)) {
+                        $existsGlobal = \App\Models\User::where('role', $value)->exists();
+                        if ($existsGlobal) {
+                            $label = [
+                                'direktur_keuangan' => 'Direktur Keuangan',
+                                'direktur_utama' => 'Direktur Utama',
+                                'fungsi_pengadaan' => 'Fungsi Pengadaan',
+                            ][$value];
+                            $fail("Role {$label} sudah terpakai oleh pengguna lain.");
+                            return;
+                        }
+                    }
+
+                    // 3) BARU: Maker hanya boleh jika departemen sudah punya Manager
+                    if ($value === 'maker') {
+                        if (!$dept) {
+                            $fail('Pilih departemen terlebih dahulu.');
+                            return;
+                        }
+                        $deptHasManager = \App\Models\User::where('department', $dept)
+                            ->where('role', 'manager')
+                            ->exists();
+                        if (!$deptHasManager) {
+                            $fail('Anda tidak dapat membuat role Maker karena departemen ini belum memiliki Manager.');
+                            return;
+                        }
+                    }
+                },
+            ],
             'employee_status' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'string', 'max:255'],
             'identity_number' => ['required', 'string', 'max:255'],

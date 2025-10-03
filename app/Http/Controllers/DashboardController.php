@@ -16,38 +16,33 @@ class DashboardController extends Controller
         return view('pages/dashboard/dashboard', compact('dataFeed'));
     }
 
-    public function managementFee()
-    {
-        return view('pages/dashboard/management-fee');
-    }
+    // public function  docs_pengadaan()
+    // {
+    //     return view('pages/documents/index');
+    // }
 
-    public function createManagementFee()
-    {
-        return view('pages/dashboard/create-management-fee');
-    }
+    // public function  docs_pengadaan_create()
+    // {
+    //     return view('pages/documents/create');
+    // }
 
-    public function detailManagementFee()
-    {
-        return view('pages/dashboard/detail-management-fee');
-    }
+    // public function  docs_pengadaan_edit()
+    // {
+    //     return view('pages/documents/document-details/edit');
+    // }
 
-    /**
-     * Displays the analytics screen
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function analytics()
-    {
-        return view('pages/dashboard/analytics');
-    }
 
-    /**
-     * Displays the fintech screen
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function fintech()
-    {
-        return view('pages/dashboard/fintech');
-    }
+    // public function  docs_pengadaan_edit_request()
+    // {
+    //     return view('pages/documents/document-details/request/index');
+    // }
+    // public function  docs_pengadaan_edit_rab()
+    // {
+    //     return view('pages/documents/document-details/rab/index');
+    // }
+
+    // public function  docs_pengadaan_edit_spesification()
+    // {
+    //     return view('pages/documents/document-details/spesification/index');
+    // }
 }

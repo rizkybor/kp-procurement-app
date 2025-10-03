@@ -17,6 +17,14 @@ class PermissionSeeder extends Seeder
     {
         // Role
 
+
+        $role_super_admin = Role::updateOrCreate(
+            [
+                'name' => 'super_admin',
+            ],
+            ['name' => 'super_admin']
+        );
+
         $role_maker = Role::updateOrCreate(
             [
                 'name' => 'maker',
@@ -24,25 +32,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'maker']
         );
 
-        $role_kadiv = Role::updateOrCreate(
+        $role_fungsi_pengadaan = Role::updateOrCreate(
             [
-                'name' => 'kadiv',
+                'name' => 'fungsi_pengadaan',
             ],
-            ['name' => 'kadiv']
-        );
-
-        $role_bendahara = Role::updateOrCreate(
-            [
-                'name' => 'bendahara',
-            ],
-            ['name' => 'bendahara']
-        );
-
-        $role_manager_anggaran = Role::updateOrCreate(
-            [
-                'name' => 'manager_anggaran',
-            ],
-            ['name' => 'manager_anggaran']
+            ['name' => 'fungsi_pengadaan']
         );
 
         $role_direktur_keuangan = Role::updateOrCreate(
@@ -52,12 +46,13 @@ class PermissionSeeder extends Seeder
             ['name' => 'direktur_keuangan']
         );
 
-        $role_pajak = Role::updateOrCreate(
+        $role_direktur_utama = Role::updateOrCreate(
             [
-                'name' => 'pajak',
+                'name' => 'direktur_utama',
             ],
-            ['name' => 'pajak']
+            ['name' => 'direktur_utama']
         );
+
 
         // Permission
 
@@ -71,30 +66,26 @@ class PermissionSeeder extends Seeder
         // Assign Permission
 
         $role_maker->givePermissionTo($dashboard);
-        $role_kadiv->givePermissionTo($dashboard);
-        $role_bendahara->givePermissionTo($dashboard);
-        $role_manager_anggaran->givePermissionTo($dashboard);
+        $role_fungsi_pengadaan->givePermissionTo($dashboard);
         $role_direktur_keuangan->givePermissionTo($dashboard);
-        $role_pajak->givePermissionTo($dashboard);
+        $role_direktur_utama->givePermissionTo($dashboard);
+
 
         // Assign User
+
+        $user_super_admin = User::where('role', 'super_admin')->first();
+        $user_super_admin->assignRole('super_admin');
 
         $userMaker = User::where('role', 'maker')->first();
         $userMaker->assignRole('maker');
 
-        $userKadiv = User::where('role', 'kadiv')->first();
-        $userKadiv->assignRole('kadiv');
-
-        $userBendahara = User::where('role', 'bendahara')->first();
-        $userBendahara->assignRole('bendahara');
-
-        $user_manager_anggaran = User::where('role', 'manager_anggaran')->first();
-        $user_manager_anggaran->assignRole('manager_anggaran');
+        $user_fungsi_pengadaan = User::where('role', 'fungsi_pengadaan')->first();
+        $user_fungsi_pengadaan->assignRole('fungsi_pengadaan');
 
         $user_direktur_keuangan = User::where('role', 'direktur_keuangan')->first();
         $user_direktur_keuangan->assignRole('direktur_keuangan');
 
-        $userPajak = User::where('role', 'pajak')->first();
-        $userPajak->assignRole('pajak');
+        $user_direktur_utama = User::where('role', 'direktur_utama')->first();
+        $user_direktur_utama->assignRole('direktur_utama');
     }
 }

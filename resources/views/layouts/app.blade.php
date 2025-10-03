@@ -56,6 +56,7 @@
 
             <main class="grow">
                 {{ $slot }}
+                <x-modal.global.modal-alert-global id="globalAlertModal" />
             </main>
 
         </div>

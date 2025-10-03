@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\CustomResetPassword;
 
 class User extends Authenticatable
 {
@@ -68,4 +69,33 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Relasi ke approval sebagai approver.
+     */
+    public function approvals()
+    {
+        return $this->hasMany(DocumentApproval::class, 'approver_id');
+    }
+
+    /**
+     * Relasi ke approval sebagai submitter (pengaju approval).
+     */
+    public function submittedApprovals()
+    {
+        return $this->hasMany(DocumentApproval::class, 'submitter_id');
+    }
+
+    /**
+     * Relasi ke notifikasi sebagai pengirim.
+     */
+    public function sentNotifications()
+    {
+        return $this->hasMany(Notification::class, 'sender_id');
+    }
+
+        public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
+    }
 }

@@ -14,12 +14,14 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            ['name' => 'Maker User', 'email' => 'maker@example.com', 'role' => 'maker'],
-            ['name' => 'Kadiv User', 'email' => 'kadiv@example.com', 'role' => 'kadiv'],
-            ['name' => 'Bendahara User', 'email' => 'bendahara@example.com', 'role' => 'bendahara'],
-            ['name' => 'Manager Anggaran', 'email' => 'manager_anggaran@example.com', 'role' => 'manager_anggaran'],
-            ['name' => 'Direktur Keuangan', 'email' => 'direktur@example.com', 'role' => 'direktur_keuangan'],
-            ['name' => 'Pajak User', 'email' => 'pajak@example.com', 'role' => 'pajak'],
+            ['name' => 'Super Admin', 'email' => 'superadmin@example.com', 'role' => 'super_admin', 'department' => null],
+            ['name' => 'Maker Sdm', 'email' => 'maker1@example.com', 'role' => 'maker', 'department' => 'SDM'],
+            ['name' => 'Maker Operasi', 'email' => 'maker2@example.com', 'role' => 'maker', 'department' => 'Operasi'],
+            ['name' => 'Manager Sdm', 'email' => 'manager1@example.com', 'role' => 'manager', 'department' => 'SDM'],
+            ['name' => 'Manager Operasi', 'email' => 'manager2@example.com', 'role' => 'manager', 'department' => 'Operasi'],
+            ['name' => 'Direktur Keuangan User', 'email' => 'direktur_keuangan@example.com', 'role' => 'direktur_keuangan', 'department' => 'Keuangan'],
+            ['name' => 'Direktur Utama User', 'email' => 'direktur_utama@example.com', 'role' => 'direktur_utama', 'department' => 'Direksi'],
+            ['name' => 'Fungsi Pengadaan User', 'email' => 'fungsi_pengadaan@example.com', 'role' => 'fungsi_pengadaan', 'department' => 'Pengadaan'],
         ];
 
         foreach ($users as $user) {
@@ -28,7 +30,7 @@ class UserSeeder extends Seeder
                 'email' => $user['email'],
                 'password' => Hash::make('P@ssw0rd'),
                 'nip' => rand(10000000, 99999999),
-                'department' => 'Finance',
+                'department' => $user['department'],
                 'position' => ucfirst(str_replace('_', ' ', $user['role'])),
                 'role' => $user['role'],
                 'employee_status' => 'permanent',

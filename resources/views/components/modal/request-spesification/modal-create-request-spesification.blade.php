@@ -1,0 +1,69 @@
+@props(['workRequest'])
+
+<!-- Modal Upload File Spesification (Single File) -->
+<div x-data="{ modalOpen: false, file: null }">
+    <x-button.button-action @click="modalOpen = true" color="yellow" type="button" icon="add-document"
+        showTextOnMobile="true">
+        Upload File Spesification
+    </x-button.button-action>
+
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-30 z-50 flex items-center justify-center" x-show="modalOpen" x-cloak>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg max-w-lg w-full"
+            @click.outside="modalOpen = false">
+            <div class="flex justify-center items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    Upload File Spesification
+                </h3>
+            </div>
+
+            <form action="{{ route('work_request.work_spesification_files.store', ['id' => $workRequest->id]) }}"
+                method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="space-y-4">
+                    <!-- Input file: single -->
+                    <div x-data @change="file = $event.target.files[0] ?? null">
+                        <x-label for="file" value="{{ __('Pilih File') }}" />
+
+                        <input id="file" name="file" type="file"
+                            class="mt-1 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-amber-500 file:text-white hover:file:bg-amber-600 dark:file:bg-amber-600 dark:hover:file:bg-amber-500"
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip,.rar" />
+
+                        <x-input-error for="file" class="mt-2" />
+
+                        <!-- Preview single -->
+                        <template x-if="file">
+                            <div
+                                class="mt-3 text-sm text-gray-700 dark:text-gray-200 border rounded-md p-3 dark:border-gray-700/60">
+                                <div class="flex items-center justify-between">
+                                    <span x-text="file?.name ?? ''"></span>
+                                    <span class="text-xs text-gray-500"
+                                        x-text="(file?.size/1024).toFixed(1) + ' KB'"></span>
+                                </div>
+                            </div>
+                        </template>
+
+                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                            Format didukung: PDF, DOC/DOCX, XLS/XLSX, JPG/PNG, ZIP/RAR. Maks. 10MB.
+                        </p>
+                    </div>
+
+                    <!-- Catatan -->
+                    <div>
+                        <x-label for="description" value="{{ __('Catatan (opsional)') }}" />
+                        <textarea id="description" name="description" rows="2"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                            placeholder="Tambahkan catatan (opsional)">{{ old('description') }}</textarea>
+                        <x-input-error for="description" class="mt-2" />
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 mt-6">
+                    <x-button.button-action color="red" type="button"
+                        @click="modalOpen = false">Batal</x-button.button-action>
+                    <x-button.button-action color="teal" type="submit">Upload</x-button.button-action>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

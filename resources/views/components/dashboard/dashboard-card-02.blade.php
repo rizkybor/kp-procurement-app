@@ -28,7 +28,7 @@
             dataLabels: {
                 enabled: false,
             },
-            colors: isDarkMode ? ["#8470ff", "#FFFFFF"] : ["#8470ff", "#1f2937"],
+            colors: isDarkMode ? ["#14b8a6", "#aaddd7"] : ["#14b8a6", "#1f2937"],
             legend: {
                 show: false,
             },
