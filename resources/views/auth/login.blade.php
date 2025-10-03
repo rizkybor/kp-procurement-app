@@ -1,5 +1,5 @@
 <x-authentication-layout>
-    <h1 class="text-3xl text-gray-800 font-bold">{{ __('Welcome back!') }}</h1>
+    <h1 class="text-3xl text-gray-800 font-bold">{{ __('Welcome!') }}</h1>
     <h1 class="text-l text-gray-800 font-bold mb-6">
         {{ __('Procurement Application System') }}</h1>
 
