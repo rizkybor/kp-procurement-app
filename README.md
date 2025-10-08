@@ -6,3 +6,5 @@ node 18.0.0 version
 php 8.0
 laravel 10.10 
 -->
+
+<!-- update log git auto deployment -->
