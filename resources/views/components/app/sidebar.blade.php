@@ -127,6 +127,7 @@
                     @endrole
 
                     <!-- Settings -->
+                    @role('super_admin')
                     <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 
                      bg-[linear-gradient(135deg,var(--tw-gradient-stops))] 
                      @if (Request::is('user*') || Request::is('contracts*') || Request::is('register*') || Request::is('vendors*')) from-teal-500/[0.12] dark:from-teal-500/[0.24] to-teal-500/[0.04] @endif"
@@ -217,6 +218,7 @@
                             </ul>
                         </div>
                     </li>
+                    @endrole
                 </ul>
             </div>
 
