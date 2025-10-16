@@ -125,7 +125,7 @@
                                     <option value="maker">Maker</option>
                                     <option value="manager">Manager</option>
                                     <option value="direktur_keuangan">Direktur Keuangan</option>
-                                    <option value="direktur_utama">Direktur Utama</option>
+                                    {{-- <option value="direktur_utama">Direktur Utama</option> --}}
                                     <option value="fungsi_pengadaan">Fungsi Pengadaan</option>
                                 </select>
                                 <x-input-error for="role" class="mt-2" />
@@ -278,19 +278,19 @@
             }
 
             // 3) Direktur Utama unik global
-            const dirUtamaOpt = opt('direktur_utama');
-            if (dirUtamaOpt) {
-                if (hasDirUtama) {
-                    dirUtamaOpt.disabled = true;
-                    dirUtamaOpt.hidden = false; // set true jika mau sembunyikan
-                    dirUtamaOpt.textContent = 'Direktur Utama (sudah terisi)';
-                    if (roleSelect.value === 'direktur_utama') roleSelect.value = '';
-                } else {
-                    dirUtamaOpt.disabled = false;
-                    dirUtamaOpt.hidden = false;
-                    dirUtamaOpt.textContent = 'Direktur Utama';
-                }
-            }
+            // const dirUtamaOpt = opt('direktur_utama');
+            // if (dirUtamaOpt) {
+            //     if (hasDirUtama) {
+            //         dirUtamaOpt.disabled = true;
+            //         dirUtamaOpt.hidden = false; // set true jika mau sembunyikan
+            //         dirUtamaOpt.textContent = 'Direktur Utama (sudah terisi)';
+            //         if (roleSelect.value === 'direktur_utama') roleSelect.value = '';
+            //     } else {
+            //         dirUtamaOpt.disabled = false;
+            //         dirUtamaOpt.hidden = false;
+            //         dirUtamaOpt.textContent = 'Direktur Utama';
+            //     }
+            // }
 
             // 4) Maker: hanya aktif jika departemen punya Manager
             const fpOpt = opt('fungsi_pengadaan');
