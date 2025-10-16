@@ -38,8 +38,9 @@
                     {{-- quantity --}}
                     <div>
                         <x-label for="quantity" value="{{ __('Jumlah') }}" />
-                        <x-input id="quantity" type="number" name="quantity" class="mt-1 block w-full min-h-[40px]"
-                            required autocomplete="quantity" placeholder="Masukkan jumlah" value="" />
+                        <x-input id="quantity" type="number" step="0.01" name="quantity"
+                            class="mt-1 block w-full min-h-[40px]" required autocomplete="quantity"
+                            placeholder="Masukkan jumlah" value="" />
                         <x-input-error for="quantity" class="mt-2" />
                     </div>
 
