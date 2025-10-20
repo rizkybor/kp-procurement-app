@@ -267,7 +267,7 @@
                     </tr>
                     <tr>
                         <td style="width:10%;">Email</td>
-                        <td style="width:90%; text-align:left;">: procurement@pt-kpusahatama,com</td>
+                        <td style="width:90%; text-align:left;">: procurement@pt-kpusahatama.com</td>
                     </tr>
                 </table>
                 <div>
