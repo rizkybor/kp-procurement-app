@@ -192,7 +192,7 @@ class PDFController extends Controller
 
     $kalimatTanggal = "Pada hari ini {$hari} tanggal {$tanggal} Bulan {$bulan} Tahun {$tahun}";
     $no = "No:{$workRequest->orderCommunications->first()->no_beritaacaraklarifikasi}";
-    $teks = "Menyatakan telah melakukan Klarifikasi dan Negosiasi Harga Pekerjaan {$workRequest->work_name_request} antara PT KPU dengan {$workRequest->orderCommunications->first()->vendor->pic_name}/{$workRequest->orderCommunications->first()->vendor->name}\, dengan rincian harga (terlampir).";
+    $teks = "Menyatakan telah melakukan Klarifikasi dan Negosiasi Harga Pekerjaan {$workRequest->work_name_request} antara PT KPU dengan {$workRequest->orderCommunications->first()->vendor->pic_name}/{$workRequest->orderCommunications->first()->vendor->name}, dengan rincian harga (terlampir).";
 
     // isi sheet
     $sheet->setCellValue('B3', $no);
