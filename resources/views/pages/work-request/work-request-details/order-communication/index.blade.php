@@ -355,7 +355,7 @@
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600"
                                         name="no_beritaacaraklarifikasi">
-                                        {{-- {{ $orderCommunication->no_beritaacaraklarifikasi ?? '-' }} --}}
+                                        {{ $orderCommunication->no_beritaacaraklarifikasi ?? '-' }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600">Lampiran Berita Acara
                                         Klarifikasi &
@@ -409,8 +409,7 @@
                                         {{ $orderCommunication->company_name ?? ($orderCommunication->vendor->name ?? 'Otomatis Nama Vendor') }}
                                     </td>
                                     <td class="px-3 py-4 border-x dark:border-neutral-600 text-center">
-                                        <div class="flex justify-end space-x-2"
-                                            id="file_suratpenunjukan_container">
+                                        <div class="flex justify-end space-x-2" id="file_suratpenunjukan_container">
                                             @if ($orderCommunication->file_suratpenunjukan)
                                                 <a
                                                     href="{{ route('work_request.print-suratpenunjukan', $workRequests->id) }}">
