@@ -22,7 +22,8 @@
             </div>
 
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="POST" action="{{ route('users.update', $user) }}">
+                {{-- PENTING: enctype untuk upload file --}}
+                <form method="POST" action="{{ route('users.update', $user) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -132,6 +133,39 @@
                                     :value="old('identity_number', $user->identity_number)" required
                                     placeholder="Masukkan nomor identitas" />
                             </div>
+
+                            <!-- Paraf (opsional) -->
+                            <div>
+                                <x-label for="signature">Paraf (opsional)</x-label>
+
+                                <div class="flex items-center gap-3">
+                                    <input id="signature" name="signature" type="file"
+                                        accept="image/png,image/jpeg,image/jpg,image/webp"
+                                        class="mt-1 block w-full text-sm file:mr-4 file:rounded-md file:border-0
+                                               file:bg-violet-50 file:py-2 file:px-4 file:text-violet-700
+                                               hover:file:bg-violet-100" />
+                                   
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">PNG/JPG/WEBP, maks 1 MB. Disarankan rasio ±3:1.</p>
+
+                                @if ($user->signature)
+                                    <div id="currentSignatureWrap" class="mt-2">
+                                        <p class="text-xs text-gray-500 mb-1">Paraf saat ini:</p>
+                                        {{-- Path dari DB: "storage/images-paraf/xxx.ext" --}}
+                                        <img src="{{ asset($user->signature) }}" class="h-12 border rounded" alt="Paraf saat ini" />
+                                    </div>
+
+                                    <label class="inline-flex items-center mt-2">
+                                        <input type="checkbox" id="remove_signature" name="remove_signature" value="1"
+                                               class="form-checkbox" {{ old('remove_signature') ? 'checked' : '' }}>
+                                        <span class="ml-2 text-sm">Hapus paraf saat ini</span>
+                                    </label>
+                                @endif
+
+                                <!-- Preview file baru -->
+                                <img id="signaturePreview" class="mt-2 max-h-20 rounded border hidden" alt="Preview Paraf Baru" />
+                                <x-input-error for="signature" class="mt-2" />
+                            </div>
                         </div>
 
                         <div class="flex items-center justify-between mt-6">
@@ -152,9 +186,70 @@
 
     <script>
         function limitNIPLength(input) {
-            if (input.value.length > 8) {
-                input.value = input.value.slice(0, 8);
-            }
+            input.value = input.value.replace(/\D/g,'').slice(0, 8);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const input       = document.getElementById('signature');
+            const preview     = document.getElementById('signaturePreview');
+            const removeChk   = document.getElementById('remove_signature');
+            const currentWrap = document.getElementById('currentSignatureWrap');
+
+            function hidePreview() {
+                preview.src = '';
+                preview.classList.add('hidden');
+            }
+
+            function showPreviewFromFile(file) {
+                preview.src = URL.createObjectURL(file);
+                preview.onload = () => URL.revokeObjectURL(preview.src);
+                preview.classList.remove('hidden');
+            }
+
+            // Pilih file baru
+            input?.addEventListener('change', e => {
+                const [file] = e.target.files || [];
+                if (!file) { hidePreview(); return; }
+
+                const okType = ['image/png','image/jpeg','image/jpg','image/webp'].includes(file.type);
+                const okSize = file.size <= 1024 * 1024; // ≤ 1MB
+                if (!okType || !okSize) {
+                    alert('File harus gambar (PNG/JPG/WEBP) dan maksimal 1 MB.');
+                    input.value = '';
+                    hidePreview();
+                    return;
+                }
+
+                // memilih file baru -> batal hapus
+                if (removeChk) {
+                    removeChk.checked = false;
+                    input.disabled = false;
+                    currentWrap?.classList.remove('opacity-50');
+                }
+
+                showPreviewFromFile(file);
+            });
+
+            // Centang hapus paraf
+            removeChk?.addEventListener('change', (e) => {
+                const on = e.target.checked;
+                input.disabled = on;
+                if (on) {
+                    input.value = '';
+                    hidePreview();
+                    currentWrap?.classList.add('opacity-50');
+                } else {
+                    input.disabled = false;
+                    currentWrap?.classList.remove('opacity-50');
+                }
+            });
+
+            // Konsistensi UI saat reload (old('remove_signature') == 1)
+            if (removeChk?.checked) {
+                input.disabled = true;
+                currentWrap?.classList.add('opacity-50');
+                hidePreview();
+            }
+        });
     </script>
 </x-app-layout>

@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 use Spatie\Permission\Models\Role;
-
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -80,8 +80,26 @@ class CreateNewUser implements CreatesNewUsers
             'employee_status' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'string', 'max:255'],
             'identity_number' => ['required', 'string', 'max:255'],
+            'signature' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:1024'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
+
+        /// ✅ Simpan file signature ke storage/app/public/images-paraf (URL: storage/images-paraf/...)
+        $signaturePath = null;
+        if (request()->hasFile('signature')) {
+            $file = request()->file('signature');
+            $filename  = 'paraf-' . Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+            $targetDir = storage_path('app/public/images-paraf');
+            if (!File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
+            $file->move($targetDir, $filename);
+
+            // Simpan path yang bisa diakses via asset(): /storage/images-paraf/filename.ext
+            $signaturePath = 'storage/images-paraf/' . $filename;
+        }
 
         $user = User::create([
             'name' => $input['name'],
