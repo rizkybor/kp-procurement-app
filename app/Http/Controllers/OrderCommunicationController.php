@@ -162,17 +162,17 @@ class OrderCommunicationController extends Controller
         // Validasi untuk field nilaikontrak_suratpenunjukan jika field yang diupload adalah file_suratpenunjukan
         if ($field === 'file_suratpenunjukan') {
             $request->validate([
-                'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:2048',
+                'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx',
                 'nilaikontrak_suratpenunjukan' => 'required|numeric'
             ]);
         } else {
             $request->validate([
-                'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:2048'
+                'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx'
             ]);
         }
 
         $request->validate([
-            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:2048'
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx'
         ]);
 
         // Dapatkan folder berdasarkan field

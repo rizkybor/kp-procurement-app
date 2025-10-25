@@ -70,6 +70,12 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function manager()
+    {
+        return $this->hasOne(User::class, 'department', 'department')
+            ->where('role', 'manager');
+    }
+
     /**
      * Relasi ke approval sebagai approver.
      */
@@ -94,7 +100,7 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class, 'sender_id');
     }
 
-        public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPassword($token));
     }

@@ -98,17 +98,18 @@
         <img src="file://{{ public_path('images/logo-kpu-ls.png') }}" alt="Logo KPU" style="height: 50px; width: auto;">
     </div>
     <div class="header">
-        <h1>DOKUMEN ORDER MANAGEMENT</h1>
+        <h1>Order Communication</h1>
         <!-- Check if orderCommunications exists and has at least one record -->
         @if ($workRequest->orderCommunications && $workRequest->orderCommunications->count() > 0)
             <!-- Use the first orderCommunication record -->
-            @php $orderCom = $workRequest->orderCommunications->first() @endphp
+            {{-- @php $orderCom = $workRequest->orderCommunications->first() @endphp
             <p>{{ $orderCom->vendor->name ?? '-' }}</p>
             <p>{{ $orderCom->vendor->company_address ?? '-' }}</p>
-            <p>{{ $orderCom->vendor->business_type ?? '-' }}</p>
+            <p>{{ $orderCom->vendor->business_type ?? '-' }}</p> --}}
+
+            @php $orderCom = $workRequest->first() @endphp
+            <p>{{ $orderCom->work_name_request ?? '-' }}</p>
         @else
-            <p>-</p>
-            <p>-</p>
             <p>-</p>
         @endif
     </div>
@@ -139,7 +140,9 @@
                 @php $orderCom = $workRequest->orderCommunications->first() @endphp
                 <tr>
                     <td>2</td>
-                    <td>{{ $orderCom->date_applicationletter ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_applicationletter ? \Carbon\Carbon::parse($orderCom->date_applicationletter)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_applicationletter ?? '-' }}</td>
                     <td>Surat Permohonan Permintaan Harga</td>
                     <td>Fungsi Pengadaan</td>
@@ -147,7 +150,9 @@
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>{{ $orderCom->date_offerletter ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_offerletter ? \Carbon\Carbon::parse($orderCom->date_offerletter)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_offerletter ?? '-' }}</td>
                     <td>Surat Penawaran Harga</td>
                     <td>{{ $orderCom->company_name ?? ($orderCom->vendor->name ?? 'Vendor') }}</td>
@@ -155,15 +160,20 @@
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>{{ $orderCom->date_evaluationletter ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_evaluationletter ? \Carbon\Carbon::parse($orderCom->date_evaluationletter)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_evaluationletter ?? '-' }}</td>
                     <td>Evaluasi Teknis Penawaran Mitra</td>
                     <td>Fungsi Pengadaan</td>
-                    <td>{{ $workRequest->user->department ?? '-' }}</td>
+                    <td>Manager SDM dan Umum</td>
+                    {{-- <td>{{ $workRequest->user->department ?? '-' }}</td> --}}
                 </tr>
                 <tr>
                     <td>5</td>
-                    <td>{{ $orderCom->date_negotiationletter ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_negotiationletter ? \Carbon\Carbon::parse($orderCom->date_negotiationletter)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_negotiationletter ?? '-' }}</td>
                     <td>Surat undangan klarifikasi dan negoisasi harga</td>
                     <td>Fungsi Pengadaan</td>
@@ -171,7 +181,9 @@
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td>{{ $orderCom->date_beritaacaraklarifikasi ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_beritaacaraklarifikasi ? \Carbon\Carbon::parse($orderCom->date_beritaacaraklarifikasi)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_beritaacaraklarifikasi ?? '-' }}</td>
                     <td>Berita Acara Klarifikasi & Negoisasi Harga</td>
                     <td>Fungsi Pengadaan</td>
@@ -179,7 +191,9 @@
                 </tr>
                 <tr>
                     <td>7</td>
-                    <td>{{ $orderCom->date_beritaacaraklarifikasi ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_beritaacaraklarifikasi ? \Carbon\Carbon::parse($orderCom->date_beritaacaraklarifikasi)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_beritaacaraklarifikasi ?? '-' }}</td>
                     <td>Lampiran Berita Acara Klarifikasi & Negoisasi Harga</td>
                     <td>Fungsi Pengadaan</td>
@@ -187,7 +201,9 @@
                 </tr>
                 <tr>
                     <td>8</td>
-                    <td>{{ $orderCom->date_suratpenunjukan ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_suratpenunjukan ? \Carbon\Carbon::parse($orderCom->date_suratpenunjukan)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_suratpenunjukan ?? '-' }}</td>
                     <td>Surat Penunjukkan Penyedia Barang/Jasa</td>
                     <td>Fungsi Pengadaan</td>
@@ -195,7 +211,9 @@
                 </tr>
                 <tr>
                     <td>9</td>
-                    <td>{{ $orderCom->date_bentukperikatan ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_bentukperikatan ? \Carbon\Carbon::parse($orderCom->date_bentukperikatan)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_bentukperikatan ?? '-' }}</td>
                     <td>Bentuk Perikatan Perjanjian/SPK/PO</td>
                     <td>Fungsi Pengadaan</td>
@@ -203,7 +221,9 @@
                 </tr>
                 <tr>
                     <td>10</td>
-                    <td>{{ $orderCom->date_bap ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_bap ? \Carbon\Carbon::parse($orderCom->date_bap)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_bap ?? '-' }}</td>
                     <td>Berita Acara Pemeriksaan Pekerjaan (BAP)</td>
                     <td>Fungsi Pengadaan</td>
@@ -211,7 +231,9 @@
                 </tr>
                 <tr>
                     <td>11</td>
-                    <td>{{ $orderCom->date_bast ?? '-' }}</td>
+                    <td>
+                        {{ $orderCom->date_bast ? \Carbon\Carbon::parse($orderCom->date_bast)->format('d/m/Y') : '-' }}
+                    </td>
                     <td>{{ $orderCom->no_bast ?? '-' }}</td>
                     <td>Berita Acara Serah Terima Pekerjaan (BAST)</td>
                     <td>Fungsi Pengadaan</td>

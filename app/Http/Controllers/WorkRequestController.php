@@ -204,6 +204,31 @@ class WorkRequestController extends Controller
             $document = WorkRequest::findOrFail($id);
             $user = Auth::user();
             $userRole = $user->role;
+
+            // ✅ Validasi wajib spesification files + file untuk role 'maker' saat status = 0
+            if ($userRole === 'maker' && (string) $document->status === '0') {
+                // Cek spesification ada
+                $hasSpec = DB::table('work_request_spesifications')
+                    ->where('work_request_id', $document->id)
+                    ->exists();
+
+                if (!$hasSpec) {
+                    DB::rollBack();
+                    return back()->with('error', 'Tidak dapat submit: Work Request Spesification belum dibuat.');
+                }
+
+                // Cek minimal 1 file spesification
+                $hasFile = DB::table('work_request_spesification_files as f')
+                    ->join('work_request_spesifications as s', 'f.work_request_spesification_id', '=', 's.id')
+                    ->where('s.work_request_id', $document->id)
+                    ->exists();
+
+                if (!$hasFile) {
+                    DB::rollBack();
+                    return back()->with('error', 'Tidak dapat submit: Minimal 1 file spesifikasi harus diunggah.');
+                }
+            }
+
             $department = $user->department;
             $previousStatus = $document->status;
             $currentRole = optional($document->latestApproval)->approver_role ?? 'maker';

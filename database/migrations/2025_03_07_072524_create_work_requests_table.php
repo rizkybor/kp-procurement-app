@@ -10,13 +10,11 @@ return new class extends Migration
     {
         Schema::create('work_request', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('created_by')->nullable()
-                  ->constrained('users')->nullOnDelete();
-
-            $table->string('work_name_request', 50);
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->text('work_name_request');
             $table->string('request_number', 50);
             $table->string('department', 100);
-            $table->string('project_title', 255);
+            $table->text('project_title');
             $table->string('project_type', 255);
             $table->string('procurement_type', 50);
             $table->date('request_date');

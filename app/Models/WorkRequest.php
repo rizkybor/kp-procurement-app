@@ -32,7 +32,7 @@ class WorkRequest extends Model
     //     return $this->belongsTo(User::class, 'user_id');
     // }
 
-    public function User()
+    public function user()
     {
         // Assuming created_by is the foreign key to users table
         return $this->belongsTo(User::class, 'created_by');

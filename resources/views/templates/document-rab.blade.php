@@ -44,8 +44,25 @@
         }
 
         .signature {
-            margin-top: 100px;
+            page-break-inside: avoid;
+            break-inside: avoid-page;
+            /* margin-top: 100px; */
+            margin-top: 50px;
             text-align: center;
+        }
+
+        /* Saat dicetak ke PDF, letakkan tanda tangan di bawah halaman terakhir */
+        @media print {
+            body {
+                position: relative;
+                min-height: 100vh;
+            }
+
+            .signature {
+                position: relative;
+                bottom: 0;
+                margin-top: 50px;
+            }
         }
 
         .signature div {
@@ -201,18 +218,32 @@
 
         <div class="signature">
             <div>
-                <p>Pengguna Barang / Jasa,</p>
+                <p>Manager Divisi,</p>
                 <br><br>
-                <p>_____________________</p>
-                <p>(Pengguna Barang / Jasa)</p>
+
+                @if ($workRequest->user->manager->signature)
+                    <img src="{{ public_path($workRequest->user->manager->signature) }}" alt="Tanda Tangan Pengguna"
+                        style="height: 60px; width: auto;">
+                @else
+                    <p>_____________________</p>
+                @endif
+
+                <p>({{ $workRequest->user->manager->name ?? 'Manager' }})</p>
             </div>
             <div>
                 <p>Menyetujui,</p>
                 <br><br>
-                <p>_____________________</p>
-                <p>(Sesuai dengan kewenangan)</p>
+
+                @if ($direkturKeuangan && $direkturKeuangan->signature)
+                    <img src="{{ public_path($direkturKeuangan->signature) }}" alt="TTD Direktur Keuangan"
+                        style="height: 60px; eidth: auto">
+                @else
+                    <p>_____________________</p>
+                @endif
+                <p>({{ $direkturKeuangan->name ?? 'Direktur Keuangan' }})</p>
             </div>
         </div>
+        
     </div>
     {{-- Footer --}}
     <div class="footerKpu mt-2 text-smaller">
