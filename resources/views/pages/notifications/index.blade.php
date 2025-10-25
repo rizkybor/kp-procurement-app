@@ -1,12 +1,13 @@
 <!-- Modal Konfirmasi Global -->
 <div id="globalConfirmModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
     <!-- Background overlay -->
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-200" data-confirm-overlay></div>
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-200"
+        data-confirm-overlay></div>
 
     <!-- Modal box -->
     <div class="relative z-10 w-full max-w-md scale-95 opacity-0 transition-all duration-200
-                rounded-lg bg-white dark:bg-gray-800 shadow-lg p-6" data-confirm-box
-         role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+                rounded-lg bg-white dark:bg-gray-800 shadow-lg p-6"
+        data-confirm-box role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
         <h3 id="confirmTitle" class="text-lg font-semibold text-gray-800 dark:text-gray-100">Konfirmasi</h3>
         <p id="confirmMessage" class="mt-2 text-sm text-gray-600 dark:text-gray-300">Apakah Anda yakin?</p>
 
@@ -40,7 +41,8 @@
                 @endif
 
                 @if ($notifications->count() > 0)
-                    <x-button.button-action color="red" icon="trash" type="button" onclick="clearAllNotifications()">
+                    <x-button.button-action color="red" icon="trash" type="button"
+                        onclick="clearAllNotifications()">
                         Hapus Semua
                     </x-button.button-action>
                 @endif
@@ -67,7 +69,11 @@
                                 if (is_string($message) && str_contains($message, 'Lihat detail:')) {
                                     $messageParts = explode('Lihat detail:', $message, 2);
                                     $textMessage = trim($messageParts[0]);
-                                    $url = url('/notifications/' . $notification->id);
+                                    if (!empty($notification->notifiable_id)) {
+                                        $url = url(
+                                            "/work_request/{$notification->notifiable_id}/show/work_request_items",
+                                        );
+                                    }
                                 } else {
                                     $textMessage = is_string($message) ? $message : 'Tidak ada pesan.';
                                     $url = null;
@@ -95,9 +101,11 @@
 
                                 <div class="flex justify-between items-center">
                                     <div class="w-2/3">
-                                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-300 mt-1">Pesan :</p>
+                                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-300 mt-1">Pesan :
+                                        </p>
                                         <p class="text-sm text-gray-800 dark:text-gray-200">{{ $textMessage }}</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $notification->created_at->diffForHumans() }}</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                                            {{ $notification->created_at->diffForHumans() }}</p>
                                     </div>
 
                                     <div class="w-1/3 flex justify-end gap-2">
@@ -121,144 +129,164 @@
 </x-app-layout>
 
 <script>
-  // Helper ambil CSRF
-  const getCSRF = () => (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '');
+    // Helper ambil CSRF
+    const getCSRF = () => (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '');
 
-  // === EXPOSE GLOBAL: dipanggil dari HTML/Alpine ===
-  window.markAsRead = function (url, notificationId, redirectUrl) {
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': getCSRF(),
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(data => { if (data.success && redirectUrl) window.location.href = redirectUrl; })
-    .catch(console.error);
-  };
+    // === EXPOSE GLOBAL: dipanggil dari HTML/Alpine ===
+    window.markAsRead = function(url, notificationId, redirectUrl) {
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': getCSRF(),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(r => {
+                if (!r.ok) throw new Error(r.status);
+                return r.json();
+            })
+            .then(data => {
+                if (data.success && redirectUrl) window.location.href = redirectUrl;
+            })
+            .catch(console.error);
+    };
 
-  window.deleteNotification = function (notificationId) {
-    window.openConfirmationModal(
-      "Konfirmasi Hapus",
-      "Apakah Anda yakin ingin menghapus notifikasi ini?",
-      function () {
-        fetch(`{{ url('/notifications') }}/${notificationId}`, {
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': getCSRF(),
-            'Accept': 'application/json',
-          },
-        })
-        .then(r => { if (!r.ok) throw new Error('delete fail'); return r.json(); })
-        .then(data => window.showAutoCloseAlert('globalAlertModal', 3000, data.message, 'success', 'Berhasil!')
-              .then(() => location.reload()))
-        .catch(() => window.showAutoCloseAlert('globalAlertModal', 3000, 'Notifikasi gagal dihapus.', 'error', 'Error!'));
-      },
-      { okLabel: 'Hapus', okColor: 'bg-red-600 hover:bg-red-700' }
-    );
-  };
+    window.deleteNotification = function(notificationId) {
+        window.openConfirmationModal(
+            "Konfirmasi Hapus",
+            "Apakah Anda yakin ingin menghapus notifikasi ini?",
+            function() {
+                fetch(`{{ url('/notifications') }}/${notificationId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': getCSRF(),
+                            'Accept': 'application/json',
+                        },
+                    })
+                    .then(r => {
+                        if (!r.ok) throw new Error('delete fail');
+                        return r.json();
+                    })
+                    .then(data => window.showAutoCloseAlert('globalAlertModal', 3000, data.message, 'success',
+                            'Berhasil!')
+                        .then(() => location.reload()))
+                    .catch(() => window.showAutoCloseAlert('globalAlertModal', 3000,
+                        'Notifikasi gagal dihapus.', 'error', 'Error!'));
+            }, {
+                okLabel: 'Hapus',
+                okColor: 'bg-red-600 hover:bg-red-700'
+            }
+        );
+    };
 
-  window.clearAllNotifications = function () {
-    window.openConfirmationModal(
-      "Konfirmasi Hapus Semua",
-      "Apakah Anda yakin ingin menghapus semua notifikasi?",
-      function () {
-        fetch(`{{ route('notifications.clearAll') }}`, {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': getCSRF(),
-            'Accept': 'application/json',
-          },
-        })
-        .then(r => { if (!r.ok) throw new Error('clear-all fail'); return r.json(); })
-        .then(data => window.showAutoCloseAlert('globalAlertModal', 3000, data.message, 'success', 'Berhasil!')
-              .then(() => location.reload()))
-        .catch(() => window.showAutoCloseAlert('globalAlertModal', 3000, 'Gagal menghapus semua notifikasi.', 'error', 'Error!'));
-      },
-      { okLabel: 'Hapus Semua', okColor: 'bg-red-600 hover:bg-red-700' }
-    );
-  };
+    window.clearAllNotifications = function() {
+        window.openConfirmationModal(
+            "Konfirmasi Hapus Semua",
+            "Apakah Anda yakin ingin menghapus semua notifikasi?",
+            function() {
+                fetch(`{{ route('notifications.clearAll') }}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': getCSRF(),
+                            'Accept': 'application/json',
+                        },
+                    })
+                    .then(r => {
+                        if (!r.ok) throw new Error('clear-all fail');
+                        return r.json();
+                    })
+                    .then(data => window.showAutoCloseAlert('globalAlertModal', 3000, data.message, 'success',
+                            'Berhasil!')
+                        .then(() => location.reload()))
+                    .catch(() => window.showAutoCloseAlert('globalAlertModal', 3000,
+                        'Gagal menghapus semua notifikasi.', 'error', 'Error!'));
+            }, {
+                okLabel: 'Hapus Semua',
+                okColor: 'bg-red-600 hover:bg-red-700'
+            }
+        );
+    };
 </script>
 
 <!-- Modal controller: openConfirmationModal dengan Tailwind -->
 <script>
-(function () {
-  const modal    = document.getElementById('globalConfirmModal');
-  if (!modal) return; // guard
+    (function() {
+        const modal = document.getElementById('globalConfirmModal');
+        if (!modal) return; // guard
 
-  const overlay  = modal.querySelector('[data-confirm-overlay]');
-  const box      = modal.querySelector('[data-confirm-box]');
-  const titleEl  = document.getElementById('confirmTitle');
-  const msgEl    = document.getElementById('confirmMessage');
-  const okBtn    = document.getElementById('confirmOkBtn');
-  const cancelBtn= document.getElementById('confirmCancelBtn');
+        const overlay = modal.querySelector('[data-confirm-overlay]');
+        const box = modal.querySelector('[data-confirm-box]');
+        const titleEl = document.getElementById('confirmTitle');
+        const msgEl = document.getElementById('confirmMessage');
+        const okBtn = document.getElementById('confirmOkBtn');
+        const cancelBtn = document.getElementById('confirmCancelBtn');
 
-  let onConfirmFn = null;
+        let onConfirmFn = null;
 
-  function animateOpen() {
-    modal.classList.remove('hidden');
-    requestAnimationFrame(() => {
-      overlay?.classList.remove('opacity-0');
-      box?.classList.remove('opacity-0', 'translate-y-4');
-      document.body.classList.add('overflow-hidden');
-    });
-  }
+        function animateOpen() {
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                overlay?.classList.remove('opacity-0');
+                box?.classList.remove('opacity-0', 'translate-y-4');
+                document.body.classList.add('overflow-hidden');
+            });
+        }
 
-  function animateClose() {
-    overlay?.classList.add('opacity-0');
-    box?.classList.add('opacity-0', 'translate-y-4');
-    document.body.classList.remove('overflow-hidden');
-    setTimeout(() => modal.classList.add('hidden'), 180);
-  }
+        function animateClose() {
+            overlay?.classList.add('opacity-0');
+            box?.classList.add('opacity-0', 'translate-y-4');
+            document.body.classList.remove('overflow-hidden');
+            setTimeout(() => modal.classList.add('hidden'), 180);
+        }
 
-  function openModal(title, message, onConfirm, opts = {}) {
-    titleEl.textContent = title || 'Konfirmasi';
-    msgEl.innerHTML     = message || 'Apakah Anda yakin?';
+        function openModal(title, message, onConfirm, opts = {}) {
+            titleEl.textContent = title || 'Konfirmasi';
+            msgEl.innerHTML = message || 'Apakah Anda yakin?';
 
-    // Opsi tombol OK (label & warna)
-    okBtn.textContent = opts.okLabel || 'OK';
-    okBtn.className   = `rounded-md px-4 py-2 text-sm font-medium text-white ${opts.okColor || 'bg-blue-600 hover:bg-blue-700'}`;
+            // Opsi tombol OK (label & warna)
+            okBtn.textContent = opts.okLabel || 'OK';
+            okBtn.className =
+                `rounded-md px-4 py-2 text-sm font-medium text-white ${opts.okColor || 'bg-blue-600 hover:bg-blue-700'}`;
 
-    onConfirmFn = (typeof onConfirm === 'function') ? onConfirm : null;
-    animateOpen();
+            onConfirmFn = (typeof onConfirm === 'function') ? onConfirm : null;
+            animateOpen();
 
-    // Fokus awal ke tombol OK
-    setTimeout(() => okBtn.focus(), 50);
-  }
+            // Fokus awal ke tombol OK
+            setTimeout(() => okBtn.focus(), 50);
+        }
 
-  function closeModal() {
-    onConfirmFn = null;
-    animateClose();
-  }
+        function closeModal() {
+            onConfirmFn = null;
+            animateClose();
+        }
 
-  okBtn.addEventListener('click', () => {
-    const fn = onConfirmFn;
-    closeModal();
-    if (fn) fn();
-  });
+        okBtn.addEventListener('click', () => {
+            const fn = onConfirmFn;
+            closeModal();
+            if (fn) fn();
+        });
 
-  cancelBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
 
-  // ✅ klik overlay juga menutup
-  overlay?.addEventListener('click', closeModal);
+        // ✅ klik overlay juga menutup
+        overlay?.addEventListener('click', closeModal);
 
-  // Tutup dengan Escape
-  window.addEventListener('keydown', (e) => {
-    if (!modal.classList.contains('hidden') && e.key === 'Escape') closeModal();
-  });
+        // Tutup dengan Escape
+        window.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('hidden') && e.key === 'Escape') closeModal();
+        });
 
-  // Expose global
-  window.openConfirmationModal = openModal;
-  window.closeConfirmationModal = closeModal;
+        // Expose global
+        window.openConfirmationModal = openModal;
+        window.closeConfirmationModal = closeModal;
 
-  // Fallback alert sederhana jika belum ada utilitas Anda
-  if (!window.showAutoCloseAlert) {
-    window.showAutoCloseAlert = function (_id, ms, text, type='success', title='Info') {
-      alert(`${title}: ${text}`);
-      return Promise.resolve();
-    };
-  }
-})();
+        // Fallback alert sederhana jika belum ada utilitas Anda
+        if (!window.showAutoCloseAlert) {
+            window.showAutoCloseAlert = function(_id, ms, text, type = 'success', title = 'Info') {
+                alert(`${title}: ${text}`);
+                return Promise.resolve();
+            };
+        }
+    })();
 </script>
