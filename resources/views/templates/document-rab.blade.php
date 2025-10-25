@@ -44,8 +44,25 @@
         }
 
         .signature {
-            margin-top: 100px;
+            page-break-inside: avoid;
+            break-inside: avoid-page;
+            /* margin-top: 100px; */
+                            margin-top: 40px;
             text-align: center;
+        }
+
+        /* Saat dicetak ke PDF, letakkan tanda tangan di bawah halaman terakhir */
+        @media print {
+            body {
+                position: relative;
+                min-height: 100vh;
+            }
+
+            .signature {
+                position: relative;
+                bottom: 0;
+                margin-top: 40px;
+            }
         }
 
         .signature div {

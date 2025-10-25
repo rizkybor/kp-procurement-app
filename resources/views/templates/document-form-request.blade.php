@@ -44,8 +44,25 @@
         }
 
         .signature {
-            margin-top: 100px;
+            page-break-inside: avoid;
+            break-inside: avoid-page;
+            /* margin-top: 100px; */
+                            margin-top: 40px;
             text-align: center;
+        }
+
+        /* Saat dicetak ke PDF, letakkan tanda tangan di bawah halaman terakhir */
+        @media print {
+            body {
+                position: relative;
+                min-height: 100vh;
+            }
+
+            .signature {
+                position: relative;
+                bottom: 0;
+                margin-top: 40px;
+            }
         }
 
         .signature div {
@@ -108,14 +125,14 @@
             </tr>
             <tr>
                 <td style="border: none;">Pemilik Proyek</td>
-                <td style="border: none;">: {{ $workRequest->project_owner ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->User->name ?? '...' }}</td>
                 <td style="border: none;">Tenggat</td>
                 <td style="border: none;">:
                     {{ \Carbon\Carbon::parse($workRequest->deadline)->translatedFormat('l, d F Y') ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="border: none;">No. Kontrak</td>
-                <td style="border: none;">: {{ $workRequest->contract_number ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->request_number ?? '...' }}</td>
                 <td style="border: none;">PIC</td>
                 <td style="border: none;">: {{ $workRequest->pic ?? '...' }}</td>
             </tr>
@@ -181,7 +198,7 @@
             </div>
         </div>
 
-        <p>* Coret salah satu</p>
+        {{-- <p>* Coret salah satu</p> --}}
     </div>
 
     {{-- Footer --}}

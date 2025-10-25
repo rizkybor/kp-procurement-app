@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use iio\libmergepdf\Merger;
+
 
 class PDFController extends Controller
 {
@@ -19,32 +21,69 @@ class PDFController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function generateRequest($id)
-  {
+  // public function generateRequest($id)
+  // {
+  //   $workRequest = WorkRequest::with([
+  //     'User',
+  //     'workRequestItems',
+  //     'workRequestRab',
+  //     'workRequestSignatures',
+  //     'workRequestSpesifications'
+  //   ])->findOrFail($id);
+
+  //   $data = [
+  //     'workRequest' => $workRequest
+  //   ];
+
+  //   // Load Blade view dari folder templates
+  //   $pdf = Pdf::loadView('templates.document-form-request', $data);
+
+  //   $noSurat = $workRequest->request_number;
+
+  //   // sanitize nama file (hapus / dan \ atau ganti dengan -)
+  //   $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
+
+  //   // Download file PDF dengan nama document-letter.pdf
+  //   // return $pdf->download('document-form-request.pdf');
+  //   return $pdf->stream($sanitizedNoSurat . '.pdf');
+  // }
+
+public function generateRequest($id)
+{
     $workRequest = WorkRequest::with([
-      'User',
-      'workRequestItems',
-      'workRequestRab',
-      'workRequestSignatures',
-      'workRequestSpesifications'
+        'User',
+        'workRequestItems',
+        'workRequestRab',
+        'workRequestSignatures',
+        'workRequestSpesifications'
     ])->findOrFail($id);
 
-    $data = [
-      'workRequest' => $workRequest
-    ];
+    $data = ['workRequest' => $workRequest];
 
-    // Load Blade view dari folder templates
-    $pdf = Pdf::loadView('templates.document-form-request', $data);
+    // 1) Render dua PDF sebagai STRING (tanpa simpan file)
+    $formPdf = Pdf::loadView('templates.document-form-request', $data)
+        ->setPaper('a4', 'portrait')
+        ->output(); // string PDF
 
-    $noSurat = $workRequest->request_number;
+    $rabPdf = Pdf::loadView('templates.document-rab', $data)
+        ->setPaper('a4', 'portrait')
+        ->output(); // string PDF
 
-    // sanitize nama file (hapus / dan \ atau ganti dengan -)
+    // 2) Merge keduanya
+    $merger = new Merger();
+    $merger->addRaw($formPdf);
+    $merger->addRaw($rabPdf);
+    $merged = $merger->merge(); // string PDF hasil gabungan
+
+    // 3) Stream ke browser
+    $noSurat = $workRequest->request_number ?? 'document';
     $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
 
-    // Download file PDF dengan nama document-letter.pdf
-    // return $pdf->download('document-form-request.pdf');
-    return $pdf->stream($sanitizedNoSurat . '.pdf');
-  }
+    return response($merged, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => "inline; filename=\"{$sanitizedNoSurat}.pdf\"",
+    ]);
+}
 
   public function generateRab($id)
   {
