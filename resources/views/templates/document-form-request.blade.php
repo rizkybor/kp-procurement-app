@@ -44,8 +44,25 @@
         }
 
         .signature {
-            margin-top: 100px;
+            page-break-inside: avoid;
+            break-inside: avoid-page;
+            /* margin-top: 100px; */
+            margin-top: 50px;
             text-align: center;
+        }
+
+        /* Saat dicetak ke PDF, letakkan tanda tangan di bawah halaman terakhir */
+        @media print {
+            body {
+                position: relative;
+                min-height: 100vh;
+            }
+
+            .signature {
+                position: relative;
+                bottom: 0;
+                margin-top: 50px;
+            }
         }
 
         .signature div {
@@ -108,14 +125,14 @@
             </tr>
             <tr>
                 <td style="border: none;">Pemilik Proyek</td>
-                <td style="border: none;">: {{ $workRequest->project_owner ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->User->name ?? '...' }}</td>
                 <td style="border: none;">Tenggat</td>
                 <td style="border: none;">:
                     {{ \Carbon\Carbon::parse($workRequest->deadline)->translatedFormat('l, d F Y') ?? '...' }}</td>
             </tr>
             <tr>
                 <td style="border: none;">No. Kontrak</td>
-                <td style="border: none;">: {{ $workRequest->contract_number ?? '...' }}</td>
+                <td style="border: none;">: {{ $workRequest->request_number ?? '...' }}</td>
                 <td style="border: none;">PIC</td>
                 <td style="border: none;">: {{ $workRequest->pic ?? '...' }}</td>
             </tr>
@@ -168,20 +185,33 @@
 
         <div class="signature">
             <div>
-                <p>Pengguna Barang / Jasa,</p>
+                <p>Manager Divisi,</p>
                 <br><br>
-                <p>_____________________</p>
-                <p>(Pengguna Barang / Jasa)</p>
+
+                @if ($workRequest->user->manager->signature)
+                    <img src="{{ public_path($workRequest->user->manager->signature) }}" alt="Tanda Tangan Pengguna"
+                        style="height: 60px; width: auto;">
+                @else
+                    <p>_____________________</p>
+                @endif
+
+                <p>({{ $workRequest->user->manager->name ?? 'Manager' }})</p>
             </div>
             <div>
                 <p>Menyetujui,</p>
                 <br><br>
-                <p>_____________________</p>
-                <p>(Sesuai dengan kewenangan)</p>
+
+                @if ($direkturKeuangan && $direkturKeuangan->signature)
+                    <img src="{{ public_path($direkturKeuangan->signature) }}" alt="TTD Direktur Keuangan"
+                        style="height: 60px; eidth: auto">
+                @else
+                    <p>_____________________</p>
+                @endif
+                <p>({{ $direkturKeuangan->name ?? 'Direktur Keuangan' }})</p>
             </div>
         </div>
 
-        <p>* Coret salah satu</p>
+        {{-- <p>* Coret salah satu</p> --}}
     </div>
 
     {{-- Footer --}}

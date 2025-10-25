@@ -278,8 +278,13 @@
 
         <!-- Footer dengan tanda tangan -->
         <div class="footer no-break signature">
-            <p>Hormat Kami</p>
-            <br><br>
+            <p>Hormat Kami,</p>
+            @if ($workRequest->user->manager->signature)
+                <img src="{{ public_path($workRequest->user->manager->signature) }}" alt="Tanda Tangan Pengguna"
+                    style="height: 60px; width: auto;">
+            @else
+                <p>_____________________</p>
+            @endif
             <p><strong>Perdi Maulana</strong></p>
             <p>Manager SDM dan Umum</p>
         </div>

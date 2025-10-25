@@ -61,7 +61,37 @@
 
         </div>
 
+ {{-- Alerts --}}
+    @if (session('success'))
+        <div role="alert"
+             class="mb-4 flex items-center justify-between p-4 rounded-lg border border-green-400 bg-green-50 dark:bg-green-900/40 text-green-800 dark:text-green-100">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600 dark:text-green-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="font-medium">{{ session('success') }}</span>
+            </div>
+            <button type="button" aria-label="Close"
+                    class="text-green-600 dark:text-green-300 hover:text-green-800 dark:hover:text-green-100"
+                    onclick="this.closest('[role=alert]').remove()">✕</button>
+        </div>
+    @endif
 
+    @if (session('error'))
+        <div role="alert"
+             class="mb-4 flex items-center justify-between p-4 rounded-lg border border-red-400 bg-red-50 dark:bg-red-900/40 text-red-800 dark:text-red-100">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-600 dark:text-red-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                <span class="font-medium">{{ session('error') }}</span>
+            </div>
+            <button type="button" aria-label="Close"
+                    class="text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100"
+                    onclick="this.closest('[role=alert]').remove()">✕</button>
+        </div>
+    @endif
+    
         <!-- Navbar-style tabs -->
         <div class="border-b mb-8">
             <div class="mb-4">

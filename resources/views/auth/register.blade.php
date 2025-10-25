@@ -34,7 +34,7 @@
 
 
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="px-4 py-5 sm:p-6 bg-white dark:bg-gray-800 shadow rounded-lg">
                         <div class="grid grid-cols-1 gap-y-6">
@@ -168,6 +168,23 @@
                                         class="text-red-500">*</span></x-label>
                                 <x-input id="identity_number" type="text" name="identity_number" :value="old('identity_number')"
                                     required placeholder="Masukkan nomor identitas" />
+                            </div>
+
+                            <!-- Paraf (opsional) -->
+                            <div>
+                                <x-label for="signature">Paraf (opsional)</x-label>
+                                <input id="signature" name="signature" type="file"
+                                    accept="image/png,image/jpeg,image/jpg,image/webp"
+                                    class="mt-1 block w-full text-sm file:mr-4 file:rounded-md file:border-0
+                  file:bg-violet-50 file:py-2 file:px-4 file:text-violet-700
+                  hover:file:bg-violet-100" />
+                                <p class="text-xs text-gray-500 mt-1">PNG/JPG/WEBP, maks 1 MB. Disarankan rasio ±3:1.
+                                </p>
+
+                                <!-- Preview -->
+                                <img id="signaturePreview" class="mt-2 max-h-20 rounded border hidden"
+                                    alt="Preview Paraf" />
+                                <x-input-error for="signature" class="mt-2" />
                             </div>
                         </div>
 
@@ -330,8 +347,28 @@
         // Pasang listener setelah DOM siap
         document.addEventListener('DOMContentLoaded', () => {
             updateRoleAvailability();
-            const departmentSelect = document.getElementById('department');
-            departmentSelect?.addEventListener('change', updateRoleAvailability);
+            document.getElementById('department')?.addEventListener('change', updateRoleAvailability);
+
+            const input = document.getElementById('signature');
+            const img = document.getElementById('signaturePreview');
+            input?.addEventListener('change', e => {
+                const [file] = e.target.files || [];
+                if (!file) {
+                    img.classList.add('hidden');
+                    return;
+                }
+                const okType = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'].includes(file.type);
+                const okSize = file.size <= 1024 * 1024;
+                if (!okType || !okSize) {
+                    alert('File harus gambar (PNG/JPG/WEBP) dan maksimal 1 MB.');
+                    input.value = '';
+                    img.classList.add('hidden');
+                    return;
+                }
+                img.src = URL.createObjectURL(file);
+                img.onload = () => URL.revokeObjectURL(img.src);
+                img.classList.remove('hidden');
+            });
         });
     </script>
     {{-- </x-authentication-layout> --}}

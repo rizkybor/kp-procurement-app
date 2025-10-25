@@ -3,19 +3,6 @@
 @section('content')
     {{-- Information Dokumen --}}
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
         <!-- Left: Title -->
         <h1 class="text-lg md:text-xl text-gray-800 dark:text-gray-100 font-bold">
@@ -57,7 +44,7 @@
         <div class="flex sm:items-center">
             <span class="font-semibold mr-2">Tanggal:</span>
             <span class="text-gray-900 dark:text-gray-100 flex-1">
-                {{ $workRequest->request_date }}
+              {{ \Carbon\Carbon::parse($workRequest->request_date)->format('d/m/Y') }}
             </span>
         </div>
 
@@ -71,7 +58,7 @@
         <div class="flex sm:items-center">
             <span class="font-semibold mr-2">Tenggat:</span>
             <span class="text-gray-900 dark:text-gray-100 flex-1">
-                {{ $workRequest->deadline }}
+                 {{ \Carbon\Carbon::parse($workRequest->deadline)->format('d/m/Y') }}
             </span>
         </div>
 

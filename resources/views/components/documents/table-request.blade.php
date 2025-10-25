@@ -42,8 +42,13 @@
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center">{{ $i++ }}</div>
                                 </td>
-                                <td class="p-2 whitespace-nowrap">
+                                {{-- <td class="p-2 whitespace-nowrap">
                                     <div class="text-left">{{ $item->item_name }}</div>
+                                </td> --}}
+                                 <td class="p-2">
+                                    <div class="text-left max-w-[200px] whitespace-normal break-words">
+                                        {{ $item->item_name }}
+                                    </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-center">{{ $item->quantity }}</div>
