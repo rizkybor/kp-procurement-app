@@ -18,7 +18,7 @@ class WorkRequestExport implements FromCollection, WithHeadings
   public function collection()
   {
     return WorkRequest::whereIn('id', $this->ids)
-      ->with(['workRequestRab', 'User']) // Mengambil relasi yang diperlukan
+      ->with(['workRequestRab', 'user']) // Mengambil relasi yang diperlukan
       ->get()
       ->map(function ($workRequest) {
         return [

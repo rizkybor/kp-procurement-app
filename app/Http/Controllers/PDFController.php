@@ -24,7 +24,7 @@ class PDFController extends Controller
   // public function generateRequest($id)
   // {
   //   $workRequest = WorkRequest::with([
-  //     'User',
+  //     'user',
   //     'workRequestItems',
   //     'workRequestRab',
   //     'workRequestSignatures',
@@ -48,26 +48,32 @@ class PDFController extends Controller
   //   return $pdf->stream($sanitizedNoSurat . '.pdf');
   // }
 
-public function generateRequest($id)
-{
+  public function generateRequest($id)
+  {
     $workRequest = WorkRequest::with([
-        'User',
-        'workRequestItems',
-        'workRequestRab',
-        'workRequestSignatures',
-        'workRequestSpesifications'
+      'user',
+      'workRequestItems',
+      'workRequestRab',
+      'workRequestSignatures',
+      'workRequestSpesifications'
     ])->findOrFail($id);
 
-    $data = ['workRequest' => $workRequest];
+    // Ambil user dengan role direktur_keuangan
+    $direkturKeuangan = \App\Models\User::where('role', 'direktur_keuangan')->first();
+
+    $data = [
+      'workRequest' => $workRequest,
+      'direkturKeuangan' => $direkturKeuangan,
+    ];
 
     // 1) Render dua PDF sebagai STRING (tanpa simpan file)
     $formPdf = Pdf::loadView('templates.document-form-request', $data)
-        ->setPaper('a4', 'portrait')
-        ->output(); // string PDF
+      ->setPaper('a4', 'portrait')
+      ->output(); // string PDF
 
     $rabPdf = Pdf::loadView('templates.document-rab', $data)
-        ->setPaper('a4', 'portrait')
-        ->output(); // string PDF
+      ->setPaper('a4', 'portrait')
+      ->output(); // string PDF
 
     // 2) Merge keduanya
     $merger = new Merger();
@@ -80,15 +86,15 @@ public function generateRequest($id)
     $sanitizedNoSurat = str_replace(['/', '\\'], '-', $noSurat);
 
     return response($merged, 200, [
-        'Content-Type'        => 'application/pdf',
-        'Content-Disposition' => "inline; filename=\"{$sanitizedNoSurat}.pdf\"",
+      'Content-Type'        => 'application/pdf',
+      'Content-Disposition' => "inline; filename=\"{$sanitizedNoSurat}.pdf\"",
     ]);
-}
+  }
 
   public function generateRab($id)
   {
     $workRequest = WorkRequest::with([
-      'User',
+      'user',
       'workRequestItems',
       'workRequestRab'
     ])->findOrFail($id);
@@ -107,7 +113,7 @@ public function generateRequest($id)
 
   public function generateTabelOrcom($id)
   {
-    $workRequest = WorkRequest::with(['orderCommunications', 'User', 'workRequestItems', 'workRequestRab'])->findOrFail($id);
+    $workRequest = WorkRequest::with(['orderCommunications', 'user', 'workRequestItems', 'workRequestRab'])->findOrFail($id);
 
     $data = [
       'workRequest' => $workRequest
@@ -120,7 +126,7 @@ public function generateRequest($id)
   public function generateApplication($id)
   {
     $workRequest = WorkRequest::with([
-      'User',
+      'user',
       'workRequestItems',
       'workRequestRab',
       'orderCommunications',
@@ -144,7 +150,7 @@ public function generateRequest($id)
   public function generateNegotiation($id)
   {
     $workRequest = WorkRequest::with([
-      'User',
+      'user',
       'workRequestItems',
       'workRequestRab',
       'orderCommunications',
@@ -176,7 +182,7 @@ public function generateRequest($id)
     $sheet = $spreadsheet->getActiveSheet();
 
     $workRequest = WorkRequest::with([
-      'User',
+      'user',
       'workRequestItems',
       'workRequestRab',
       'orderCommunications',
@@ -214,7 +220,7 @@ public function generateRequest($id)
     $sheet = $spreadsheet->getActiveSheet();
 
     $workRequest = WorkRequest::with([
-      'User',
+      'user',
       'workRequestItems',
       'workRequestRab',
       'orderCommunications.vendor',
@@ -473,7 +479,7 @@ public function generateRequest($id)
     $sheet = $spreadsheet->getActiveSheet();
 
     $workRequest = WorkRequest::with([
-      'User',
+      'user',
       'workRequestItems',
       'workRequestRab',
       'orderCommunications',
@@ -514,9 +520,12 @@ public function generateRequest($id)
     $tempDir = null;
     $zipPath = null;
 
+    // Ambil user dengan role direktur_keuangan
+    $direkturKeuangan = \App\Models\User::where('role', 'direktur_keuangan')->first();
+
     try {
 
-      $workRequest = WorkRequest::with(['orderCommunications', 'User', 'workRequestItems', 'workRequestRab'])->findOrFail($id);
+      $workRequest = WorkRequest::with(['orderCommunications', 'user', 'workRequestItems', 'workRequestRab'])->findOrFail($id);
       $orderCommunication = $workRequest->orderCommunications->first();
 
       if (!$orderCommunication) {
@@ -583,7 +592,7 @@ public function generateRequest($id)
 
       // a. Form Request PDF (generateRequest)
       try {
-        $data = ['workRequest' => $workRequest];
+        $data = ['workRequest' => $workRequest, 'direkturKeuangan' => $direkturKeuangan,];
         $pdf = Pdf::loadView('templates.document-form-request', $data);
 
         $fileName = 'Formulir_Permintaan_Pengadaan_' . $this->sanitizeFileName($workRequest->request_number) . '.pdf';
@@ -635,7 +644,7 @@ public function generateRequest($id)
 
       // d. RAB (generateRab)
       try {
-        $data = ['workRequest' => $workRequest];
+        $data = ['workRequest' => $workRequest, 'direkturKeuangan' => $direkturKeuangan,];
         $pdf = Pdf::loadView('templates.document-rab', $data);
 
         $fileName = 'Rencana_Anggaran_Biaya_' . $this->sanitizeFileName($workRequest->request_number) . '.pdf';
