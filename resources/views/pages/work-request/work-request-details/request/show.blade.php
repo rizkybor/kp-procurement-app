@@ -3,19 +3,6 @@
 @section('content')
     {{-- Information Dokumen --}}
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
         <!-- Left: Title -->
         <h1 class="text-lg md:text-xl text-gray-800 dark:text-gray-100 font-bold">

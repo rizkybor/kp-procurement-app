@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('work_request_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('work_request_id')->constrained('work_request')->onDelete('cascade');
-            $table->string('item_name')->nullable();
+            $table->text('item_name')->nullable();
             $table->decimal('quantity', 10, 2)->nullable(false);
             $table->string('unit', 50)->nullable();
             $table->text('description')->nullable();
