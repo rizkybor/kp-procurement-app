@@ -6,7 +6,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
             <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Edit Akun</h1>
 
-            <x-link-button href="{{ route('users.index') }}" class="mt-3 sm:mt-0">
+            <x-link-button href="{{ route('users.index') }}" class="mt-3 sm:mt-0" style="background-color: rgb(175, 175, 78)">
                 ← Kembali ke Daftar
             </x-link-button>
         </div>

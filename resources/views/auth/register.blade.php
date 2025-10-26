@@ -189,7 +189,7 @@
                         </div>
 
                         <div class="flex items-center justify-between mt-6">
-                            <x-button>{{ __('Daftarkan Akun') }}</x-button>
+                            <x-button style="background-color: rgb(86, 167, 196)">{{ __('Daftarkan Akun') }}</x-button>
                         </div>
 
                         @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
