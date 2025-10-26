@@ -12,106 +12,229 @@
             </div>
         </div>
 
-        <!-- Cards -->
-        <div class="grid grid-cols-12 gap-6">
+        {{-- ✅ Tampilkan pesan Welcome jika user Superadmin --}}
+        @if (Auth::user() && Auth::user()->role === 'super_admin')
+            <section
+                class="relative overflow-hidden rounded-2xl p-8 sm:p-10 shadow-xl bg-white dark:bg-gray-800 isolate">
+                <!-- Dekorasi blur -->
+                <span
+                    class="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-indigo-400/30 blur-[80px]"></span>
+                <span
+                    class="pointer-events-none absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-violet-400/30 blur-[90px]"></span>
 
-            <!-- Card (Customers) -->
-            <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
-                <header
-                    class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <h2 class="font-semibold dark:text-gray-100 py-3">Procurement</h2>
-                </header>
-                <div class="p-3">
-                    <!-- Table Controls -->
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <div class="relative">
-                            <input type="search" id="searchTable"
-                                class="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 
+                <div class="relative z-10 text-center">
+                    <div
+                        class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl ring-1 ring-black/5 dark:ring-white/10 bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg">
+                        <!-- icon crown -->
+                        <svg viewBox="0 0 24 24" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 20h18M4 8l4 3 4-6 4 6 4-3v9H4V8z" />
+                        </svg>
+                    </div>
+
+                    <h2
+                        class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white animate-fade-in">
+                        Selamat datang, Superadmin!
+                    </h2>
+                    <p class="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        Anda memiliki <span class="font-semibold text-indigo-600 dark:text-indigo-400">akses
+                            penuh</span> ke sistem
+                        Procurement. Silakan kelola data Pengguna dan data Vendor disini.
+                    </p>
+
+                    <div class="mt-6 flex items-center justify-center gap-3">
+                        <a href="{{ route('users.index') }}"
+                            class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 font-semibold text-white shadow-md hover:bg-indigo-700 active:scale-[0.99] transition">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4.5 12h15m-7.5 7.5L19.5 12 12 4.5" />
+                            </svg>
+                            Kelola Pengguna
+                        </a>
+                        <a href="{{ route('vendors.page') }}"
+                            class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 font-semibold text-white shadow-md hover:bg-emerald-700 active:scale-[0.99] transition">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4.5 12h15m-7.5 7.5L19.5 12 12 4.5" />
+                            </svg>
+                            Kelola Vendor
+                        </a>
+                    </div>
+                </div>
+            </section>
+        @else
+            <!-- Hero untuk non-superadmin -->
+            <section
+                class="relative overflow-hidden rounded-2xl shadow-xl p-8 sm:p-10 text-center text-white
+               bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-gray-900 dark:via-indigo-900 dark:to-violet-900">
+                <!-- Dekorasi blur -->
+                <span
+                    class="pointer-events-none absolute -top-24 -left-16 h-56 w-56 rounded-full bg-white/10 blur-[80px]"></span>
+                <span
+                    class="pointer-events-none absolute -bottom-28 -right-16 h-64 w-64 rounded-full bg-white/10 blur-[90px]"></span>
+
+                <div class="relative z-10 flex flex-col items-center space-y-4">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md ring-1 ring-white/30 shadow-lg">
+                        <!-- icon clock -->
+                        <svg viewBox="0 0 24 24" class="w-8 h-8" fill="none" stroke="white" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 6v6h4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+
+                    <h2 class="text-3xl font-bold tracking-tight drop-shadow-sm animate-fade-in">
+                        Hi, Selamat Datang! 👋
+                    </h2>
+                    <p class="text-white/90 text-lg max-w-xl mx-auto leading-relaxed">
+                        Silakan akses menu <span class="font-semibold text-yellow-300">Dokumen Pengadaan</span> di
+                        sidebar untuk mulai bekerja.
+                    </p>
+
+                    <div class="mt-6">
+                        <a href="{{ route('work_request.index') }}"
+                            class="inline-flex items-center gap-2 bg-white text-indigo-700 font-semibold px-5 py-2.5 rounded-lg shadow-md hover:bg-gray-100 active:scale-[0.99] transition">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4.5 12h15m-7.5 7.5L19.5 12 12 4.5" />
+                            </svg>
+                            Buka Dokumen Pengadaan
+                        </a>
+                    </div>
+                </div>
+            </section>
+        @endif
+
+        <!-- Cards -->
+        {{-- <div class="grid grid-cols-12 gap-6">
+
+                <!-- Card (Customers) -->
+                <div class="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
+                    <header
+                        class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <h2 class="font-semibold dark:text-gray-100 py-3">Procurement</h2>
+                    </header>
+                    <div class="p-3">
+                        <!-- Table Controls -->
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                            <div class="relative">
+                                <input type="search" id="searchTable"
+                                    class="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 
                                 text-sm text-gray-700 dark:text-gray-200 font-medium px-3 pr-10 py-2 h-9 rounded-lg shadow-sm 
                                 focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all ease-in-out duration-200"
-                                placeholder="Search...">
+                                    placeholder="Search...">
+                            </div>
+
+                            <!-- Show Entries Dropdown (Hidden on Mobile) -->
+                            <div class="hidden sm:flex items-center gap-2">
+                                <label for="perPage"
+                                    class="text-sm font-medium text-gray-700 dark:text-gray-300">Show:</label>
+                                <select id="perPage"
+                                    class="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 
+                                text-sm text-gray-700 dark:text-gray-200 font-medium px-3 pr-8 py-2 h-9 rounded-lg shadow-sm 
+                                focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all ease-in-out duration-200">
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <!-- Show Entries Dropdown (Hidden on Mobile) -->
-                        <div class="hidden sm:flex items-center gap-2">
+                        <!-- Table -->
+                        <div class="overflow-x-auto">
+                            <table id="WorkRequestTable" class="table-auto w-full">
+                                <thead
+                                    class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50">
+                                    <tr>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-left">No</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Judul Proyek</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Pemilik Proyek</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Status</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">No. Kontrak</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Nomor</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Tanggal</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Tenggat</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Total RAB</div>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <!-- Show Entries Dropdown (Visible only on Mobile) -->
+                        <div class="flex items-center gap-2 sm:hidden mt-5">
                             <label for="perPage"
                                 class="text-sm font-medium text-gray-700 dark:text-gray-300">Show:</label>
                             <select id="perPage"
                                 class="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 
-                                text-sm text-gray-700 dark:text-gray-200 font-medium px-3 pr-8 py-2 h-9 rounded-lg shadow-sm 
-                                focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all ease-in-out duration-200">
+                            text-sm text-gray-700 dark:text-gray-200 font-medium px-3 pr-8 py-2 h-9 rounded-lg shadow-sm 
+                            focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all ease-in-out duration-200">
                                 <option value="10">10</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                             </select>
                         </div>
+
+                        <!-- Pagination di bawah table -->
+                        <div class="mt-1 flex flex-col sm:flex-row sm:items-center justify-between">
+                            <div id="tableInfo" class="text-sm text-gray-500 dark:text-gray-400"></div>
+                            <div id="tablePagination"></div>
+                        </div>
                     </div>
 
-                    <!-- Table -->
-                    <div class="overflow-x-auto">
-                        <table id="WorkRequestTable" class="table-auto w-full">
-                            <thead
-                                class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50">
-                                <tr>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-left">No</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Judul Proyek</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Pemilik Proyek</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Status</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">No. Kontrak</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Nomor</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Tanggal</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Tenggat</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Total RAB</div>
-                                    </th>
-
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-
-                    <!-- Show Entries Dropdown (Visible only on Mobile) -->
-                    <div class="flex items-center gap-2 sm:hidden mt-5">
-                        <label for="perPage" class="text-sm font-medium text-gray-700 dark:text-gray-300">Show:</label>
-                        <select id="perPage"
-                            class="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 
-                            text-sm text-gray-700 dark:text-gray-200 font-medium px-3 pr-8 py-2 h-9 rounded-lg shadow-sm 
-                            focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all ease-in-out duration-200">
-                            <option value="10">10</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-
-                    <!-- Pagination di bawah table -->
-                    <div class="mt-1 flex flex-col sm:flex-row sm:items-center justify-between">
-                        <div id="tableInfo" class="text-sm text-gray-500 dark:text-gray-400"></div>
-                        <div id="tablePagination"></div>
-                    </div>
                 </div>
 
-            </div>
 
+            </div> --}}
 
-        </div>
 
     </div>
+
+    <!-- Animasi masuk halus + preferensi reduced motion -->
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in .7s ease-out both;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-fade-in {
+                animation: none;
+            }
+        }
+    </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -250,19 +373,19 @@
             <nav class="flex" role="navigation" aria-label="Navigation">
                 <div class="mr-2">
                     ${currentPage > 1 ? `
-                                                                                                                        <button data-page="${currentPage - 2}" 
-                                                                                                                            class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
-                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                                <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
-                                                                                                                            </svg>
-                                                                                                                        </button>` : `
-                                                                                                                        <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
-                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                                <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
-                                                                                                                            </svg>
-                                                                                                                        </span>`}
+                                                                                                                                        <button data-page="${currentPage - 2}" 
+                                                                                                                                            class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
+                                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                                <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
+                                                                                                                                            </svg>
+                                                                                                                                        </button>` : `
+                                                                                                                                        <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                            border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
+                                                                                                                                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                                <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
+                                                                                                                                            </svg>
+                                                                                                                                        </span>`}
                 </div>
                 <ul class="inline-flex text-sm font-medium -space-x-px rounded-lg shadow-sm">`;
 
@@ -293,19 +416,19 @@
                 </ul>
                 <div class="ml-2">
                     ${currentPage < totalPages ? `
-                                                                                                                <button data-page="${currentPage}" 
-                                                                                                                    class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                    border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
-                                                                                                                    <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                        <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
-                                                                                                                    </svg>
-                                                                                                                </button>` : `
-                                                                                                                <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
-                                                                                                                    border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
-                                                                                                                    <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
-                                                                                                                        <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
-                                                                                                                    </svg>
-                                                                                                                </span>`}
+                                                                                                                                <button data-page="${currentPage}" 
+                                                                                                                                    class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                    border border-gray-200 dark:border-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 shadow-sm">
+                                                                                                                                    <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                        <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+                                                                                                                                    </svg>
+                                                                                                                                </button>` : `
+                                                                                                                                <span class="inline-flex items-center justify-center rounded-lg leading-5 px-2.5 py-2 bg-white dark:bg-gray-800 
+                                                                                                                                    border border-gray-200 dark:border-gray-700/60 text-gray-300 dark:text-gray-600 shadow-sm">
+                                                                                                                                    <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16">
+                                                                                                                                        <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+                                                                                                                                    </svg>
+                                                                                                                                </span>`}
                 </div>
             </nav>
             </div>`;
