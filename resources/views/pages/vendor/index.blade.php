@@ -5,7 +5,8 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
             <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Daftar Semua Vendor</h1>
 
-            <x-link-button href="{{ route('vendors.create') }}" style="background-color: black" class="mt-3 sm:mt-0">
+            <x-link-button href="{{ route('vendors.create') }}" style="background-color: rgb(86, 167, 196)"
+                class="mt-3 sm:mt-0">
                 + Tambah Vendor
             </x-link-button>
         </div>
@@ -21,7 +22,7 @@
                         <input type="text" name="search" placeholder="Search name/type/address..."
                             class="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-200 font-medium px-3 py-2 h-9 rounded-lg shadow-sm focus:ring focus:ring-blue-300 dark:focus:ring-blue-700 transition-all"
                             value="{{ request('search') }}" />
-                        <x-button type="submit"
+                        <x-button type="submit" style="background-color: rgb(175, 175, 78)"
                             class="bg-blue-600 text-white px-4 py-2 h-9 rounded-lg shadow hover:bg-blue-700 transition-all">
                             Search
                         </x-button>
