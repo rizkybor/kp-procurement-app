@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div x-data="{ isEdit: {{ $isEdit ? 'true' : 'false' }} }" x-cloak>
+    <div x-data="{ isEdit: {{ $isEdit ? 'true' : 'false' }}, openModal: false }" x-cloak>
 
         <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
@@ -21,10 +21,68 @@
                         Kembali
                     </x-button.button-action>
 
-                     <x-button.button-action color="blue" type="button"
-                        onclick="window.location='{{ route('BELUM DIBUAT', $workRequests->id) }}'">
-                        Ubah status menjadi selesai
-                    </x-button.button-action>
+                    @if (!in_array($workRequests->status, [100]))
+                        <!-- Tombol untuk membuka modal -->
+                        <button type="button"
+                            class="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 transition"
+                            @click="openModal = true">
+                            <i class="fa-solid fa-check"></i>
+                            Ubah status menjadi selesai
+                        </button>
+                    @endif
+
+                    <!-- Modal Konfirmasi (hapus x-data di sini) -->
+                    <div x-show="openModal" x-transition.opacity @keydown.escape.window="openModal = false"
+                        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-cloak>
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-md w-full p-6 relative"
+                            x-transition.scale @click.outside="openModal = false">
+                            <!-- Tombol close -->
+                            <button
+                                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                @click="openModal = false">
+                                <i class="fa-solid fa-xmark text-lg"></i>
+                            </button>
+
+                            <!-- Header -->
+                            <div class="text-center mb-4">
+                                <div class="flex justify-center mb-3">
+                                    <div
+                                        class="w-14 h-14 bg-blue-100 dark:bg-blue-900 flex items-center justify-center rounded-full">
+                                        <i
+                                            class="fa-solid fa-circle-check text-blue-600 dark:text-blue-300 text-3xl"></i>
+                                    </div>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                                    Konfirmasi Penyelesaian Dokumen
+                                </h2>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                    Apakah Anda yakin ingin menandai dokumen ini sebagai
+                                    <span class="font-semibold text-blue-600">selesai</span>? Tindakan ini akan mengubah
+                                    status
+                                    menjadi <b>Finished</b> dan mengirim notifikasi ke maker.
+                                </p>
+                            </div>
+
+                            <!-- Tombol aksi -->
+                            <div class="flex justify-center gap-3 mt-6">
+                                <button type="button" @click="openModal = false"
+                                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition">
+                                    Batal
+                                </button>
+
+                                <form action="{{ route('work_request.markFinished', $workRequests->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition flex items-center gap-1"
+                                        @click="openModal = false">
+                                        <i class="fa-solid fa-check"></i> Ya, Selesai
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="grid grid-cols-12 gap-6">
@@ -42,10 +100,12 @@
                             </h2>
                         </div>
 
-                        <a href="{{ $isEdit ? request()->url() : request()->fullUrlWithQuery(['mode' => 'edit']) }}"
-                            class="px-3 py-2 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 transition-colors">
-                            {{ $isEdit ? 'Selesai Edit' : 'Edit Orcom' }}
-                        </a>
+                        @if (!in_array($workRequests->status, [100]))
+                            <a href="{{ $isEdit ? request()->url() : request()->fullUrlWithQuery(['mode' => 'edit']) }}"
+                                class="px-3 py-2 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 transition-colors">
+                                {{ $isEdit ? 'Selesai Edit' : 'Edit Orcom' }}
+                            </a>
+                        @endif
                     </header>
 
                     <!-- Content -->

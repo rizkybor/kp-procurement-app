@@ -104,14 +104,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('vendors', VendorController::class)->parameters([
         'vendors' => 'vendor'
     ])->names([
-                'index' => 'vendors.index',
-                'create' => 'vendors.create',
-                'store' => 'vendors.store',
-                'show' => 'vendors.show',
-                'edit' => 'vendors.edit',
-                'update' => 'vendors.update',
-                'destroy' => 'vendors.destroy',
-            ]);
+        'index' => 'vendors.index',
+        'create' => 'vendors.create',
+        'store' => 'vendors.store',
+        'show' => 'vendors.show',
+        'edit' => 'vendors.edit',
+        'update' => 'vendors.update',
+        'destroy' => 'vendors.destroy',
+    ]);
     Route::get('vendors/{vendor}/{field}/download', [VendorController::class, 'download'])
         ->name('vendors.download');
     /*
@@ -139,13 +139,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::put('/revision/{id}', [WorkRequestController::class, 'processRevision'])->name('processRevision');
         Route::put('/{id}/rejected', [WorkRequestController::class, 'rejected'])->name('rejected');
 
+        // ✅ Tambahkan ini persis di sini
+        Route::post('/{id}/mark-finished', [WorkRequestController::class, 'markFinished'])->name('markFinished');
+
         // Route Print PDF Form Request dan RAB
-        Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');
-        ;
-        Route::get('/{id}/print-rab', [PDFController::class, 'generateRab'])->name('print-rab');
-        ;
-        Route::get('/{id}/tabel-orcom', [PDFController::class, 'generateTabelOrcom'])->name('print-tabel-orcom');
-        ;
+        Route::get('/{id}/print-form-request', [PDFController::class, 'generateRequest'])->name('print-form-request');;
+        Route::get('/{id}/print-rab', [PDFController::class, 'generateRab'])->name('print-rab');;
+        Route::get('/{id}/tabel-orcom', [PDFController::class, 'generateTabelOrcom'])->name('print-tabel-orcom');;
 
         // Route Show
         Route::get('{id}/show/work_request_items', [WorkRequestController::class, 'show'])->name('work_request_items.show');

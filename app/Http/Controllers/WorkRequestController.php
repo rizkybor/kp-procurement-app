@@ -423,6 +423,64 @@ class WorkRequestController extends Controller
         ];
     }
 
+    public function markFinished($id)
+    {
+        DB::beginTransaction();
+        try {
+            $document = WorkRequest::findOrFail($id);
+            $user = auth()->user();
+            $userRole = $user->role;
+            $previousStatus = $document->status;
+
+            // ✅ Update status menjadi 100 (finished)
+            $document->update([
+                'status' => 100,
+                'last_reviewers' => $userRole,
+            ]);
+
+            // ✅ Simpan history (mengikuti pola processApproval)
+            DocHistories::create([
+                'document_id'     => $document->id,
+                'performed_by'    => $user->id,
+                'role'            => $userRole,
+                'previous_status' => $previousStatus,
+                'new_status'      => '100',
+                'action'          => 'Finished',
+                'notes'           => "Dokumen ditandai selesai oleh " . ucfirst(str_replace('_', ' ', $userRole)),
+            ]);
+
+            // ✅ Kirim notifikasi ke maker
+            $maker = User::find($document->created_by);
+            if ($maker) {
+                $notification = Notification::create([
+                    'type'             => ApprovalNotification::class,
+                    'notifiable_type'  => WorkRequest::class,
+                    'notifiable_id'    => $document->id,
+                    'messages'         => "Dokumen *{$document->work_name_request}* telah ditandai *selesai* oleh {$user->name}. 
+                                        Lihat detail: " . route('work_request.work_request_items.show', $document->id),
+                    'sender_id'        => $user->id,
+                    'sender_role'      => $userRole,
+                    'read_at'          => null,
+                    'created_at'       => now(),
+                    'updated_at'       => now(),
+                ]);
+
+                NotificationRecipient::create([
+                    'notification_id' => $notification->id,
+                    'user_id'         => $maker->id,
+                    'read_at'         => null,
+                ]);
+            }
+
+            DB::commit();
+            return back()->with('success', 'Status dokumen berhasil diubah menjadi selesai dan notifikasi dikirim ke maker.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error("Mark Finished error: " . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui status dokumen: ' . $e->getMessage());
+        }
+    }
+
     /**
      * Untuk button revision
      */
