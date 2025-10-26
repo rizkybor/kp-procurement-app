@@ -53,10 +53,11 @@ class OrderCommunicationController extends Controller
 
         // Data dummy vendor
         $vendors = Vendor::all();
+        $isEdit = request()->query('mode') === 'edit';
 
         return view(
             'pages.work-request.work-request-details.order-communication.index',
-            compact('workRequests', 'vendors', 'orderCommunication')
+            compact('workRequests', 'vendors', 'orderCommunication', 'isEdit')
         );
     }
 
