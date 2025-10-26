@@ -88,7 +88,7 @@
 
         {{-- User: Selain Maker --}}
         @if (auth()->user()->role !== 'maker')
-            @if (auth()->user()->role === $nextApproverRole && !in_array($document_status, [102, 103, 6, 'approved', 'finalized']))
+            @if (auth()->user()->role === $nextApproverRole && !in_array($document_status, [102, 103, 6, 100, 'approved', 'finalized']))
                 <x-button.button-action color="red" icon="reject"
                     onclick="openRejectModal('{{ route('work_request.rejected', $workRequest->id) }}')">
                     Batalkan Dokumen
