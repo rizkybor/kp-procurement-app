@@ -9,12 +9,28 @@ use Illuminate\Support\Facades\Hash;
 class UserSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Jalankan seeder.
      */
     public function run(): void
     {
+        // ✅ Buat akun Super Admin saja
+        User::create([
+            'name' => 'Super Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('@wasd123!'),
+            'nip' => rand(10000000, 99999999),
+            'department' => null,
+            'position' => 'Super Admin',
+            'role' => 'super_admin',
+            'employee_status' => 'permanent',
+            'gender' => 'male',
+            'identity_number' => rand(100000000, 999999999),
+            'signature' => null,
+        ]);
+
+        /*
+        // 🔒 User lain dinonaktifkan sementara
         $users = [
-            ['name' => 'Super Admin', 'email' => 'superadmin@example.com', 'role' => 'super_admin', 'department' => null],
             ['name' => 'Maker Sdm', 'email' => 'maker1@example.com', 'role' => 'maker', 'department' => 'SDM'],
             ['name' => 'Maker Operasi', 'email' => 'maker2@example.com', 'role' => 'maker', 'department' => 'Operasi'],
             ['name' => 'Manager Sdm', 'email' => 'manager1@example.com', 'role' => 'manager', 'department' => 'SDM'],
@@ -39,5 +55,6 @@ class UserSeeder extends Seeder
                 'signature' => null,
             ]);
         }
+        */
     }
 }
